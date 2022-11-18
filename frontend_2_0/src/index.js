@@ -22,6 +22,7 @@ import App from "./App";
 import { MaterialUIControllerProvider } from "../src/context/index";
 import { AuthProvider } from "../src/context/Auth/AuthContext";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -29,7 +30,18 @@ ReactDOM.render(
       <MaterialUIControllerProvider>
         <App />
       </MaterialUIControllerProvider>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </AuthProvider>
   </BrowserRouter>,
   document.getElementById("root")

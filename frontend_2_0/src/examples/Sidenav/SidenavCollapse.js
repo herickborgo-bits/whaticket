@@ -37,10 +37,8 @@ import {
 import { useMaterialUIController } from "context";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...rest }) {
+function SidenavCollapse({ icon, name, active, collapse, collapseName, ...rest }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
 
@@ -50,7 +48,7 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
     setOpen((prevOpen) => !prevOpen);
   };
 
-  if (childrenMenus) {
+  if (collapse) {
     return (
       <>
         <ListItem component="li" onClick={handleClick}>
@@ -91,21 +89,21 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
             />
 
             {open ? (
-              <KeyboardArrowDownIcon fontSize="large" />
+              <Icon fontSize="small">expand_less</Icon>
             ) : (
-              <ArrowForwardIosIcon fontSize="small" />
+              <Icon fontSize="small">expand_more</Icon>
             )}
           </MDBox>
         </ListItem>
         {open &&
-          childrenMenus.map((child) => {
-            if (child.childrenMenus) {
+          collapse.map((child) => {
+            if (child.collapse) {
               return (
                 <SidenavCollapse
                   name={child.name}
                   icon={child.icon}
                   active={child.key === collapseName}
-                  childrenMenus={child.childrenMenus}
+                  collapse={child.collapse}
                   collapseName={collapseName}
                 />
               );
@@ -211,7 +209,7 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
 // Setting default values for the props of SidenavCollapse
 SidenavCollapse.defaultProps = {
   active: false,
-  childrenMenus: null,
+  collapse: null,
 };
 
 // Typechecking props for the SidenavCollapse
@@ -219,7 +217,7 @@ SidenavCollapse.propTypes = {
   icon: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
-  childrenMenus: PropTypes.arrayOf(PropTypes.object),
+  collapse: PropTypes.arrayOf(PropTypes.object),
   collapseName: PropTypes.string,
 };
 

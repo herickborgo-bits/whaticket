@@ -53,17 +53,15 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./
 
 // Material Dashboard 2 React routes
 // import Route from "./routes/Route";
-import routes from "./routes/RenderRoutes";
+import renderRoutes from "./routes/RenderRoutes";
 import SignIn from "./layouts/authentication/sign-in";
 import Dashboard from "./layouts/dashboard";
 
 import { AuthContext } from "./context/Auth/AuthContext";
 // import api from "../src/services/api";
 
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from "react-toastify";
-
 function App() {
+  const { routes } = renderRoutes();
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
