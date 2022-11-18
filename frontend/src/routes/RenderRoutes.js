@@ -30,6 +30,11 @@ import FileImport from "../pages/FileImport";
 import Category from "../pages/Category";
 import DialogFlows from "../pages/DialogFlows";
 import Flows from "../pages/Flows";
+import CreateFlows from "../pages/CreateFlows";
+import ConnectionFiles from "../pages/ConnectionFiles";
+import ContactTransfer from "../pages/ContactTransfer";
+import ExposedImport from "../pages/ExposedImport";
+import ChipsReports from "../pages/ChipsReports";
 
 const RenderRoutes = () => {
     const { isAuth } = useContext(AuthContext);
@@ -79,9 +84,6 @@ const RenderRoutes = () => {
         if (name === "Quick Answers") {
             return QuickAnswers
         }
-        if (name === "Settings") {
-            return Settings
-        }
         if (name === "Queues") {
             return Queues
         }
@@ -127,6 +129,18 @@ const RenderRoutes = () => {
         if (name === "Flows") {
             return Flows
         }
+        if (name === "Connection Files") {
+            return ConnectionFiles
+        }
+        if (name === "Contact Transfer") {
+            return ContactTransfer
+        }
+        if (name === "Exposed Imports") {
+            return ExposedImport
+        }
+        if (name === "Chips Reports") {
+            return ChipsReports
+        }
     }
 
     return (
@@ -161,6 +175,17 @@ const RenderRoutes = () => {
                             />
                         )
                     }
+                    if (menu.name === "Connections") {
+                        return (
+                            <Route
+                                key={menu.id}
+                                exact
+                                path={`/connections/:connectionFileName?`}
+                                component={getComponent(menu.name)}
+                                isPrivate
+                            />
+                        )
+                    }
                     return (
                         <Route
                             key={menu.id}
@@ -172,6 +197,12 @@ const RenderRoutes = () => {
                     )
                 })
             }
+            <Route 
+                exact
+                path={'/CreateFlow/:flowId'}
+                component={CreateFlows}
+                isPrivate
+            />
         </>
     )
 };

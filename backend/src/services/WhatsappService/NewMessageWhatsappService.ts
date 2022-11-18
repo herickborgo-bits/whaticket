@@ -120,6 +120,7 @@ const verifyMessage = async (
     to: string;
     type: string;
     isGroup: boolean;
+    bot: boolean
   },
   ticket: Ticket,
   contact: Contact
@@ -128,7 +129,7 @@ const verifyMessage = async (
   const messageData = {
     id: msg.id,
     ticketId: ticket.id,
-    bot: ticket.status == 'inbot',
+    bot: (ticket.status == 'inbot' || msg.bot),
     contactId: msg.fromMe ? undefined : contact.id,
     body: msg.body,
     fromMe: msg.fromMe,
@@ -199,7 +200,9 @@ const handleMessage = async (
       whatsapp.id,
       whatsapp.companyId,
       unreadMessages,
-      null,false, bot
+      null,
+      false,
+      bot
     );
 
     if (type !== "text") {
@@ -211,7 +214,8 @@ const handleMessage = async (
         to,
         type,
         file,
-        isGroup
+        isGroup,
+        bot
       }, ticket, contact);
     } else {
       await verifyMessage(
@@ -222,7 +226,8 @@ const handleMessage = async (
           from,
           to,
           type,
-          isGroup
+          isGroup,
+          bot
         },
         ticket,
         contact
@@ -246,6 +251,7 @@ const verifyMediaMessage = async (
     type: string;
     file: string;
     isGroup: boolean;
+    bot: boolean;
   },
   ticket: Ticket,
   contact: Contact
@@ -257,7 +263,7 @@ const verifyMediaMessage = async (
   const messageData = {
     id: msg.id,
     ticketId: ticket.id,
-    bot: ticket.status == 'inbot',
+    bot: (ticket.status == 'inbot' || msg.bot),
     contactId: msg.fromMe ? undefined : contact.id,
     body: "",
     fromMe: msg.fromMe,

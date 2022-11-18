@@ -106,6 +106,7 @@ const messages = {
           name: "Nome",
           status: "Status",
           lastUpdate: "Última atualização",
+          createdAt: "Data de criação",
           default: "Padrão",
           actions: "Ações",
           session: "Sessão",
@@ -144,7 +145,7 @@ const messages = {
           edit: "Editar WhatsApp",
         },
         form: {
-          name: "Nome",
+          name: "Telefone",
           default: "Padrão",
           farewellMessage: "Mensagem de despedida",
         },
@@ -346,7 +347,7 @@ const messages = {
           pricing: "Precificação",
           payments: "Pagamentos",
           flows: "Fluxo",
-
+          connectionFiles: "Categorias",
         },
         whatsApp: {
           connections: "Conexões",
@@ -1162,6 +1163,72 @@ const messages = {
 
       vcardPreview: {
         toTalk: "Conversar",
+      },
+
+      connectionsFiles: {
+        title: "Categorias",
+        buttons: {
+          create: "Criar",
+        },
+        categories: {
+          noCategory: "Não Categorizado"
+        },
+        table: {
+          icon: "Icone",
+          name: "Nome",
+          createdAt: "Criado em",
+          updatedAt: "Atualizado em",
+          actions: "Ações"
+        },
+        modal: {
+          create: "Criar",
+          edit: "Editar",
+          name: "Nome",
+          file: "Arquivo",
+          removeIcon: "Remover Icone",
+          save: "Salvar",
+          cancel: "Cancelar",
+        },
+      },
+
+      exposedImports: {
+        title: "Importação Exposta",
+        confirmationModal: "Você tem certeza que deseja deletar esta importação?",
+        create: "Criar importação",
+        grid: {
+          name: "Nome",
+          registrationAmount: "Qtde Registros",
+          updatedAt: "Atualizado em",
+          createdAt: "Criado em",
+          actions: "Ações",
+        },
+        modal: {
+          createSuccess: "Importação Exposta criada com sucesso",
+          editSuccess: "Importação Exposata salva com sucesso",
+          create: "Criar",
+          edit: "Editar",
+          pastePayload: "Cole seu payload aqui.",
+          name: "Nome",
+          save: "Salvar",
+          relations: "Relações",
+          tutorial: "Para usar o payload utilize: ",
+        },
+      },
+
+      chipReports: {
+        title: "Relatório de Chips",
+        status: {
+          none: "Nenhum",
+          connected: "Conectado",
+          disconnected: "Desconectado",
+          deleted: "Deletado",
+        },
+        grid: {
+          phoneNumber: "Número",
+          registerAmount: "Qtde de Registros",
+          createdAt: "Criado em",
+          updatedAt: "Atualizado em",
+        },
       },
 
       backendErrors: {

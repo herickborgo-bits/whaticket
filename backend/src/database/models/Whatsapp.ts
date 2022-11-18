@@ -76,11 +76,17 @@ class Whatsapp extends Model<Whatsapp> {
   facebookPhoneNumberId: string;
 
   @Column
+  connectionFileId: string;
+
+  @Column
   phoneNumber: string;
 
   @ForeignKey(() => Company)
   @Column
   companyId: number;
+
+  @BelongsTo(() => Company)
+  company: Company;
 
   @Default(false)
   @AllowNull
@@ -118,6 +124,17 @@ class Whatsapp extends Model<Whatsapp> {
 
   @BelongsTo(() => Flows)
   flow: Flows;
+
+  @Default(false)
+  @AllowNull
+  @Column
+  business: boolean;
+
+  @Column
+  whatsName: string;
+
+  @Column
+  whatsImage: string;
 }
 
 export default Whatsapp;

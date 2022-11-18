@@ -5,6 +5,7 @@ import { StartWhatsAppSession } from "../services/WbotServices/StartWhatsAppSess
 import UpdateWhatsAppService from "../services/WhatsappService/UpdateWhatsAppService";
 import TestWhatsAppConnectionService from "../services/WhatsappService/TestWhatsAppConnectionService";
 import { logger } from "../utils/logger";
+import AppError from "../errors/AppError";
 
 type IndexQuery = {
   facebookToken: string;
@@ -31,7 +32,7 @@ const store = async (req: Request, res: Response): Promise<Response> => {
 
   const whatsapp = await ShowWhatsAppService(whatsappId, companyId);
 
-  StartWhatsAppSession(whatsapp);
+  StartWhatsAppSession(whatsapp, null);
 
   return res.status(200).json({ message: "Starting session." });
 };
@@ -39,6 +40,34 @@ const store = async (req: Request, res: Response): Promise<Response> => {
 const update = async (req: Request, res: Response): Promise<Response> => {
   const { whatsappId } = req.params;
   const { companyId } = req.user;
+  const { service } = req.body;
+
+  // FAZER VALIDAÇÃO PARA VER SE TEM SLOT DISPONIVEL PARA CRIAR O CHIP
+  
+  const whats = await ShowWhatsAppService(whatsappId, companyId);
+
+  const apiUrl = `${process.env.WPPNOF_URL}/checkAvailableCompany`;
+
+  const payload = {
+    companyId,
+    service
+  };
+
+  if(!whats.official) {
+    try {
+      await axios.post(apiUrl, payload, {
+        headers: {
+          "api-key": `${process.env.WPPNOF_API_TOKEN}`,
+          sessionkey: `${process.env.WPPNOF_SESSION_KEY}`
+        }
+      });
+    } catch (err: any) {
+        if(!err.response.data["message"]){
+          throw new AppError("Ocorreu um erro ao tentar se comunicar com Firebase!");
+        }
+      throw new AppError(err.response.data.message);
+    }
+  }
 
   const { whatsapp } = await UpdateWhatsAppService({
     whatsappId,
@@ -46,7 +75,7 @@ const update = async (req: Request, res: Response): Promise<Response> => {
     companyId
   });
 
-  StartWhatsAppSession(whatsapp);
+  StartWhatsAppSession(whatsapp, service);
 
   return res.status(200).json({ message: "Starting session." });
 };

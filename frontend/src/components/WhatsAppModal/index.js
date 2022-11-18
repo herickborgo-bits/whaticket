@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
@@ -27,6 +27,10 @@ import toastError from "../../errors/toastError";
 import QueueSelect from "../QueueSelect";
 import { useTranslation } from "react-i18next";
 
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input/input'
+import { AuthContext } from "../../context/Auth/AuthContext";
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: "flex",
@@ -36,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 	multFieldLine: {
 		display: "flex",
 		"& > *:not(:last-child)": {
-			marginRight: theme.spacing(1),
+			marginRight: theme.spacing(3),
 		},
 	},
 
@@ -59,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 	  },
 }));
 
-const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
+const WhatsAppModal = ({ open, onClose, whatsAppId, connectionFileId }) => {
 	const { i18n } = useTranslation();
 	const classes = useStyles();
 	const initialState = {
@@ -67,20 +71,27 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 		greetingMessage: "",
 		farewellMessage: "",
 		isDefault: false,
-		official: false
+		official: false,
+		business: false,
 	};
 
 	const SessionSchema = Yup.object().shape({
-	name: Yup.string()
-		.min(2, `${i18n.t("whatsappModal.short")}`)
-		.max(50, `${i18n.t("whatsappModal.long")}`)
-		.required(`${i18n.t("whatsappModal.required")}`),
+		name: Yup.string()
+			.min(2, `${i18n.t("whatsappModal.short")}`)
+			.max(50, `${i18n.t("whatsappModal.long")}`)
+			.required(`${i18n.t("whatsappModal.required")}`),
 	});
 
 	const [whatsApp, setWhatsApp] = useState(initialState);
 	const [selectedQueueIds, setSelectedQueueIds] = useState([]);
 	const [flows, setFlows] = useState([]);
 	const [flow, setFlow] = useState("");
+	const [connectionFiles, setConnectionFiles] = useState("");
+	const [connectionFile, setConnectionFile] = useState("");
+	// const [phoneNumber, setPhoneNumber] = useState("");
+	const { user } = useContext(AuthContext);
+	const [service, setService] = useState("");
+	const [services, setServices] = useState([]);
 
 	useEffect(() => {
 		const fetchSession = async () => {
@@ -90,7 +101,7 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 				const { data } = await api.get(`whatsapp/${whatsAppId}`);
 				setWhatsApp(data);
 				setFlow(data.flowId);
-
+				setConnectionFile(data.connectionFileId);
 				const whatsQueueIds = data.queues?.map(queue => queue.id);
 				setSelectedQueueIds(whatsQueueIds);
 			} catch (err) {
@@ -107,12 +118,42 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 			}
 		}
 
+		const fetchConnectionFiles = async () => {
+			try {
+				const { data } = await api.get('connectionFiles');
+				setConnectionFiles(data);
+			} catch (err) {
+				toastError(err);
+			}
+		}
+
+		const fetchServices = async () => {
+			if (user.companyId !== 1) return;
+			try {
+				const { data } = await api.get(`/firebase/company/${user.companyId}`);
+				setServices(data);
+			} catch (err) {
+				toastError(err);
+			}
+		}
+
+		setConnectionFile(connectionFileId);
+
 		fetchSession();
 		fetchFlows();
-	}, [whatsAppId]);
+		fetchConnectionFiles();
+		fetchServices();
+	}, [whatsAppId, connectionFileId, open]);
 
 	const handleSaveWhatsApp = async values => {
-		const whatsappData = { ...values, queueIds: selectedQueueIds, flowId: flow ? flow : null };
+		const whatsappData = {
+			...values,
+			queueIds: selectedQueueIds,
+			flowId: flow ? flow : null,
+			connectionFileId: connectionFile ? connectionFile : null,
+			service: service ? service : null
+			// name: phoneNumber.replace("+", ""),
+		};
 
 		try {
 			if (whatsAppId) {
@@ -128,12 +169,28 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 	};
 
 	const handleClose = () => {
-		onClose();
+		setFlow("");
+		setConnectionFile("");
+		setService("");
+		// setPhoneNumber("");
 		setWhatsApp(initialState);
+		onClose();
 	};
 
 	const handleFlowChange = (e) => {
 		setFlow(e.target.value);
+	}
+
+	const handleConnectionFileChange = (e) => {
+		setConnectionFile(e.target.value);
+	}
+
+	// const handlePhoneNumberChange = (value) => {
+    //     setPhoneNumber(value);
+    // }
+
+	const handleServiceChange = (e) => {
+		setService(e.target.value);
 	}
 
 	return (
@@ -164,6 +221,43 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 					{({ values, touched, errors, isSubmitting }) => (
 						<Form>
 							<DialogContent dividers>
+								{/* <FormControl
+									variant="outlined"
+									margin="dense"
+									fullWidth
+									style={{
+										display: "flex",
+										flexDirection: "row",
+										flexWrap: "wrap",
+									}}
+								>
+									<div
+										style={{
+											border: "1px solid rgba(0, 0, 0, 0.5)",
+											borderRadius: "2%",
+											display: "flex",
+											fontSize: "16px",
+											marginRight: "8px",
+											padding: "16px",
+											textAlign: "center",
+											width: "10%",
+										}}
+									>
+										+55
+									</div>
+									<PhoneInput
+										style={{
+											display: "inline-block",
+											fontSize:"16px",
+											padding: "10px",
+											width: "calc(90% - 8px)",
+										}}
+										country="BR"
+										placeholder="(00) 0000-0000"
+										value={phoneNumber}
+										onChange={handlePhoneNumberChange}
+									/>
+								</FormControl> */}
 								<div className={classes.multFieldLine}>
 									<Field
 										as={TextField}
@@ -174,6 +268,7 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 										helperText={touched.name && errors.name}
 										variant="outlined"
 										margin="dense"
+										// placeholder="55XX99998888"
 										className={classes.textField}
 									/>
 									<FormControlLabel
@@ -186,6 +281,17 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 											/>
 										}
 										label={i18n.t("whatsappModal.form.default")}
+									/>
+									<FormControlLabel
+										control={
+											<Field
+												as={Switch}
+												color="primary"
+												name="business"
+												checked={values.business}
+											/>
+										}
+										label={i18n.t("Business")}
 									/>
 								</div>
 								<div>
@@ -226,6 +332,53 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 										margin="dense"
 									/>
 								</div>
+								{ (user.companyId === 1 && !whatsAppId) &&
+									<div>
+										<FormControl
+											variant="outlined"
+											className={classes.multFieldLine}
+											margin="dense"
+											fullWidth
+										>
+											<InputLabel>Serviço</InputLabel>
+											<Select
+												value={service}
+												onChange={(e) => { handleServiceChange(e) }}
+												label="Serviço"
+											>
+												<MenuItem value={""}>Nenhum</MenuItem>
+												{ services && services.map(service => {
+													if (service.data.isFull || !service.data.connected) return;
+													return (
+														<MenuItem value={service.data.service} key={service.data.service}>{service.data.service}</MenuItem>
+													)
+												}) }
+											</Select>
+										</FormControl>
+									</div>
+								}
+								<div>
+									<FormControl
+										variant="outlined"
+										className={classes.multFieldLine}
+										margin="dense"
+										fullWidth
+									>
+										<InputLabel>Categoria</InputLabel>
+										<Select
+											value={connectionFile}
+											onChange={(e) => { handleConnectionFileChange(e) }}
+											label="Categoria"
+										>
+											<MenuItem value={null}>Nenhum</MenuItem>
+											{ connectionFiles && connectionFiles.map(connectionFile => {
+												return (
+													<MenuItem value={connectionFile.id} key={connectionFile.id}>{connectionFile.name}</MenuItem>
+												)
+											}) }
+										</Select>
+									</FormControl>
+								</div>
 								<div>
 									<FormControl
 										variant="outlined"
@@ -239,7 +392,7 @@ const WhatsAppModal = ({ open, onClose, whatsAppId }) => {
 											onChange={(e) => { handleFlowChange(e) }}
 											label="Fluxo"
 										>
-											<MenuItem value={""}>Nenhum</MenuItem>
+											<MenuItem value={null}>Nenhum</MenuItem>
 											{ flows && flows.map(flow => {
 												return (
 													<MenuItem value={flow.id} key={flow.id}>{flow.name}</MenuItem>

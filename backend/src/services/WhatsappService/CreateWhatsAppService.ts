@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import AppError from "../../errors/AppError";
 import Whatsapp from "../../database/models/Whatsapp";
 import AssociateWhatsappQueue from "./AssociateWhatsappQueue";
+import { faBusinessTime } from "@fortawesome/free-solid-svg-icons";
 
 interface Request {
   name: string;
@@ -14,9 +15,12 @@ interface Request {
   official?: boolean;
   facebookToken?: string;
   facebookPhoneNumberId?: string;
+  facebookBusinessId?: string;
   phoneNumber?: string;
   companyId?: string | number;
   flowId?: string | number;
+  connectionFileId?: string | number;
+  business?: boolean;
 }
 
 interface Response {
@@ -34,9 +38,12 @@ const CreateWhatsAppService = async ({
   official,
   facebookToken,
   facebookPhoneNumberId,
+  facebookBusinessId,
   phoneNumber,
   companyId,
-  flowId
+  flowId,
+  connectionFileId,
+  business = false,
 }: Request): Promise<Response> => {
   const schema = Yup.object().shape({
     name: Yup.string()
@@ -58,7 +65,7 @@ const CreateWhatsAppService = async ({
 
   try {
     await schema.validate({ name, status, isDefault });
-  } catch (err) {
+  } catch (err:any) {
     throw new AppError(err.message);
   }
 
@@ -97,10 +104,14 @@ const CreateWhatsAppService = async ({
       official,
       facebookToken,
       facebookPhoneNumberId,
+      facebookBusinessId,
       phoneNumber,
       lastPingDate,
       companyId,
-      flowId
+      flowId,
+      connectionFileId,
+      faBusinessTime,
+      business,
     },
     { include: ["queues"] }
   );

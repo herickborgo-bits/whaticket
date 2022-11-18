@@ -16,9 +16,12 @@ interface WhatsappData {
   queueIds?: number[];
   official?: boolean;
   facebookToken?: string;
+  facebookBusinessId?: string;
   facebookPhoneNumberId?: string;
   phoneNumber?: string;
   flowId?: string | number;
+  connectionFileId?: string | number;
+  business?: boolean;
 }
 
 interface Request {
@@ -54,8 +57,11 @@ const UpdateWhatsAppService = async ({
     official,
     facebookToken,
     facebookPhoneNumberId,
+    facebookBusinessId,
     phoneNumber,
-    flowId
+    flowId,
+    connectionFileId,
+    business,
   } = whatsappData;
 
   try {
@@ -95,8 +101,11 @@ const UpdateWhatsAppService = async ({
     official,
     facebookToken,
     facebookPhoneNumberId,
+    facebookBusinessId,
     phoneNumber,
-    flowId
+    flowId,
+    connectionFileId,
+    business,
   });
 
   await AssociateWhatsappQueue(whatsapp, queueIds);

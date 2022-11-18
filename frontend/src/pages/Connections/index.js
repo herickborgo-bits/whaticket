@@ -1,4 +1,6 @@
 import React, { useState, useCallback, useEffect, useReducer, useContext } from "react";
+import { useParams, useHistory } from "react-router-dom";
+
 import { toast } from "react-toastify";
 import { format, parseISO } from "date-fns";
 import openSocket from "../../services/socket-io";
@@ -17,6 +19,21 @@ import {
 	Tooltip,
 	Typography,
 	CircularProgress,
+	Card,
+	CardContent,
+	CardActionArea,
+	CardMedia,
+	CardActions,
+	InputAdornment,
+	TextField,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
 } from "@material-ui/core";
 import {
 	Edit,
@@ -27,6 +44,9 @@ import {
 	CropFree,
 	DeleteOutline,
 } from "@material-ui/icons";
+
+import SearchIcon from "@material-ui/icons/Search";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import MainContainer from "../../components/MainContainer";
 import MainHeader from "../../components/MainHeader";
@@ -41,6 +61,7 @@ import QrcodeModal from "../../components/QrcodeModal";
 import { useTranslation } from 'react-i18next'
 import toastError from "../../errors/toastError";
 import { AuthContext } from "../../context/Auth/AuthContext";
+import WhatsConfigModal from "../../components/WhatsConfigModal";
 
 const useStyles = makeStyles(theme => ({
 	mainPaper: {
@@ -66,6 +87,23 @@ const useStyles = makeStyles(theme => ({
 	},
 	buttonProgress: {
 		color: green[500],
+	},
+	cardRoot: {
+		maxWidth: 300,
+		minWidth: 300,
+		minHeight: 212,
+		margin: "16px",
+	  },
+	cardMedia: {
+		height: 140,
+	},
+	cardsPaper: {
+		display: "flex",
+		padding: theme.spacing(1),
+		overflowY: "scroll",
+		...theme.scrollbarStyles,
+		flexWrap: "wrap",
+		justifyContent: "start",
 	},
 }));
 
@@ -165,28 +203,85 @@ const Connections = () => {
 	const [hasMore, setHasMore] = useState(false);
 	const { user } = useContext(AuthContext);
 
+	const { connectionFileName } = useParams();
+	const history = useHistory();
+	const [connectionFiles, setConnectionFiles] = useState([]);
+	const [connectionFileId, setConnectionFileId] = useState("");
+	const [searchParam, setSearchParam] = useState("");
+	const [status, setStatus] = useState("");
+
+	const [service, setService] = useState("");
+	const [services, setServices] = useState([]);
+	const [newQrCodeServiceModalOpen, setNewQrCodeServiceModalOpen] = useState(false);
+	const [selectedWhatsAppId, setSelectedWhatsAppId] = useState("");
+
+	const [editWhatsModalOpen, setEditWhatsModalOpen] = useState(false);
+
 	useEffect(() => {
 		dispatch({ type: "RESET" });
-	}, []);
+	}, [pageNumber, searchParam, status]);
+
+	useEffect(() => {
+		setPageNumber(1);
+	  }, [searchParam, status]);
 
 	useEffect(() => {
 		setLoading(true);
 		const fetchWhats = async () => {
 			try {
 				const { data } = await api.get(`/whatsapp/list/`, {
-					params: { official: false, pageNumber }
+					params: {
+						official: false,
+						pageNumber,
+						connectionFileName,
+						searchParam,
+						status
+					}
 				});
 				dispatch({ type: "LOAD_WHATSAPPS", payload: data.whatsapps });
 				setCount(data.count);
 				setHasMore(data.hasMore);
+				setConnectionFileId(data.connectionFileId ? data.connectionFileId : "");
 				setLoading(false);
 			} catch (err) {
 				setLoading(false);
 				toastError(err);
 			}
 		};
-		fetchWhats();
-	}, [pageNumber]);
+
+		if (connectionFileName) {
+			fetchWhats();
+		} else {
+			setSearchParam("");
+			setStatus("");
+		}
+	}, [pageNumber, searchParam, connectionFileName, status]);
+
+	useEffect(() => {
+		const fetchConnectionFiles = async () => {
+			try {
+				const { data } = await api.get(`/connectionFiles/`);
+				setConnectionFiles(data);
+				setLoading(false);
+			} catch (err) {
+				setLoading(false);
+				toastError(err);
+			}
+		};
+
+		const fetchServices = async () => {
+			if (user.companyId !== 1) return;
+			try {
+				const { data } = await api.get(`/firebase/company/${user.companyId}`);
+				setServices(data);
+			} catch (err) {
+				toastError(err);
+			}
+		}
+
+		fetchConnectionFiles();
+		fetchServices();
+	}, [])
 
 	useEffect(() => {
 		const socket = openSocket();
@@ -212,7 +307,6 @@ const Connections = () => {
 		return () => {
 			socket.disconnect();
 		};
-// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleStartWhatsAppSession = async whatsAppId => {
@@ -224,12 +318,41 @@ const Connections = () => {
 	};
 
 	const handleRequestNewQrCode = async whatsAppId => {
+		if (user.companyId === 1) {
+			setSelectedWhatsAppId(whatsAppId);
+			setNewQrCodeServiceModalOpen(true);
+		} else {
+			try {
+				await api.put(`/whatsappsession/${whatsAppId}`);
+			} catch (err) {
+				toastError(err);
+			}
+		}
+	};
+
+	const handleCreateNewQRCodeWithService = async () => {
+		const body = {
+			service
+		}
+
 		try {
-			await api.put(`/whatsappsession/${whatsAppId}`);
+			await api.put(`/whatsappsession/${selectedWhatsAppId}`, body);
 		} catch (err) {
 			toastError(err);
 		}
-	};
+
+		handleNewQrCodeServiceModalClose();
+	}
+
+	const handleNewQrCodeServiceModalClose = () => {
+		setNewQrCodeServiceModalOpen(false);
+		setService("");
+		setSelectedWhatsAppId("");
+	}
+
+	const handleServiceChange = (e) => {
+		setService(e.target.value);
+	}
 
 	const handleOpenWhatsAppModal = () => {
 		setSelectedWhatsApp(null);
@@ -255,6 +378,16 @@ const Connections = () => {
 		setSelectedWhatsApp(whatsApp);
 		setWhatsAppModalOpen(true);
 	};
+
+	const clickOn = click => {
+        if (click === true) {
+            return "Sim";
+        }
+        if (click === false) {
+            return "Não";
+        }
+        return click;
+    };
 
 	const handleOpenConfirmationModal = (action, whatsAppId) => {
 		if (action === "disconnect") {
@@ -393,135 +526,345 @@ const Connections = () => {
 		);
 	};
 
-	return (
-		<MainContainer>
-			<ConfirmationModal
-				title={confirmModalInfo.title}
-				open={confirmModalOpen}
-				onClose={setConfirmModalOpen}
-				onConfirm={handleSubmitConfirmationModal}
-			>
-				{confirmModalInfo.message}
-			</ConfirmationModal>
-			<QrcodeModal
-				open={qrModalOpen}
-				onClose={handleCloseQrModal}
-				whatsAppId={!whatsAppModalOpen && selectedWhatsApp?.id}
-			/>
-			<WhatsAppModal
-				open={whatsAppModalOpen}
-				onClose={handleCloseWhatsAppModal}
-				whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
-			/>
-			<MainHeader>
-				<Title>{i18n.t("connections.title")}</Title>
-				<MainHeaderButtonsWrapper>
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={handleOpenWhatsAppModal}
-					>
-						{i18n.t("connections.buttons.add")}
-					</Button>
-				</MainHeaderButtonsWrapper>
-			</MainHeader>
-			<Paper className={classes.mainPaper} variant="outlined">
-				<Table size="small">
-					<TableHead>
-						<TableRow>
-							<TableCell align="center">
-								{i18n.t("connections.table.name")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.status")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.session")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.lastUpdate")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.default")}
-							</TableCell>
-							<TableCell align="center">
-								{i18n.t("connections.table.actions")}
-							</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{loading ? (
-							<TableRowSkeleton columns={6} />
-						) : (
-							<>
-								{whatsApps?.length > 0 &&
-									whatsApps.map(whatsApp => (
-										<TableRow key={whatsApp.id}>
-											<TableCell align="center">{whatsApp.name}</TableCell>
-											<TableCell align="center">
-												{renderStatusToolTips(whatsApp)}
-											</TableCell>
-											<TableCell align="center">
-												{renderActionButtons(whatsApp)}
-											</TableCell>
-											<TableCell align="center">
-												{format(parseISO(whatsApp.updatedAt), "dd/MM/yy HH:mm")}
-											</TableCell>
-											<TableCell align="center">
-												{whatsApp.isDefault && (
-													<div className={classes.customTableCell}>
-														<CheckCircle style={{ color: green[500] }} />
-													</div>
-												)}
-											</TableCell>
-											<TableCell align="center">
-												<IconButton
-													size="small"
-													onClick={() => handleEditWhatsApp(whatsApp)}
-												>
-													<Edit />
-												</IconButton>
+	const handleSearch = (event) => {
+		setSearchParam(event.target.value.toLowerCase());
+	};
 
-												<IconButton
-													size="small"
-													onClick={e => {
-														handleOpenConfirmationModal("delete", whatsApp.id);
-													}}
-												>
-													<DeleteOutline />
-												</IconButton>
-											</TableCell>
-										</TableRow>
-									))}
-							</>
-						)}
-					</TableBody>
-				</Table>
-				<div
-					style={{ display: "flex", justifyContent: "space-between", paddingTop: "1rem" }}
-				>
-					<Button
-						variant="outlined"
-						onClick={() => { setPageNumber(prevPageNumber => prevPageNumber - 1) }}
-						disabled={ pageNumber === 1}
+	const handleStatusChange = (e) => {
+		setStatus(e.target.value);
+	}
+
+	const handleOpenEditWhatsModal = (whats) => {
+		setSelectedWhatsApp(whats);
+		setEditWhatsModalOpen(true);
+	}
+
+	const handleCloseEditWhatsModal = () => {
+		setSelectedWhatsApp(null);
+		setEditWhatsModalOpen(false);
+	}
+
+	return (
+		<>
+			{ !connectionFileName &&
+				<MainContainer>
+					<MainHeader>
+						<Title>Conexões</Title>
+					</MainHeader>
+					<Paper className={classes.cardsPaper} variant="outlined">
+						{ connectionFiles && connectionFiles.map(connectionFile => (
+							<Card key={connectionFile.id} className={classes.cardRoot} onClick={() => { history.push(`/Connections/${connectionFile.name}`); }}>
+								<CardActionArea style={{ height: "100%" }}>
+									{ connectionFile.icon &&
+										<CardMedia
+											className={classes.cardMedia}
+											image={connectionFile.icon}
+										/>
+									}
+									<CardContent>
+										<Typography gutterBottom variant="h5" component="h2" style={{ textAlign: "center" }} >
+											{ connectionFile.name }
+										</Typography>
+									</CardContent>
+								</CardActionArea>
+							</Card>
+						))}
+						<Card className={classes.cardRoot} onClick={() => { history.push('/Connections/No Category'); }}>
+							<CardActionArea style={{ height: "100%" }} >
+								<CardContent>
+									<Typography gutterBottom variant="h5" component="h2" style={{ textAlign: "center" }} >
+										{i18n.t("connectionsFiles.categories.noCategory")}
+									</Typography>
+								</CardContent>
+							</CardActionArea>
+						</Card>
+					</Paper>
+				</MainContainer>
+			}
+			{ connectionFileName &&
+				<MainContainer>
+					<ConfirmationModal
+						title={confirmModalInfo.title}
+						open={confirmModalOpen}
+						onClose={setConfirmModalOpen}
+						onConfirm={handleSubmitConfirmationModal}
 					>
-						{i18n.t("connections.buttons.previousPage")}
-					</Button>
-					<Typography
-						style={{ display: "inline-block", fontSize: "1.25rem" }}
-					>
-						{ pageNumber } / { Math.ceil(count / 10) }
-					</Typography>
-					<Button
-						variant="outlined"
-						onClick={() => { setPageNumber(prevPageNumber => prevPageNumber + 1) }}
-						disabled={ !hasMore }
-					>
-						{i18n.t("connections.buttons.nextPage")}
-					</Button>
-				</div>
-			</Paper>
-		</MainContainer>
+						{confirmModalInfo.message}
+					</ConfirmationModal>
+					<QrcodeModal
+						open={qrModalOpen}
+						onClose={handleCloseQrModal}
+						whatsAppId={!whatsAppModalOpen && selectedWhatsApp?.id}
+					/>
+					<WhatsAppModal
+						open={whatsAppModalOpen}
+						onClose={handleCloseWhatsAppModal}
+						whatsAppId={!qrModalOpen && selectedWhatsApp?.id}
+						connectionFileId={connectionFileId}
+					/>
+					<WhatsConfigModal
+						open={editWhatsModalOpen}
+						onClose={handleCloseEditWhatsModal}
+						whatsappId={selectedWhatsApp?.id}
+					/>
+					<div className={classes.root}>
+						<Dialog
+							open={newQrCodeServiceModalOpen}
+							onClose={handleNewQrCodeServiceModalClose}
+							maxWidth="xs"
+							fullWidth
+							scroll="paper"
+						>
+							<DialogTitle>
+								Selecione um Serviço
+							</DialogTitle>
+							<DialogContent>
+								<div>
+									<FormControl
+										variant="outlined"
+										className={classes.multFieldLine}
+										margin="dense"
+										fullWidth
+									>
+										<InputLabel>Serviço</InputLabel>
+										<Select
+											value={service}
+											onChange={(e) => { handleServiceChange(e) }}
+											label="Serviço"
+										>
+											<MenuItem value={""}>Nenhum</MenuItem>
+											{ services && services.map(service => {
+												if (service.data.isFull || !service.data.connected) return;
+												return (
+													<MenuItem value={service.data.service} key={service.data.service}>{service.data.service}</MenuItem>
+												)
+											}) }
+										</Select>
+									</FormControl>
+								</div>
+							</DialogContent>
+							<DialogActions>
+								<Button
+									onClick={handleNewQrCodeServiceModalClose}
+									color="secondary"
+									variant="outlined"
+								>
+									{i18n.t("whatsappModal.buttons.cancel")}
+								</Button>
+								<Button
+									type="submit"
+									color="primary"
+									variant="contained"
+									className={classes.btnWrapper}
+									onClick={handleCreateNewQRCodeWithService}
+								>
+									Criar QRCode
+								</Button>
+							</DialogActions>
+						</Dialog>
+					</div>
+					<MainHeader>
+						<Title>{i18n.t("connections.title")}</Title>
+						<MainHeaderButtonsWrapper>
+							<div
+								style={{
+								display: "flex",
+								flexDirection: "row",
+								flexWrap: "wrap",
+								alignItems: "end"
+								}}
+							>
+								<TextField
+									style={{
+										width: "200px",
+									}}
+									placeholder="Pesquisar Número"
+									type="search"
+									value={searchParam}
+									onChange={handleSearch}
+									InputProps={{
+										startAdornment: (
+										<InputAdornment position="start">
+											<SearchIcon style={{ color: "gray" }} />
+										</InputAdornment>
+										),
+									}}
+								/>
+								<FormControl
+									style={{
+										margin: "0 10px",
+									}}
+								>
+									<InputLabel id="status-select-label">
+										Status
+									</InputLabel>
+									<Select
+										labelId="status-select-label"
+										id="status-select"
+										value={status}
+										label="Status"
+										onChange={handleStatusChange}
+										style={{width: "150px"}}
+									>
+										<MenuItem value={""}>Nenhum</MenuItem>
+										<MenuItem value={"connected"}>Conectado</MenuItem>
+										<MenuItem value={"disconnected"}>Desconectado</MenuItem>
+									</Select>
+								</FormControl>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={handleOpenWhatsAppModal}
+								>
+									{i18n.t("connections.buttons.add")}
+								</Button>
+							</div>
+						</MainHeaderButtonsWrapper>
+					</MainHeader>
+					<Paper className={classes.mainPaper} variant="outlined">
+						<Table size="small">
+							<TableHead>
+								<TableRow>
+									<TableCell align="center">
+										Perfil
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("connections.table.name")}
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("connections.table.status")}
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("connections.table.session")}
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("connections.table.lastUpdate")}
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("connections.table.createdAt")}
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("Business")}
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("connections.table.default")}
+									</TableCell>
+									<TableCell align="center">
+										{i18n.t("connections.table.actions")}
+									</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{loading ? (
+									<TableRowSkeleton columns={6} />
+								) : (
+									<>
+										{whatsApps?.length > 0 &&
+											whatsApps.map(whatsApp => (
+												<TableRow key={whatsApp.id}>
+													<TableCell align="center">
+														<div
+															style={{
+																display: "flex",
+																justifyContent: "center",
+																alignItems: "center",
+															}}
+														>
+															{whatsApp.whatsImage && 
+															<img
+																style={{
+																	border: "1px solid rgba(0,0,0,0.5)",
+																	borderRadius: "100%",
+																	heigth: "30px",
+																	marginRight: "5px",
+																	width: "30px",
+																}}
+																src={whatsApp.whatsImage}
+															/>
+														}
+															{whatsApp.whatsName}
+														</div>
+													</TableCell>
+													<TableCell align="center">{whatsApp.name}</TableCell>
+													<TableCell align="center">
+														{renderStatusToolTips(whatsApp)}
+													</TableCell>
+													<TableCell align="center">
+														{renderActionButtons(whatsApp)}
+													</TableCell>
+													<TableCell align="center">
+														{format(parseISO(whatsApp.updatedAt), "dd/MM/yy HH:mm")}
+													</TableCell>
+													<TableCell align="center">
+														{format(parseISO(whatsApp.createdAt), "dd/MM/yy HH:mm")}
+													</TableCell>
+													<TableCell align="center">{clickOn(whatsApp.business)}</TableCell>
+													<TableCell align="center">
+														{whatsApp.isDefault && (
+															<div className={classes.customTableCell}>
+																<CheckCircle style={{ color: green[500] }} />
+															</div>
+														)}
+													</TableCell>
+													<TableCell align="center">	
+														{ whatsApp.status === "CONNECTED" && 
+															<IconButton
+																size="small"
+																onClick={() => handleOpenEditWhatsModal(whatsApp)}
+															>
+																<SettingsIcon />
+															</IconButton>
+														}
+
+														<IconButton
+															size="small"
+															onClick={() => handleEditWhatsApp(whatsApp)}
+														>
+															<Edit />
+														</IconButton>
+														
+														<IconButton
+															size="small"
+															onClick={e => {
+																handleOpenConfirmationModal("delete", whatsApp.id);
+															}}
+														>
+															<DeleteOutline />
+														</IconButton>
+													</TableCell>
+												</TableRow>
+											))}
+									</>
+								)}
+							</TableBody>
+						</Table>
+						<div
+							style={{ display: "flex", justifyContent: "space-between", paddingTop: "1rem" }}
+						>
+							<Button
+								variant="outlined"
+								onClick={() => { setPageNumber(prevPageNumber => prevPageNumber - 1) }}
+								disabled={ pageNumber === 1}
+							>
+								{i18n.t("connections.buttons.previousPage")}
+							</Button>
+							<Typography
+								style={{ display: "inline-block", fontSize: "1.25rem" }}
+							>
+								{ pageNumber } / { Math.ceil(count / 10) }
+							</Typography>
+							<Button
+								variant="outlined"
+								onClick={() => { setPageNumber(prevPageNumber => prevPageNumber + 1) }}
+								disabled={ !hasMore }
+							>
+								{i18n.t("connections.buttons.nextPage")}
+							</Button>
+						</div>
+					</Paper>
+				</MainContainer>
+			}
+		</>
 	);
 };
 
