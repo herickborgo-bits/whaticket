@@ -10,6 +10,7 @@ import Contact from "../../database/models/Contact";
 import Ticket from "../../database/models/Ticket";
 import FileRegister from "../../database/models/FileRegister";
 import Queue from "../../database/models/Queue";
+import NodeRegisters from "../../database/models/NodeRegisters";
 
 interface Request {
   flowNodeId?: string;
@@ -113,8 +114,8 @@ const processNode = async (node: any, session: any, body: any) => {
 
       if (!var1) return false;
 
-      if (condition === "equals") return (var1 == var2);
-      if (condition === "not_equal") return (var1 != var2);
+      if (condition === "equals") return (var1.toLowerCase() == var2.toLowerCase());
+      if (condition === "not_equal") return (var1.toLowerCase() != var2.toLowerCase());
       if (condition === "greater_than") return (var1 > var2);
       if (condition === "greater_than_or_equal") return (var1 >= var2);
       if (condition === "contains") return (var1.indexOf(var2));
@@ -231,6 +232,8 @@ const processNode = async (node: any, session: any, body: any) => {
   }
 
   if (node.type === "database-condition-node") {
+    let condition = false;
+
     const fileRegister = await FileRegister.findOne({
       where: {
         phoneNumber: { [Op.like]: `%${session.id.substr(5,8)}%` },
@@ -240,23 +243,33 @@ const processNode = async (node: any, session: any, body: any) => {
       order: [["createdAt", "DESC"]]
     });
 
-    if (!fileRegister) return { condition: false };
+    if (!fileRegister) return { condition };
 
     const variable = fileRegister[node.variable];
 
     if (node.condition === "complete") {
-      return { condition: variable === body.text };
+      condition = variable.toLowerCase() === body.text.toLowerCase();
     }
 
     if (node.condition === "last") {
       const variableLast = variable.substring(variable.length - node.charactersNumber);
-      return { condition: variableLast === body.text };
+      condition = variableLast.toLowerCase() === body.text.toLowerCase();
     }
 
     if (node.condition === "start") {
       const variableStart = variable.substring(0, node.charactersNumber);
-      return { condition: variableStart === body.text };
+      condition = variableStart.toLowerCase() === body.text.toLowerCase();
     }
+
+    await NodeRegisters.create({
+      phoneNumber: session.id,
+      text: body.text,
+      response: condition.toString(),
+      nodeId: session.nodeId,
+      flowId: session.flowId,
+    });
+
+    return { condition };
   }
 
   if (node.type === "database-node") {
@@ -367,6 +380,14 @@ const processNode = async (node: any, session: any, body: any) => {
     return { messages };
   }
 
+  if (node.type === "jump-node") {
+    await session.update({
+      nodeId: node.jumpNodeId,
+    });
+
+    return {};
+  }
+
   return {};
 }
 
@@ -468,6 +489,10 @@ const StartFlowService = async ({
     throw new AppError("ERR_NO_NODE", 404);
   }
 
+  if (!session && node.type !== "start-node") {
+    throw new AppError("ERR_NO_START_NODE");
+  }
+
   const nodeResponse = await processNode(node, session, { ...body, variables });
 
   const linkId = getLink("out", node, nodeResponse);
@@ -502,6 +527,12 @@ const StartFlowService = async ({
       nodeId: null,
       variables: null
     });
+  }
+
+  if (nextNode.type === "jump-node") {
+    await session.update({
+      nodeId: nextNode.jumpNodeId,
+    })
   }
 
   if (node.type === "start-node") {
