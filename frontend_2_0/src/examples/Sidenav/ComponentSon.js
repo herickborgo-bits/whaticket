@@ -1,25 +1,34 @@
-import React, { forwardRef, useContext, useEffect, useState } from "react";
+import React, { forwardRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Collapse, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import ComponentDad from "../Sidenav/ComponentDad"
-
+import PropTypes from "prop-types";
+import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
 function ComponentSon(props) {
-  const { icon, to, primary, className, drawerOpen, ...other } = props;
+  const { icon, to, primary } = props;
 
-  const renderLink = forwardRef((itemProps, ref) => (<RouterLink to={to} ref={ref} {...itemProps} />))
-
-  const renderedIcon = getIcon(icon, false);
+  const renderLink = forwardRef((itemProps, ref) => (
+    <RouterLink to={to} ref={ref} {...itemProps} />
+  ));
 
   return (
     <li>
-      <ListItem button component={renderLink} className={className} {...other}>
-        {renderedIcon ? <ListItemIcon>{renderedIcon}</ListItemIcon> : null}
+      <ListItem button component={renderLink}>
+        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
         <ListItemText primary={primary} />
       </ListItem>
     </li>
   );
 }
 
-return ComponentSon;
+ComponentSon.defaultProps = {
+  icon: "",
+  primary: "",
+};
+
+ComponentSon.propTypes = {
+  icon: PropTypes.string,
+  primary: PropTypes.string,
+  to: PropTypes.string.isRequired,
+};
+
+export default ComponentSon;

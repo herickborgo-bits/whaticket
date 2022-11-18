@@ -36,7 +36,7 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../context/Auth/AuthContext";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import MDSnackbar from "components/MDSnackbar";
+import { toast } from "react-toastify";
 
 const Basic = () => {
   const [rememberMe, setRememberMe] = useState(false);
@@ -44,15 +44,8 @@ const Basic = () => {
   const [user, setUser] = useState({ email: "", password: "", company: "" });
   const [showPassword, setShowPassword] = useState(false);
   const { handleLogin } = useContext(AuthContext);
-  const [successSB, setSuccessSB] = useState(false);
-  const [errorSB, setErrorSB] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
-  const openSuccessSB = () => setSuccessSB(true);
-  const closeSuccessSB = () => setSuccessSB(false);
-  const openErrorSB = () => setErrorSB(true);
-  const closeErrorSB = () => setErrorSB(false);
-
   const handleChangeInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -63,36 +56,11 @@ const Basic = () => {
 
     if (isAuth) {
       window.location.href = "http://localhost:3000/dashboard";
-    };
+      toast.success("Funcionou!!!");
+    } else {
+      toast.error("Não Funcionou -_-'");
+    }
   };
-
-  const renderSuccessSB = (
-    <MDSnackbar
-      color="success"
-      icon="check"
-      title="Material Dashboard"
-      content="Hello, world! This is a notification message"
-      dateTime="11 mins ago"
-      open={successSB}
-      onClose={closeSuccessSB}
-      close={closeSuccessSB}
-      bgWhite
-    />
-  );
-
-  const renderErrorSB = (
-    <MDSnackbar
-      color="error"
-      icon="warning"
-      title="Erro no login."
-      content="Favor verifique os campos e tente novamente!"
-      dateTime="11 mins ago"
-      open={errorSB}
-      onClose={closeErrorSB}
-      close={closeErrorSB}
-      bgWhite
-    />
-  );
 
   return (
     <BasicLayout image={bgImage}>
@@ -188,10 +156,8 @@ const Basic = () => {
                     variant="gradient"
                     color="info"
                     fullWidth
-                    onClick={openErrorSB}
                   >
                     Entrar
-                    {renderErrorSB}
                   </MDButton>
                 </MDBox>
               </MDBox>

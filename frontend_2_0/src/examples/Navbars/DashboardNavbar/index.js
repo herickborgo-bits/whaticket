@@ -189,12 +189,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
               }}
               open={menuOpen}
               onClose={handleCloseLog}
+              sx={{ mt: 1 }}
             >
               <MenuItem onClick={handleOpenUserModal}>
-                {i18next.t("mainDrawer.appBar.user.profile")}
+                <NotificationItem icon={<Icon>person</Icon>} title="Profile"/>
               </MenuItem>
               <MenuItem onClick={handleClickLogout}>
-                {i18next.t("mainDrawer.appBar.user.logout")}
+                 <NotificationItem icon={<Icon>logout</Icon>} title="Logout"/>
               </MenuItem>
             </Menu>
               <IconButton

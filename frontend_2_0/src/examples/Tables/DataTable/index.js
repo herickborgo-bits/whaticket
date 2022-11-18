@@ -38,6 +38,7 @@ import MDPagination from "components/MDPagination";
 // Material Dashboard 2 React example components
 import DataTableHeadCell from "examples/Tables/DataTable/DataTableHeadCell";
 import DataTableBodyCell from "examples/Tables/DataTable/DataTableBodyCell";
+import { Grid } from "@mui/material";
 
 function DataTable({
   entriesPerPage,
@@ -148,24 +149,26 @@ function DataTable({
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
       {entriesPerPage || canSearch ? (
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+        <MDBox display="flex" justifyContent="space-between" alignItems="center" p={2}>
           {entriesPerPage && (
-            <MDBox display="flex" alignItems="center">
-              <Autocomplete
-                disableClearable
-                value={pageSize.toString()}
-                options={entries}
-                onChange={(event, newValue) => {
-                  setEntriesPerPage(parseInt(newValue, 10));
-                }}
-                size="small"
-                sx={{ width: "5rem" }}
-                renderInput={(params) => <MDInput {...params} />}
-              />
-              <MDTypography variant="caption" color="secondary">
-                &nbsp;&nbsp;entries per page
-              </MDTypography>
-            </MDBox>
+            <Grid item xs={6} md={6} lg={6}>
+              <MDBox display="flex" alignItems="center">
+                <Autocomplete
+                  disableClearable
+                  value={pageSize.toString()}
+                  options={entries}
+                  onChange={(event, newValue) => {
+                    setEntriesPerPage(parseInt(newValue, 10));
+                  }}
+                  size="small"
+                  sx={{ width: "5rem" }}
+                  renderInput={(params) => <MDInput {...params} />}
+                />
+                <MDTypography variant="caption" color="secondary">
+                  &nbsp;&nbsp;Number of items per page
+                </MDTypography>
+              </MDBox>
+            </Grid>
           )}
           {canSearch && (
             <MDBox width="12rem" ml="auto">
@@ -230,7 +233,7 @@ function DataTable({
         {showTotalEntries && (
           <MDBox mb={{ xs: 3, sm: 0 }}>
             <MDTypography variant="button" color="secondary" fontWeight="regular">
-              Showing {entriesStart} to {entriesEnd} of {rows.length} entries
+              Showing {entriesStart} to {entriesEnd} of {rows.length}  itens
             </MDTypography>
           </MDBox>
         )}

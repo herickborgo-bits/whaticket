@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect, useMemo, useContext } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation, Redirect } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 // import { Routes, Navigate, useLocation } from "react-router-dom";
 
 // @mui material components
@@ -44,22 +44,26 @@ import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
-// Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "../src/context/index";
-
 // Images
 import brandWhite from "assets/images/brainwhite.png";
 import brandDark from "assets/images/brain.png";
 
+// Material Dashboard 2 React contexts
+import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context/index";
+
 // Material Dashboard 2 React routes
 // import Route from "./routes/Route";
 import routes from "./routes/RenderRoutes";
-import SignIn from "../src/layouts/authentication/sign-in";
-import Dashboard from "../src/layouts/dashboard";
+import SignIn from "./layouts/authentication/sign-in";
+import Dashboard from "./layouts/dashboard";
 
-import { AuthContext } from "../src/context/Auth/AuthContext";
+import { AuthContext } from "./context/Auth/AuthContext";
+// import api from "../src/services/api";
 
-const App = () => {
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+
+function App() {
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
@@ -75,6 +79,19 @@ const App = () => {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
   const { isAuth } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   const getMenus = async () => {
+  //     try {
+  //       const { data } = await api.get('/menus/company');
+  //       console.log(data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+
+  //   getMenus();
+  // }, [])
 
   // Cache for the rtl
   useMemo(() => {
@@ -116,17 +133,25 @@ const App = () => {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  const getRoutes = (allRoutes) => allRoutes.map((route) => {
-    if (route.collapse) {
-      return getRoutes(route.collapse);
-    }
+  const getRoutes = (allRoutes) =>
+    allRoutes.map((route) => {
+      if (route.collapse) {
+        return getRoutes(route.collapse);
+      }
 
-    if (route.route) {
-      return <Route exact path={route.route} element={isAuth ? route.component : <SignIn />} key={route.key} />;
-    }
+      if (route.route) {
+        return (
+          <Route
+            exact
+            path={route.route}
+            element={isAuth ? route.component : <SignIn />}
+            key={route.key}
+          />
+        );
+      }
 
-    return null;
-  });
+      return null;
+    });
 
   const configsButton = (
     <MDBox

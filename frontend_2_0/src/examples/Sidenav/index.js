@@ -31,13 +31,6 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// Material Dashboard 2 React example components
-import SidenavCollapse from "../Sidenav/SidenavCollapse";
-
-// Custom styles for the Sidenav
-import SidenavRoot from "../Sidenav/SidenavRoot";
-import sidenavLogoLabel from "../Sidenav/styles/sidenav";
-
 // Material Dashboard 2 React context
 import {
   useMaterialUIController,
@@ -45,11 +38,19 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from "context";
-import ComponentDad from "./ComponentDad";
 
+// Material Dashboard 2 React example components
+import SidenavCollapse from "./SidenavCollapse";
+
+// Custom styles for the Sidenav
+import SidenavRoot from "./SidenavRoot";
+import sidenavLogoLabel from "./styles/sidenav";
+
+// API
+// import api from "../../services/api";
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
-  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
+  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } = controller; // sidenavColor
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
 
@@ -64,8 +65,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const closeSidenav = () => setMiniSidenav(dispatch, true);
 
   useEffect(() => {
-    // return; // LOOP INFINITO
-
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
@@ -85,78 +84,83 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
 
-
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, href, route, children }) => {
-    let returnValue;
+  const renderRoutes = routes.map(
+    ({ type, name, icon, title, noCollapse, key, href, route, children }) => {
+      let returnValue;
 
-    if(children){
-        return <ComponentDad
-          type
-          name
-          icon
-          title
-          noCollapse
-          key
-          href
-          route
-          children
-        />
-    } else {
-        <ComponentSon/>
+      if (type === "collapse") {
+        if (href) {
+          return (
+            <Link
+              href={href}
+              key={key}
+              target="_blank"
+              rel="noreferrer"
+              sx={{ textDecoration: "none" }}
+            >
+              <SidenavCollapse
+                name={name}
+                icon={icon}
+                active={key === collapseName}
+                noCollapse={noCollapse}
+              />
+            </Link>
+          );
+        }
+
+        if (children) {
+          return (
+            <SidenavCollapse
+              key={key}
+              name={name}
+              icon={icon}
+              active={key === collapseName}
+              childrenMenus={children}
+              collapseName={collapseName}
+            />
+          );
+        }
+
+        return (
+          <NavLink key={key} to={route}>
+            <SidenavCollapse name={name} icon={icon} active={key === collapseName} />
+          </NavLink>
+        );
       }
-    if (type === "collapse") {
-      returnValue = href ? (
-        <Link
-          href={href}
-          key={key}
-          target="_blank"
-          rel="noreferrer"
-          sx={{ textDecoration: "none" }}
-        >
-          <SidenavCollapse
-            name={name}
-            icon={icon}
-            active={key === collapseName}
-            noCollapse={noCollapse}
-          />
-        </Link>
-      ) : (
-        <NavLink key={key} to={route}>
-          <SidenavCollapse name={name} icon={icon} active={key === collapseName} />
-        </NavLink>
-      );
-    } else if (type === "title") {
-      returnValue = (
-        <MDTypography
-          key={key}
-          color={textColor}
-          display="block"
-          variant="caption"
-          fontWeight="bold"
-          textTransform="uppercase"
-          pl={3}
-          mt={2}
-          mb={1}
-          ml={1}
-        >
-          {title}
-        </MDTypography>
-      );
-    } else if (type === "divider") {
-      returnValue = (
-        <Divider
-          key={key}
-          light={
-            (!darkMode && !whiteSidenav && !transparentSidenav) ||
-            (darkMode && !transparentSidenav && whiteSidenav)
-          }
-        />
-      );
-    }
 
-    return returnValue;
-  });
+      if (type === "title") {
+        returnValue = (
+          <MDTypography
+            key={key}
+            color={textColor}
+            display="block"
+            variant="caption"
+            fontWeight="bold"
+            textTransform="uppercase"
+            pl={3}
+            mt={2}
+            mb={1}
+            ml={1}
+          >
+            {title}
+          </MDTypography>
+        );
+      } else if (type === "divider") {
+        returnValue = (
+          <Divider
+            key={key}
+            light={
+              (!darkMode && !whiteSidenav && !transparentSidenav) ||
+              (darkMode && !transparentSidenav && whiteSidenav)
+            }
+          />
+        );
+      }
+
+      return returnValue;
+    }
+  );
 
   return (
     <SidenavRoot

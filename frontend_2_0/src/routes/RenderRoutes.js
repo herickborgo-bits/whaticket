@@ -43,9 +43,11 @@ import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
-import Menu1 from "layouts/menu1"
-import Menu2 from "layouts/menu2"
-import Menu3 from "layouts/menu3"
+import Menu1 from "layouts/menu1";
+import Menu2 from "layouts/menu2";
+import Menu3 from "layouts/menu3";
+import QuickAnswer from "layouts/QuickAnswer";
+import Dashboard1 from "../layouts/Dashboard1";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -53,39 +55,55 @@ import Icon from "@mui/material/Icon";
 const routes = [
   {
     type: "collapse",
+    name: "Dashboard1",
+    key: "dashboard1",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard1",
+    component: <Dashboard1 />,
+  },
+  {
+    type: "collapse",
+    name: "Quick Answer",
+    key: "quickAnswer",
+    icon: <Icon fontSize="small">question_answer</Icon>,
+    route: "/quickAnswer",
+    component: <QuickAnswer />,
+  },
+  {
+    type: "collapse",
     name: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
-    children:[
-              {
-                type: "collapse",
-                name: "Menu 1",
-                key: "menu1",
-                icon: <Icon fontSize="small">dashboard</Icon>,
-                route: "/menu1",
-                component: <Menu1 />,
-              },
-              {
-                type: "collapse",
-                name: "Menu 2",
-                key: "menu2",
-                icon: <Icon fontSize="small">dashboard</Icon>,
-                route: "/menu2",
-                component: <Menu2 />,
-                children: [
-                            {
-                              type: "collapse",
-                              name: "Menu 3",
-                              key: "menu3",
-                              icon: <Icon fontSize="small">dashboard</Icon>,
-                              route: "/menu3",
-                              component: <Menu3 />,
-                            },
-                ]
-              },
-      ]
+    children: [
+      {
+        type: "collapse",
+        name: "Menu 1",
+        key: "menu1",
+        icon: <Icon fontSize="small">dashboard</Icon>,
+        route: "/menu1",
+        component: <Menu1 />,
+      },
+      {
+        type: "collapse",
+        name: "Menu 2",
+        key: "menu2",
+        icon: <Icon fontSize="small">dashboard</Icon>,
+        route: "/menu2",
+        component: <Menu2 />,
+        children: [
+          {
+            type: "collapse",
+            name: "Menu 3",
+            key: "menu3",
+            icon: <Icon fontSize="small">dashboard</Icon>,
+            route: "/menu3",
+            component: <Menu3 />,
+          },
+        ],
+      },
+    ],
   },
   {
     type: "collapse",

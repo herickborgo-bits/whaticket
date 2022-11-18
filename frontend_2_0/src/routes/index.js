@@ -29,11 +29,10 @@ const Routes = () => {
     <>
       <Switch>
         <Route exact path="/authentication/sign-in" component={Basic} />
-        <WhatsAppsProvider>
-          { getRoutes(routes) }
-        </WhatsAppsProvider>
+          <WhatsAppsProvider>
+            { getRoutes(routes) }
+          </WhatsAppsProvider>
       </Switch>
-      <ToastContainer autoClose={3000} />
     </>
   );
 };

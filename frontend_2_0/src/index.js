@@ -21,6 +21,7 @@ import App from "./App";
 // Material Dashboard 2 React Context Provider
 import { MaterialUIControllerProvider } from "../src/context/index";
 import { AuthProvider } from "../src/context/Auth/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -28,6 +29,7 @@ ReactDOM.render(
       <MaterialUIControllerProvider>
         <App />
       </MaterialUIControllerProvider>
+      <ToastContainer autoClose={3000} />
     </AuthProvider>
   </BrowserRouter>,
   document.getElementById("root")
