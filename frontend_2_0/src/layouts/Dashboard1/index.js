@@ -48,6 +48,7 @@ import MDInput from "components/MDInput";
 import { useTranslation } from "react-i18next";
 import toastError from "errors/toastError";
 import useTickets from "Hooks/useTickets";
+import api from "services/api";
 
 const Dashboard1 = () => {
   const { i18n } = useTranslation();
@@ -69,6 +70,8 @@ const Dashboard1 = () => {
   const [biggerTickets, setBiggerTickets] = useState([]);
   const [smallerTickets, setSmallerTickets] = useState([]);
   const [averageTime, setAverageTime] = useState(0);
+  const [interactionCount, setInteractionCount] = useState(0);
+  const [noWhatsCount, setNoWhatsCount] = useState(0);
 
   if (user.queues && user.queues.length > 0) {
     userQueueIds = user.queues.map((q) => q.id);
@@ -97,16 +100,23 @@ const Dashboard1 = () => {
       setLoading(true);
       try {
         setLoading(true);
-        const { data } = await api.get(`/registers/list?fileId=${fileId}&date=${date}`);
-        setRegisterCount(data.register.count);
-        setSentCount(data.sent.count);
-        setDeliveredCount(data.delivered.count);
-        setReadCount(data.read.count);
-        setErrorCount(data.error.count);
+        const { data } = await api.get('/registers/list', {
+          params: { fileId, date }
+        });
+
+        setRegisterCount(data.reports.total);
+        setSentCount(data.reports.sent || "0");
+        setDeliveredCount(data.reports.delivered || "0");
+        setReadCount(data.reports.read || "0");
+        setErrorCount(data.reports.error || "0");
+        setInteractionCount(data.reports.interaction || "0");
+        setNoWhatsCount(data.reports.noWhats || "0");
+
         setCategoryCount(data.category);
+
         setLoading(false);
       } catch (err) {
-        toastError(err);
+        console.error(err);
       }
     };
     handleFilter();
@@ -123,7 +133,7 @@ const Dashboard1 = () => {
 
         setLoading(false);
       } catch (err) {
-        toastError(err);
+        console.error(err);
       }
       try {
         setLoading(true);
@@ -132,7 +142,7 @@ const Dashboard1 = () => {
         setFiles(files.concat(data.reports));
         setLoading(false);
       } catch (err) {
-        toastError(err);
+        console.error(err);
       }
     };
     handleFiles();
@@ -162,7 +172,7 @@ const Dashboard1 = () => {
         setAverageTime(data.totalAverageTime);
         setLoading(false);
       } catch (err) {
-        toastError(err);
+        console.error(err);
         setLoading(false);
       }
     };
@@ -347,7 +357,7 @@ const Dashboard1 = () => {
                 color="success"
                 icon="touch_app"
                 title="Interation"
-                count={0}
+                count={interactionCount}
                 percentage={{
                   label: "Interação com cliente.",
                 }}
@@ -410,7 +420,7 @@ const Dashboard1 = () => {
                 color="dark"
                 icon="phonelink_erase"
                 title="Sem WhatsApp"
-                count={0}
+                count={noWhatsCount}
                 percentage={{
                   label: "Contato sem WhatsApp",
                 }}
