@@ -49,6 +49,7 @@ import { useTranslation } from "react-i18next";
 import toastError from "errors/toastError";
 import useTickets from "Hooks/useTickets";
 import api from "services/api";
+import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
 
 const Dashboard1 = () => {
   const { i18n } = useTranslation();
@@ -428,6 +429,36 @@ const Dashboard1 = () => {
             </MDBox>
           </Grid>
         </Grid>
+          {/* {categoryCount && categoryCount.length > 0 && (
+            <Grid item xs={12}>
+              <Typography component="h3" variant="h6" color="primary" paragraph>
+                {i18n.t("dashboard.messages.category.title")}
+              </Typography>
+            </Grid>
+          )}
+          {categoryCount &&
+            categoryCount.map((category) => (
+              <Grid item xs={getGridSize()} key={category.name}>
+                <Paper
+                  className={classes.customFixedHeightPaper}
+                  style={{ overflow: "hidden" }}
+                >
+                  <Typography
+                    component="h3"
+                    variant="h6"
+                    color="primary"
+                    paragraph
+                  >
+                    {category.name}
+                  </Typography>
+                  <Grid item>
+                    <Typography component="h1" variant="h4">
+                      {category.count}
+                    </Typography>
+                  </Grid>
+                </Paper>
+              </Grid>
+            ))} */}
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={12}>
@@ -491,19 +522,17 @@ const Dashboard1 = () => {
                         Maiores tempos Médios
                       </MDTypography>
                     </MDBox>
-                    <MDBox>
+                    <MDBox pt={2} px={2} display="flex" alignItems="center">
                       {biggerTickets.map((ticket, index) => (
-                        <Card key={index} elevation={5}>
-                          <CardContent>
-                            <MDTypography align="center" variant="h6" component="h2">
-                              {ticket.user.name}
-                            </MDTypography>
-                            <br />
-                            <MDTypography align="center" variant="h5" component="h2">
-                              {formatTime(ticket.averageMilliseconds)}
-                            </MDTypography>
-                          </CardContent>
-                        </Card>
+                        <Grid item xs={12} md={6} lg={4} p={2}>
+                            <Card key={index} elevation={5}>
+                              <DefaultInfoCard
+                                  icon="access_time"
+                                  title={ticket.user.name}
+                                  value={formatTime(ticket.averageMilliseconds)}
+                              />
+                            </Card>
+                        </Grid>
                       ))}
                     </MDBox>
                     <MDBox pt={2} px={2} display="flex" alignItems="center">
@@ -511,19 +540,17 @@ const Dashboard1 = () => {
                         Menores tempos Médios
                       </MDTypography>
                     </MDBox>
-                    <MDBox>
+                    <MDBox pt={2} px={2} display="flex" alignItems="center">
                       {smallerTickets.map((ticket, index) => (
-                        <Card key={index} elevation={5}>
-                          <CardContent>
-                            <MDTypography align="center" variant="h6" component="h2">
-                              {ticket.user.name}
-                            </MDTypography>
-                            <br />
-                            <MDTypography align="center" variant="h5" component="h2">
-                              {formatTime(ticket.averageMilliseconds)}
-                            </MDTypography>
-                          </CardContent>
-                        </Card>
+                        <Grid item p={2} xs={12} md={6} lg={4}>
+                          <Card key={index} elevation={5}>
+                            <DefaultInfoCard
+                              icon="access_time"
+                              title={ticket.user.name}
+                              value={formatTime(ticket.averageMilliseconds)}
+                            />
+                          </Card>
+                        </Grid>
                       ))}
                     </MDBox>
                   </>
