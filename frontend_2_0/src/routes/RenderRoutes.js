@@ -220,7 +220,7 @@ function renderRoutes() {
               name: "Menu 3",
               key: "menu3",
               icon: <Icon fontSize="small">dashboard</Icon>,
-              route: "/menu3",
+              route: "/dashboard/menu2/menu3",
               component: <Menu3 />,
             },
           ],

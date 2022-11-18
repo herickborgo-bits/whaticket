@@ -38,7 +38,7 @@ import { useMaterialUIController } from "context";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-function SidenavCollapse({ icon, name, active, collapse, collapseName, ...rest }) {
+function SidenavCollapse({ icon, name, active, collapse, path, activeChildren, ...rest }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
 
@@ -56,6 +56,7 @@ function SidenavCollapse({ icon, name, active, collapse, collapseName, ...rest }
             {...rest}
             sx={(theme) =>
               collapseItem(theme, {
+                activeChildren,
                 active,
                 transparentSidenav,
                 whiteSidenav,
@@ -100,11 +101,13 @@ function SidenavCollapse({ icon, name, active, collapse, collapseName, ...rest }
             if (child.collapse) {
               return (
                 <SidenavCollapse
+                  key={child.key}
                   name={child.name}
                   icon={child.icon}
-                  active={child.key === collapseName}
+                  active={child.key === path[path.length - 1]}
+                  activeChildren={child.key !== path[path.length - 1] && path.includes(child.key)}
                   collapse={child.collapse}
-                  collapseName={collapseName}
+                  path={path}
                 />
               );
             }
@@ -114,7 +117,7 @@ function SidenavCollapse({ icon, name, active, collapse, collapseName, ...rest }
                 <SidenavCollapse
                   name={child.name}
                   icon={child.icon}
-                  active={child.key === collapseName}
+                  active={child.key === path[path.length - 1]}
                 />
               </NavLink>
             );
@@ -210,6 +213,8 @@ function SidenavCollapse({ icon, name, active, collapse, collapseName, ...rest }
 SidenavCollapse.defaultProps = {
   active: false,
   collapse: null,
+  path: [],
+  activeChildren: false,
 };
 
 // Typechecking props for the SidenavCollapse
@@ -218,7 +223,8 @@ SidenavCollapse.propTypes = {
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
   collapse: PropTypes.arrayOf(PropTypes.object),
-  collapseName: PropTypes.string,
+  path: PropTypes.arrayOf(PropTypes.string),
+  activeChildren: PropTypes.bool,
 };
 
 export default SidenavCollapse;

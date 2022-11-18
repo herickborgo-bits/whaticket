@@ -52,8 +52,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } = controller; // sidenavColor
   const location = useLocation();
-  const path = location.pathname.split("/");
-  const collapseName = path[path.length - 1];
+  const path = location.pathname.replace("/", "").split("/");
+  // const collapseName = path[path.length - 1];
   // const collapseName = location.pathname.replace("/", "");
 
   let textColor = "white";
@@ -104,7 +104,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               <SidenavCollapse
                 name={name}
                 icon={icon}
-                active={key === collapseName}
+                active={key === path[path.length - 1]}
                 noCollapse={noCollapse}
               />
             </Link>
@@ -117,16 +117,22 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               key={key}
               name={name}
               icon={icon}
-              active={key === collapseName}
+              active={key === path[path.length - 1]}
+              activeChildren={key !== path[path.length - 1] && path.includes(key)}
               collapse={collapse}
-              collapseName={collapseName}
+              path={path}
             />
           );
         }
 
         return (
           <NavLink key={key} to={route}>
-            <SidenavCollapse name={name} icon={icon} active={key === collapseName} collapseName={collapseName} />
+            <SidenavCollapse
+              name={name}
+              icon={icon}
+              active={key === path[path.length - 1]}
+              path={path}
+            />
           </NavLink>
         );
       }

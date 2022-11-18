@@ -14,21 +14,33 @@ Coded by www.creative-tim.com
 */
 function collapseItem(theme, ownerState) {
   const { palette, transitions, breakpoints, boxShadows, borders, functions } = theme;
-  const { active, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = ownerState;
+  const { activeChildren, active, transparentSidenav, whiteSidenav, darkMode, sidenavColor } =
+    ownerState;
 
   const { white, transparent, dark, grey, gradients } = palette;
   const { md } = boxShadows;
   const { borderRadius } = borders;
   const { pxToRem, rgba, linearGradient } = functions;
-  /*
-        ? transparentSidenav && !darkMode
-        ? grey[300]
-        : rgba(whiteSidenav ? grey[400] : white.main, 0.2)
-  */
+
+  const getBackground = () => {
+    let backgroundValue;
+    
+    if (active) {
+      backgroundValue = linearGradient(gradients[sidenavColor].main, gradients[sidenavColor].state);
+    } else if (activeChildren) {
+      backgroundValue =
+        transparentSidenav && !darkMode
+          ? grey[300]
+          : rgba(whiteSidenav ? grey[400] : white.main, 0.2);
+    } else {
+      backgroundValue = transparent.main;
+    }
+
+    return backgroundValue;
+  }
+
   return {
-    background: active
-      ? linearGradient(gradients[sidenavColor].main, gradients[sidenavColor].state)
-      : transparent.main,
+    background: getBackground(),
     color:
       (transparentSidenav && !darkMode && !active) || (whiteSidenav && !active)
         ? dark.main
