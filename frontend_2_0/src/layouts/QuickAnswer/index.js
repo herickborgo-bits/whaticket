@@ -1,4 +1,4 @@
-/**vdsc
+/**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
@@ -13,6 +13,9 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+// React
+import { useState } from "react";
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -20,27 +23,43 @@ import Card from "@mui/material/Card";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import DataTable from "components/DataTable";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import DataTable from "examples/Tables/DataTable";
-// Data
-import authorsTableData from "../QuickAnswer/data/authorsTableData";
-import MDButton from "components/MDButton";
-import { Icon, InputAdornment, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import QuickAnswerModal from "../../components/QuickAnswersModal";
-import ConfirmationModal from "../../components/ConfirmationModal";
-import { i18n } from "../../translate/i18n";
+
+// API
 import api from "services/api";
 
-const QuickAnswer = () => {
+// Toast
+import { toast } from "react-toastify";
+import toastError from "errors/toastError";
+
+// MUI
+import { Icon } from "@mui/material";
+
+// Components
+import MDButton from "components/MDButton";
+import QuickAnswerModal from "../../components/QuickAnswersModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
+
+// Data
+import QuickAnswerTableData from "./data/QuickAnswerTableData";
+
+// Translation
+import { i18n } from "../../translate/i18n";
+
+function QuickAnswer() {
   const [quickAnswerModalOpen, setQuickAnswerModalOpen] = useState(false);
 
   const [selectedQuickAnswer, setSelectedQuickAnswer] = useState(null);
   const [deletingQuickAnswer, setDeletingQuickAnswer] = useState(null);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+
+  const [search, setSearch] = useState("");
+  const [limit, setLimit] = useState(10);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const handleOpenQuickAnswerModal = () => {
     setSelectedQuickAnswer(null);
@@ -60,31 +79,45 @@ const QuickAnswer = () => {
   const handleOpenDeleteQuickAnswerModal = (quickAnswer) => {
     setConfirmModalOpen(true);
     setDeletingQuickAnswer(quickAnswer);
-  }
+  };
 
   const handleDeleteQuickAnswer = async (quickAnswerId) => {
     try {
       await api.delete(`/quickAnswers/${quickAnswerId}`);
-      console.log(i18n.t("quickAnswers.toasts.deleted"));
+      toast.success(i18n.t("quickAnswers.toasts.deleted"));
     } catch (err) {
-      console.error(err);
+      toastError(err);
     }
+
     setConfirmModalOpen(false);
     setDeletingQuickAnswer(null);
   };
 
-  const { columns, rows } = authorsTableData({ handleEditQuickAnswer, handleOpenDeleteQuickAnswerModal });
+  const getSearchValue = (value) => {
+    setSearch(value);
+  };
+
+  const getLimitValue = (value) => {
+    setLimit(value);
+  };
+
+  const getPageNumberValue = (value) => {
+    setPageNumber(value);
+  };
+
+  const { columns, rows, count } = QuickAnswerTableData({
+    search,
+    limit,
+    pageNumber,
+    handleEditQuickAnswer,
+    handleOpenDeleteQuickAnswerModal,
+  });
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <ConfirmationModal
-        title={
-          deletingQuickAnswer &&
-          `${i18n.t("Excluir ")} ${
-            deletingQuickAnswer.shortcut
-          }?`
-        }
+        title={deletingQuickAnswer && `${i18n.t("Excluir ")} ${deletingQuickAnswer.shortcut}?`}
         open={confirmModalOpen}
         onClose={setConfirmModalOpen}
         onConfirm={() => handleDeleteQuickAnswer(deletingQuickAnswer.id)}
@@ -96,7 +129,7 @@ const QuickAnswer = () => {
         onClose={handleCloseQuickAnswerModal}
         aria-labelledby="form-dialog-title"
         quickAnswerId={selectedQuickAnswer?.id}
-      ></QuickAnswerModal>
+      />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -115,11 +148,11 @@ const QuickAnswer = () => {
                   Quick Answer
                 </MDTypography>
               </MDBox>
-              <Grid item xs={6} md={2} lg={12}>
+              {/* <Grid item xs={6} md={2} lg={12}>
                 <MDBox pt={2} px={2} display="flex" justifyContent="end">
-                  <MDBox p={1} >
+                  <MDBox p={1}>
                     <TextField
-                      placeholder={"Search"}
+                      placeholder="Search"
                       type="search"
                       InputProps={{
                         startAdornment: (
@@ -131,23 +164,32 @@ const QuickAnswer = () => {
                     />
                   </MDBox>
                   <MDBox p={1.5}>
-                    <MDButton
-                      variant="gradient"
-                      color="dark"
-                      onClick={handleOpenQuickAnswerModal}>
+                    <MDButton variant="gradient" color="dark" onClick={handleOpenQuickAnswerModal}>
                       <Icon sx={{ fontWeight: "bold" }}>add</Icon>
                       &nbsp;add new Answer
                     </MDButton>
                   </MDBox>
                 </MDBox>
-              </Grid>
+              </Grid> */}
               <MDBox pt={3}>
                 <DataTable
                   table={{ columns, rows }}
                   isSorted={false}
-                  entriesPerPage={true}
-                  showTotalEntries={true}
+                  entriesPerPage
+                  showTotalEntries
                   noEndBorder
+                  canSearch
+                  useButton={
+                    <MDButton variant="gradient" color="dark" onClick={handleOpenQuickAnswerModal}>
+                      <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+                      &nbsp;add new Answer
+                    </MDButton>
+                  }
+                  // useFilters
+                  totalItems={count}
+                  getSearchValue={getSearchValue}
+                  getPageSizeValue={getLimitValue}
+                  getPageNumberValue={getPageNumberValue}
                 />
               </MDBox>
             </Card>

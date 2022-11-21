@@ -1,8 +1,15 @@
+// React
 import React, { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
+// Prop-Types
+import PropTypes from "prop-types";
+
+// Form
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
-import { toast } from "react-toastify";
+
+// Material UI
 import {
   TextField,
   Dialog,
@@ -14,15 +21,21 @@ import {
 import { green } from "@mui/material/colors";
 import { makeStyles } from "@mui/styles";
 
-import api from "../../services/api";
+// Toast
+import { toast } from "react-toastify";
 import toastError from "../../errors/toastError";
-import { useTranslation } from "react-i18next";
+
+// API
+import api from "../../services/api";
+
+// Components
 import MDButton from "../MDButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexWrap: "wrap",
   },
+
   textField: {
     marginRight: theme.spacing(1),
     width: "100%",
@@ -34,18 +47,19 @@ const useStyles = makeStyles((theme) => ({
 
   buttonProgress: {
     color: green[500],
+    left: "50%",
+    marginLeft: -12,
+    marginTop: -12,
     position: "absolute",
     top: "50%",
-    left: "50%",
-    marginTop: -12,
-    marginLeft: -12,
   },
+
   textQuickAnswerContainer: {
     width: "100%",
   },
 }));
 
-const QuickAnswersModal = ({ open, onClose, quickAnswerId, initialValues, onSave }) => {
+function QuickAnswersModal({ open, onClose, quickAnswerId }) {
   const classes = useStyles();
   const { i18n } = useTranslation();
   const isMounted = useRef(true);
@@ -68,20 +82,15 @@ const QuickAnswersModal = ({ open, onClose, quickAnswerId, initialValues, onSave
 
   const [quickAnswer, setQuickAnswer] = useState(initialState);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       isMounted.current = false;
-    };
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
     const fetchQuickAnswer = async () => {
-      if (initialValues) {
-        setQuickAnswer((prevState) => {
-          return { ...prevState, ...initialValues };
-        });
-      }
-
       if (!quickAnswerId) return;
 
       try {
@@ -95,7 +104,7 @@ const QuickAnswersModal = ({ open, onClose, quickAnswerId, initialValues, onSave
     };
 
     fetchQuickAnswer();
-  }, [quickAnswerId, open, initialValues]);
+  }, [quickAnswerId, open]);
 
   const handleClose = () => {
     onClose();
@@ -103,20 +112,15 @@ const QuickAnswersModal = ({ open, onClose, quickAnswerId, initialValues, onSave
   };
 
   const handleSaveQuickAnswer = async (values) => {
-    console.log(values);
     try {
       if (quickAnswerId) {
         await api.put(`/quickAnswers/${quickAnswerId}`, values);
         toast.success(i18n.t("quickAnswersModal.edited"));
-        handleClose();
       } else {
-        const { data } = await api.post("/quickAnswers", values);
+        await api.post("/quickAnswers", values);
         toast.success(i18n.t("quickAnswersModal.success"));
-        if (onSave) {
-          onSave(data);
-        }
-        handleClose();
       }
+      handleClose();
     } catch (err) {
       toastError(err);
     }
@@ -132,7 +136,7 @@ const QuickAnswersModal = ({ open, onClose, quickAnswerId, initialValues, onSave
         </DialogTitle>
         <Formik
           initialValues={quickAnswer}
-          enableReinitialize={true}
+          enableReinitialize
           validationSchema={QuickAnswerSchema}
           onSubmit={(values, actions) => {
             setTimeout(() => {
@@ -141,7 +145,7 @@ const QuickAnswersModal = ({ open, onClose, quickAnswerId, initialValues, onSave
             }, 400);
           }}
         >
-          {({ values, errors, touched, isSubmitting }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form>
               <DialogContent dividers>
                 <div className={classes.textQuickAnswerContainer}>
@@ -204,6 +208,18 @@ const QuickAnswersModal = ({ open, onClose, quickAnswerId, initialValues, onSave
       </Dialog>
     </div>
   );
+}
+
+// Setting default values for the props of QuickAnswerModal
+QuickAnswersModal.defaultProps = {
+  quickAnswerId: null,
+};
+
+// Typechecking props for the QuickAnswerModal
+QuickAnswersModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  quickAnswerId: PropTypes.number,
 };
 
 export default QuickAnswersModal;
