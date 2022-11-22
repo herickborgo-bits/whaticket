@@ -54,8 +54,6 @@ import {
 } from "context";
 
 import { AuthContext } from "context/Auth/AuthContext";
-
-import i18next from "i18next";
 import { MenuItem } from "@mui/material";
 
 function DashboardNavbar({ absolute, light, isMini }) {
@@ -131,11 +129,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
     },
   });
 
-  const handleClickLogout = async () => {
-    handleCloseLog();
-    await handleLogout();
-  };
-
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
     setMenuOpen(true);
@@ -146,8 +139,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
     setMenuOpen(false);
   };
 
+  const handleClickLogout = async () => {
+    handleCloseLog();
+    await handleLogout();
+  };
+
   const handleOpenUserModal = () => {
-    setUserModalOpen(true);
+    // setUserModalOpen(true);
     handleCloseMenu();
   };
 
@@ -167,39 +165,38 @@ function DashboardNavbar({ absolute, light, isMini }) {
               <MDInput label="Search here" />
             </MDBox>
             <MDBox color={light ? "white" : "inherit"}>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-              size="small"
-            >
-              <Icon sx={iconsStyle}>account_circle</Icon>
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={menuOpen}
-              onClose={handleCloseLog}
-              sx={{ mt: 1 }}
-            >
-              <MenuItem onClick={handleOpenUserModal}>
-                <NotificationItem icon={<Icon>person</Icon>} title="Profile"/>
-              </MenuItem>
-              <MenuItem onClick={handleClickLogout}>
-                 <NotificationItem icon={<Icon>logout</Icon>} title="Logout"/>
-              </MenuItem>
-            </Menu>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+                size="small"
+              >
+                <Icon sx={iconsStyle}>account_circle</Icon>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={menuOpen}
+                onClose={handleCloseLog}
+                sx={{ mt: 1 }}
+              >
+                <MenuItem onClick={handleOpenUserModal}>
+                  <NotificationItem icon={<Icon>person</Icon>} title="Profile" />
+                </MenuItem>
+                <MenuItem onClick={handleClickLogout}>
+                  <NotificationItem icon={<Icon>logout</Icon>} title="Logout" />
+                </MenuItem>
+              </Menu>
               <IconButton
                 size="small"
                 disableRipple

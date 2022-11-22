@@ -48,7 +48,7 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import QuickAnswerTableData from "./data/QuickAnswerTableData";
 
 // Translation
-import { i18n } from "../../translate/i18n";
+import i18n from "translate/i18n";
 
 function QuickAnswer() {
   const [quickAnswerModalOpen, setQuickAnswerModalOpen] = useState(false);

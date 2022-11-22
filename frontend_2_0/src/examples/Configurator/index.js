@@ -14,25 +14,25 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect, useContext } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 // react-github-btn
-import GitHubButton from "react-github-btn";
+// import GitHubButton from "react-github-btn";
 
 // @mui material components
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // @mui icons
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
+// import TwitterIcon from "@mui/icons-material/Twitter";
+// import FacebookIcon from "@mui/icons-material/Facebook";
 
 // flags
 // import { BR, US, ES } from 'country-flag-icons/react/3x2'
-import Flag from 'react-flagkit';
+import Flag from "react-flagkit";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -90,12 +90,8 @@ function Configurator() {
 
   useEffect(() => {
     // Set language
-    if (user) {
-      if (user.lang) {
-        i18n.changeLanguage(user.lang);
-      } else {
-        handleChangeLanguage("pt");
-      }
+    if (user && user.lang) {
+      i18n.changeLanguage(user.lang);
     }
   }, [user]);
 
@@ -111,7 +107,7 @@ function Configurator() {
         toastError(err);
       }
     }
-  }
+  };
 
   const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
   const handleTransparentSidenav = () => {
@@ -305,7 +301,7 @@ function Configurator() {
 
         <Divider />
 
-         <MDBox mt={3} lineHeight={1}>
+        <MDBox mt={3} lineHeight={1}>
           <MDTypography variant="h6">Languages</MDTypography>
           <MDBox
             sx={{
@@ -325,23 +321,17 @@ function Configurator() {
                 variant="gradient"
                 onClick={() => handleChangeLanguage("pt")}
                 sx={
-                  i18n.language === "pt"
-                    ? sidenavTypeActiveButtonStyles
-                    : sidenavTypeButtonsStyles
+                  i18n.language === "pt" ? sidenavTypeActiveButtonStyles : sidenavTypeButtonsStyles
                 }
               >
                 <Flag country="BR" size={40} />
               </MDButton>
             </MDBox>
-            <MDButton 
+            <MDButton
               fullWidth
               variant="gradient"
               onClick={() => handleChangeLanguage("en")}
-              sx={
-                i18n.language === "en"
-                  ? sidenavTypeActiveButtonStyles
-                  : sidenavTypeButtonsStyles
-              }
+              sx={i18n.language === "en" ? sidenavTypeActiveButtonStyles : sidenavTypeButtonsStyles}
             >
               <Flag country="US" size={40} />
             </MDButton>
@@ -355,9 +345,7 @@ function Configurator() {
                 variant="gradient"
                 onClick={() => handleChangeLanguage("es")}
                 sx={
-                  i18n.language === "es"
-                    ? sidenavTypeActiveButtonStyles
-                    : sidenavTypeButtonsStyles
+                  i18n.language === "es" ? sidenavTypeActiveButtonStyles : sidenavTypeButtonsStyles
                 }
               >
                 <Flag country="ES" size={40} />

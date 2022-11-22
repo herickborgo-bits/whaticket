@@ -16,13 +16,15 @@ Coded by www.creative-tim.com
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import { ToastContainer } from "react-toastify";
 
 // Material Dashboard 2 React Context Provider
-import { MaterialUIControllerProvider } from "../src/context/index";
-import { AuthProvider } from "../src/context/Auth/AuthContext";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { MaterialUIControllerProvider } from "context/index";
+import { AuthProvider } from "context/Auth/AuthContext";
+
+import App from "./App";
+
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
   <BrowserRouter>

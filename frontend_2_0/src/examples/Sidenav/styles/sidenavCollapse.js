@@ -24,7 +24,7 @@ function collapseItem(theme, ownerState) {
 
   const getBackground = () => {
     let backgroundValue;
-    
+
     if (active) {
       backgroundValue = linearGradient(gradients[sidenavColor].main, gradients[sidenavColor].state);
     } else if (activeChildren) {
@@ -37,7 +37,7 @@ function collapseItem(theme, ownerState) {
     }
 
     return backgroundValue;
-  }
+  };
 
   return {
     background: getBackground(),

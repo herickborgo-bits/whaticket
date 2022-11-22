@@ -69,8 +69,7 @@ const messages = {
           deleteTitle: "Deletar",
           deleteMessage: "Você tem certeza? Essa ação não pode ser revertida.",
           disconnectTitle: "Desconectar",
-          disconnectMessage:
-            "Tem certeza? Você precisará ler o QR Code novamente.",
+          disconnectMessage: "Tem certeza? Você precisará ler o QR Code novamente.",
         },
         buttons: {
           add: "Adicionar WhatsApp",
@@ -80,7 +79,7 @@ const messages = {
           newQr: "Novo QR CODE",
           connecting: "Conectando",
           previousPage: "Página Anterior",
-          nextPage: "Próxima Página"
+          nextPage: "Próxima Página",
         },
         toolTips: {
           disconnected: {
@@ -170,7 +169,7 @@ const messages = {
           required: "Campo Obrigatório!",
           short: "Curto Demais!",
           long: "Número de caracteres excedido!",
-          email: "Email Inválido!"
+          email: "Email Inválido!",
         },
         searchPlaceholder: "Pesquisar...",
         confirmationModal: {
@@ -264,7 +263,7 @@ const messages = {
       tickets: {
         toasts: {
           deleted: "A chamada que você estava foi deletado.",
-          confirmDelete: "Chamada excluida com sucesso!"
+          confirmDelete: "Chamada excluida com sucesso!",
         },
         notification: {
           message: "Mensagem de",
@@ -298,8 +297,7 @@ const messages = {
         pendingHeader: "Aguardando",
         assignedHeader: "Atendendo",
         noTicketsTitle: "Nada aqui!",
-        noTicketsMessage:
-          "Nenhuma chamada encontrada com esse status ou termo pesquisado",
+        noTicketsMessage: "Nenhuma chamada encontrada com esse status ou termo pesquisado",
         buttons: {
           accept: "Aceitar",
         },
@@ -314,47 +312,47 @@ const messages = {
           cancel: "Cancelar",
         },
       },
-      
+
       mainDrawer: {
         listItems: {
           "Admin BITS": "Admin BITS",
-          "Administration": "Administração",
-          "Category": "Categoria",
+          Administration: "Administração",
+          Category: "Categoria",
           "Chips Reports": "Relatório de Chips",
-          "Connections": "Conexões",
+          Connections: "Conexões",
           "Connection Files": "Categorias",
-          "Contacts": "Contatos",
+          Contacts: "Contatos",
           "Contact Transfer": "Transferir Contatos",
-          "Company": "Empresas",
-          "Dashboard": "Dashboard",
+          Company: "Empresas",
+          Dashboard: "Dashboard",
           "Exposed Imports": "Importação Exposta",
           "File Import": "Importação Arquivo",
-          "Flows": "Fluxo",
-          "Importation": "Importação",
+          Flows: "Fluxo",
+          Importation: "Importação",
           "Integrated Import": "Importação Integrada",
-          "Menus": "Menus",
+          Menus: "Menus",
           "Menu Link": "Vínculo de Menu",
           "Node Reports": "Relatório de Nós",
           "Official Connections": "Conexões",
-          "Queues": "Filas",
+          Queues: "Filas",
           "Quick Answers": "Respostas Rápidas",
-          "Registration": "Cadastro",
+          Registration: "Cadastro",
           "Registers Reports": "Relatório Registro",
-          "Reports": "Relatórios",
+          Reports: "Relatórios",
           "Reports Talk": "Relatórios Conversa",
           "Reports Ticket": "Relatórios Chamadas",
-          "Settings": "Configurações",
-          "Templates": "Templates",
+          Settings: "Configurações",
+          Templates: "Templates",
           "Template Data": "Templates",
-          "Tickets": "Chamadas",
-          "Users": "Usuários",
-          "WhatsApp": "Whatsapp",
+          Tickets: "Chamadas",
+          Users: "Usuários",
+          WhatsApp: "Whatsapp",
           "WhatsApp 2": "Whatsapp 2",
           "Whats Config": "Configurações",
-          finance: "Finanças",
-          products: "Produtos",
-          pricing: "Precificação",
-          payments: "Pagamentos",
+          // finance: "Finanças",
+          // products: "Produtos",
+          // pricing: "Precificação",
+          // payments: "Pagamentos",
         },
         whatsApp: {
           connections: "Conexões",
@@ -388,7 +386,7 @@ const messages = {
           deleteTitle: "Excluir ",
           deleteMessage:
             "Você tem certeza? Essa ação não pode ser revertida! As chamadas dessa fila continuarão existindo, mas não terão mais nenhuma fila atribuída.",
-          delete: "Fila excluida com Sucesso!"
+          delete: "Fila excluida com Sucesso!",
         },
       },
 
@@ -433,8 +431,7 @@ const messages = {
         },
         searchPlaceholder: "Pesquisar...",
         confirmationModal: {
-          deleteTitle:
-            "Você tem certeza que quer excluir esta Resposta Rápida: ",
+          deleteTitle: "Você tem certeza que quer excluir esta Resposta Rápida: ",
           deleteMessage: "Esta ação não pode ser revertida.",
         },
         yup: {
@@ -459,7 +456,7 @@ const messages = {
           cancel: "Cancelar",
         },
         success: "Resposta Rápida salva com sucesso.",
-        edited: "Resposta rápida atualizada com sucesso!"
+        edited: "Resposta rápida atualizada com sucesso!",
       },
 
       importation: {
@@ -503,7 +500,7 @@ const messages = {
           refuse: "Recusar",
           approve: "Aprovar",
           previousPage: "Página Anterior",
-          nextPage: "Próxima Página"
+          nextPage: "Próxima Página",
         },
       },
 
@@ -534,7 +531,7 @@ const messages = {
           errorConnection: "Por favor, selecione uma ou mais conexões.",
           errorShots: "Por favor, selecione um arquivo de disparo.",
         },
-        model:{
+        model: {
           line1: "NOME;CPF/CNPJ;TELEFONE;TEMPLATE_WHATS;PARAMETROS_TEMPLATE;TEXTO_MENSAGEM",
           line2: "- CAMPOS OPCIONAIS (SE TEXTO_MENSAGEM PREENCHIDO)",
           line3: "TEMPLATE_WHATS",
@@ -600,8 +597,8 @@ const messages = {
           ticketId: "Id da Chamada",
           date: "Data",
         },
-        errors:{
-          toastErr: "Preencha todos os Campos!"
+        errors: {
+          toastErr: "Preencha todos os Campos!",
         },
       },
 
@@ -619,7 +616,7 @@ const messages = {
           ticketId: "Id da Chamada",
         },
         errors: {
-          toastErr: "Selecione uma Chamada!"
+          toastErr: "Selecione uma Chamada!",
         },
       },
 
@@ -637,8 +634,7 @@ const messages = {
       messagesInput: {
         placeholderOpen:
           "Digite uma mensagem ou tecle ''/'' para utilizar as respostas rápidas cadastrada",
-        placeholderClosed:
-          "Reabra ou aceite essa chamada para enviar uma mensagem.",
+        placeholderClosed: "Reabra ou aceite essa chamada para enviar uma mensagem.",
         signMessage: "Assinar",
       },
       contactDrawer: {
@@ -653,8 +649,7 @@ const messages = {
         transfer: "Transferir",
         confirmationModal: {
           title: "Deletar a chamada do contato",
-          message:
-            "Atenção! Todas as mensagens relacionadas a essa chamada serão perdidas.",
+          message: "Atenção! Todas as mensagens relacionadas a essa chamada serão perdidas.",
         },
         buttons: {
           delete: "Excluir",
@@ -742,7 +737,7 @@ const messages = {
         },
       },
 
-      settingsWhats:{
+      settingsWhats: {
         title: "Configurações",
         triggerTime: "Tempo de Disparo entre as Instâncias",
         connections: "Conexões",
@@ -772,9 +767,9 @@ const messages = {
         },
       },
 
-      historicTicket:{
-          button: "Histórico",
-        historicModal:{
+      historicTicket: {
+        button: "Histórico",
+        historicModal: {
           title: "Histórico",
           name: "Nome",
           message: "Mensagem",
@@ -782,25 +777,25 @@ const messages = {
           createAt: "Data Criação",
           actions: "Ações",
           closed: "Fechar",
-          back: "Voltar"
+          back: "Voltar",
         },
       },
 
-      company:{
-          title: "Empresas",
-          search: "Pesquisar",
-        grid:{
+      company: {
+        title: "Empresas",
+        search: "Pesquisar",
+        grid: {
           companyId: "Id da Empresa",
           alias: "Pseudônimo",
           name: "Nome",
           cnpj: "CNPJ",
           phone: "Telefone",
           email: "Email",
-          address:  "Endereço",
-          actions: "Ações"
+          address: "Endereço",
+          actions: "Ações",
         },
         buttons: {
-          addCompany: "Cadastrar Empresa"
+          addCompany: "Cadastrar Empresa",
         },
         companyModal: {
           titleAdd: "Adicionar Empresa",
@@ -817,14 +812,15 @@ const messages = {
           upload: "Carregar Logo",
           logo: "Sem logo",
         },
-          success: "Empresa cadastrada com Sucesso!",
-          deleteTitle: "Excluir Empresa, ",
-          deleteCompany: "Todos os dados da empresa cadastrada serão perdidos, deseja realmente excluir, ",
-          toast: "Empresa excluida com sucesso!",
-          update: "Empresa atualizada com Sucesso!",
-          createdAt: "Empresa criada com Sucesso!",
-          edited: "Serviço editado com Sucesso!",
-          create: "Serviço criado com Sucesso!",
+        success: "Empresa cadastrada com Sucesso!",
+        deleteTitle: "Excluir Empresa, ",
+        deleteCompany:
+          "Todos os dados da empresa cadastrada serão perdidos, deseja realmente excluir, ",
+        toast: "Empresa excluida com sucesso!",
+        update: "Empresa atualizada com Sucesso!",
+        createdAt: "Empresa criada com Sucesso!",
+        edited: "Serviço editado com Sucesso!",
+        create: "Serviço criado com Sucesso!",
         firebase: {
           yes: "Sim",
           no: "Não",
@@ -837,26 +833,26 @@ const messages = {
           isFull: "Cheio",
           service: "Serviço",
           edit: "Editar",
-          add: "Adicionar Serviço"
+          add: "Adicionar Serviço",
         },
       },
 
-      menu:{
+      menu: {
         title: "Menus",
         success: "Menu salvo com sucesso!",
-        buttons:{
+        buttons: {
           save: "Salvar",
           menus: "Menus",
-          company: "Empresas"
+          company: "Empresas",
         },
       },
 
-      templatesData:{
+      templatesData: {
         title: "Templates Data",
         buttons: {
           connection: "Conexões",
           search: "Pesquisar",
-          newTemplate: "Nova Template"
+          newTemplate: "Nova Template",
         },
         grid: {
           name: "Nome",
@@ -884,7 +880,6 @@ const messages = {
           exceeded: "Limite de Parâmetros Excedido!",
           videoExceeded: "Tamanho do vídeo excede o valor máximo de 10 Megabyte.",
           edited: "Template atualizada com Sucesso!",
-
         },
         modal: {
           type: "Tipo",
@@ -919,7 +914,7 @@ const messages = {
         buttons: {
           create: "Criar Categoria",
           edit: "Editar",
-          add: "Criar"
+          add: "Criar",
         },
         grid: {
           name: "Nome",
@@ -947,18 +942,18 @@ const messages = {
 
       flows: {
         title: "Fluxos",
-        buttons:{
+        buttons: {
           create: "Criar",
-          search: "Pesquisar"
+          search: "Pesquisar",
         },
-        grid:{
+        grid: {
           name: "Nome",
           status: "Status",
           createdAt: "Criado em",
           updatedAt: "Atualizado em",
           actions: "Ações",
         },
-        flowsModal:{
+        flowsModal: {
           add: "Criar Fluxo",
           edit: "Editar Fluxo",
           name: "Nome",
@@ -966,7 +961,7 @@ const messages = {
           create: "Criar",
           save: "salvar",
         },
-        confirmation:{
+        confirmation: {
           title: "Deletar Fluxo",
           create: "Fluxo Criado com Sucesso!",
           edit: "Fluxo Editado com Sucesso!",
@@ -978,18 +973,18 @@ const messages = {
 
       integratedImport: {
         title: "Importação Integrada",
-        buttons:{
-          createdImport: "Criar Importação"
+        buttons: {
+          createdImport: "Criar Importação",
         },
-        grid:{
+        grid: {
           createdAt: "Data da Criação",
           name: "Nome",
           method: "Método",
           registers: "Qtde de Registros",
           status: "Status",
-          actions: "Ações"
+          actions: "Ações",
         },
-        integratedModal:{
+        integratedModal: {
           add: "Criar Importação",
           edited: "Editar importação",
           name: "Nome",
@@ -1003,7 +998,7 @@ const messages = {
           for: "Para",
           cancel: "Cancelar",
           save: "Salvar",
-          edit: "Editar"
+          edit: "Editar",
         },
         confirmation: {
           createdAt: "Importação adicionada com sucesso!",
@@ -1033,9 +1028,9 @@ const messages = {
           monthValue: "Valor da Mensalidade",
           amounth: "Valor Total",
           amounthPaind: "Valor Pago",
-          actions: "Ações"
+          actions: "Ações",
         },
-        modal:{
+        modal: {
           title: "Hitórico de preço",
           date: "Data",
           value: "Valor",
@@ -1081,7 +1076,7 @@ const messages = {
           update: "Atualizado: ",
           current: "Atual: ",
         },
-        confirmation:{
+        confirmation: {
           title: "Deletar Precificação",
           delete: "Precificação excluida com Sucesso!",
           confirmDelete: "Você realmente deseja excluir está precifição?",
@@ -1092,9 +1087,9 @@ const messages = {
         },
       },
 
-      product:{
+      product: {
         title: "Produtos",
-        buttons:{
+        buttons: {
           created: "Criar",
         },
         grid: {
@@ -1165,7 +1160,7 @@ const messages = {
       locationPreview: {
         toView: "Visualizar",
         download: "Baixar",
-        hello: "Diga olá ao seu novo contato!"
+        hello: "Diga olá ao seu novo contato!",
       },
 
       vcardPreview: {
@@ -1174,8 +1169,7 @@ const messages = {
 
       backendErrors: {
         ERR_NO_OTHER_WHATSAPP: "Deve haver pelo menos um WhatsApp padrão.",
-        ERR_NO_DEF_WAPP_FOUND:
-          "Nenhum WhatsApp padrão encontrado. Verifique a página de conexões.",
+        ERR_NO_DEF_WAPP_FOUND: "Nenhum WhatsApp padrão encontrado. Verifique a página de conexões.",
         ERR_WAPP_NOT_INITIALIZED:
           "Esta sessão do WhatsApp não foi inicializada. Verifique a página de conexões.",
         ERR_WAPP_CHECK_CONTACT:
@@ -1183,15 +1177,13 @@ const messages = {
         ERR_WAPP_INVALID_CONTACT: "Este não é um número de Whatsapp válido.",
         ERR_WAPP_DOWNLOAD_MEDIA:
           "Não foi possível baixar mídia do WhatsApp. Verifique a página de conexões.",
-        ERR_INVALID_CREDENTIALS:
-          "Erro de autenticação. Por favor, tente novamente.",
+        ERR_INVALID_CREDENTIALS: "Erro de autenticação. Por favor, tente novamente.",
         ERR_SENDING_WAPP_MSG:
           "Erro ao enviar mensagem do WhatsApp. Verifique a página de conexões.",
         ERR_DELETE_WAPP_MSG: "Não foi possível excluir a mensagem do WhatsApp.",
         ERR_OTHER_OPEN_TICKET: "Já existe um tíquete aberto para este contato.",
         ERR_SESSION_EXPIRED: "Sessão expirada. Por favor entre.",
-        ERR_USER_CREATION_DISABLED:
-          "A criação do usuário foi desabilitada pelo administrador.",
+        ERR_USER_CREATION_DISABLED: "A criação do usuário foi desabilitada pelo administrador.",
         ERR_NO_PERMISSION: "Você não tem permissão para acessar este recurso.",
         ERR_DUPLICATED_CONTACT: "Já existe um contato com este número.",
         ERR_NO_SETTING_FOUND: "Nenhuma configuração encontrada com este ID.",
@@ -1201,18 +1193,16 @@ const messages = {
         ERR_NO_WAPP_FOUND: "Nenhum WhatsApp encontrado com este ID.",
         ERR_CREATING_MESSAGE: "Erro ao criar mensagem no banco de dados.",
         ERR_CREATING_TICKET: "Erro ao criar tíquete no banco de dados.",
-        ERR_FETCH_WAPP_MSG:
-          "Erro ao buscar a mensagem no WhtasApp, talvez ela seja muito antiga.",
-        ERR_QUEUE_COLOR_ALREADY_EXISTS:
-          "Esta cor já está em uso, escolha outra.",
+        ERR_FETCH_WAPP_MSG: "Erro ao buscar a mensagem no WhtasApp, talvez ela seja muito antiga.",
+        ERR_QUEUE_COLOR_ALREADY_EXISTS: "Esta cor já está em uso, escolha outra.",
         ERR_WAPP_GREETING_REQUIRED:
           "A mensagem de saudação é obrigatório quando há mais de uma fila.",
         ERR_NO_COMPANY_FOUND: "Erro ao excluir a Empresa.",
         ERR__SHORTCUT_DUPLICATED_COMPANY: "Já existe uma empresa com esse CNPJ.",
-        ERR_NO_CATEGORY_FOUND : "Erro categoria não encontrada!"
+        ERR_NO_CATEGORY_FOUND: "Erro categoria não encontrada!",
       },
     },
   },
 };
 
-export { messages };
+export default messages;

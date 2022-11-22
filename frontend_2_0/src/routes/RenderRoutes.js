@@ -37,7 +37,7 @@ Coded by www.creative-tim.com
 
 // React
 import { useContext, useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 // Material Dashboard 2 React layouts
 // import Dashboard from "layouts/dashboard";
@@ -69,17 +69,17 @@ function renderRoutes() {
   const [routes, setRoutes] = useState([]);
 
   const components = {
-    "Dashboard": <Dashboard />,
+    Dashboard: <Dashboard />,
     "Quick Answers": <QuickAnswer />,
-    "Official Connections": <OfficialConnections />
-  }
+    "Official Connections": <OfficialConnections />,
+  };
 
   useEffect(() => {
     const createRoutes = (menus, path = "") => {
       const routes = [];
 
       for (const menu of menus) {
-        const name = i18n.t(`mainDrawer.listItems.${menu.name}`)
+        const name = i18n.t(`mainDrawer.listItems.${menu.name}`);
         const key = menu.name.replaceAll(" ", "");
         const icon = <Icon fontSize="small">{menu.icon}</Icon>;
 
@@ -102,13 +102,13 @@ function renderRoutes() {
           route: route ? route : null,
           component: component ? component : null,
           collapse: collapse ? collapse : null,
-        }
+        };
 
         routes.push(routeData);
       }
 
       return routes;
-    }
+    };
 
     const fetchParentMenu = async (menuId) => {
       try {
@@ -117,11 +117,11 @@ function renderRoutes() {
       } catch (err) {
         toastError(err);
       }
-    }
+    };
 
     const fetchMenus = async () => {
       try {
-        const { data } = await api.get('/menus/company');
+        const { data } = await api.get("/menus/company");
 
         const menus = [];
         const allMenus = [];
@@ -178,7 +178,7 @@ function renderRoutes() {
       } catch (err) {
         console.log(err);
       }
-    }
+    };
 
     if (isAuth) fetchMenus();
   }, [isAuth, user]);
