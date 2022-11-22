@@ -49,7 +49,7 @@ function DefaultInfoCard({ color, icon, title, description, value }) {
           {title}
         </MDTypography>
         {description && (
-          <MDTypography variant="caption" color="text" fontWeight="regular">
+          <MDTypography variant="h6" color="text" fontWeight="regular">
             {description}
           </MDTypography>
         )}

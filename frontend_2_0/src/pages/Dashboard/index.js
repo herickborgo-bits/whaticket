@@ -29,9 +29,11 @@ import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatist
 // Data
 import reportsBarChartData from "pages/Dashboard/data/reportsBarChartData";
 import reportsLineChartData from "pages/Dashboard/data/reportsLineChartData";
+//import reportsBarChartData from "layouts/Dashboard1/data/reportsBarChartData";
+import reportsLineChartData from "layouts/Dashboard1/data/reportsLineChartData";
 import { AuthContext } from "context/Auth/AuthContext";
 import { i18n } from "translate/i18n";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // Dashboard components
 import {
@@ -49,6 +51,8 @@ import { useTranslation } from "react-i18next";
 import toastError from "errors/toastError";
 import useTickets from "hooks/useTickets";
 import api from "services/api";
+import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import { parseISO } from "date-fns";
 
 const Dashboard = () => {
   const { i18n } = useTranslation();
@@ -73,6 +77,14 @@ const Dashboard = () => {
   const [interactionCount, setInteractionCount] = useState(0);
   const [noWhatsCount, setNoWhatsCount] = useState(0);
 
+  const dates = useRef(new Date().toISOString());
+	const { ticket } = useTickets({ date: dates.current })
+
+  const [reportsBarChartData, setReportsBarChartData] = useState({
+    labels: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
+    datasets: { label: "Tickets", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+  });
+
   if (user.queues && user.queues.length > 0) {
     userQueueIds = user.queues.map((q) => q.id);
   }
@@ -86,6 +98,29 @@ const Dashboard = () => {
     });
     return count;
   };
+
+  useEffect(() => {
+console.log(ticket)
+    if(ticket) {
+        setReportsBarChartData(prevState => {
+        let aux = [...prevState.labels];
+        aux.forEach(a => {
+          ticket.forEach(ticket => {
+            format(startOfHour(parseISO(ticket.createdAt)), "HH:mm") === a.time &&
+              a.amount++;
+          });
+        });
+        const response = {
+          labels:prevState.labels,
+          datasets:{
+            label:prevState.datasets.label,
+            data:aux
+          }
+        }
+        return response;
+      });
+    }
+  }, [ticket]);
 
   useEffect(() => {
     setDate("");
@@ -428,6 +463,36 @@ const Dashboard = () => {
             </MDBox>
           </Grid>
         </Grid>
+          {/* {categoryCount && categoryCount.length > 0 && (
+            <Grid item xs={12}>
+              <Typography component="h3" variant="h6" color="primary" paragraph>
+                {i18n.t("dashboard.messages.category.title")}
+              </Typography>
+            </Grid>
+          )}
+          {categoryCount &&
+            categoryCount.map((category) => (
+              <Grid item xs={getGridSize()} key={category.name}>
+                <Paper
+                  className={classes.customFixedHeightPaper}
+                  style={{ overflow: "hidden" }}
+                >
+                  <Typography
+                    component="h3"
+                    variant="h6"
+                    color="primary"
+                    paragraph
+                  >
+                    {category.name}
+                  </Typography>
+                  <Grid item>
+                    <Typography component="h1" variant="h4">
+                      {category.count}
+                    </Typography>
+                  </Grid>
+                </Paper>
+              </Grid>
+            ))} */}
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={12}>
@@ -491,19 +556,17 @@ const Dashboard = () => {
                         Maiores tempos Médios
                       </MDTypography>
                     </MDBox>
-                    <MDBox>
+                    <MDBox pt={2} px={2} display="flex" alignItems="center">
                       {biggerTickets.map((ticket, index) => (
-                        <Card key={index} elevation={5}>
-                          <CardContent>
-                            <MDTypography align="center" variant="h6" component="h2">
-                              {ticket.user.name}
-                            </MDTypography>
-                            <br />
-                            <MDTypography align="center" variant="h5" component="h2">
-                              {formatTime(ticket.averageMilliseconds)}
-                            </MDTypography>
-                          </CardContent>
-                        </Card>
+                        <Grid item xs={12} md={6} lg={4} p={2}>
+                            <Card key={index} elevation={5}>
+                              <DefaultInfoCard
+                                  icon="access_time"
+                                  title={ticket.user.name}
+                                  value={formatTime(ticket.averageMilliseconds)}
+                              />
+                            </Card>
+                        </Grid>
                       ))}
                     </MDBox>
                     <MDBox pt={2} px={2} display="flex" alignItems="center">
@@ -511,19 +574,17 @@ const Dashboard = () => {
                         Menores tempos Médios
                       </MDTypography>
                     </MDBox>
-                    <MDBox>
+                    <MDBox pt={2} px={2} display="flex" alignItems="center">
                       {smallerTickets.map((ticket, index) => (
-                        <Card key={index} elevation={5}>
-                          <CardContent>
-                            <MDTypography align="center" variant="h6" component="h2">
-                              {ticket.user.name}
-                            </MDTypography>
-                            <br />
-                            <MDTypography align="center" variant="h5" component="h2">
-                              {formatTime(ticket.averageMilliseconds)}
-                            </MDTypography>
-                          </CardContent>
-                        </Card>
+                        <Grid item p={2} xs={12} md={6} lg={4}>
+                          <Card key={index} elevation={5}>
+                            <DefaultInfoCard
+                              icon="access_time"
+                              title={ticket.user.name}
+                              value={formatTime(ticket.averageMilliseconds)}
+                            />
+                          </Card>
+                        </Grid>
                       ))}
                     </MDBox>
                   </>
