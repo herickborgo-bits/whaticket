@@ -27,8 +27,8 @@ import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/Dashboard1/data/reportsBarChartData";
-import reportsLineChartData from "layouts/Dashboard1/data/reportsLineChartData";
+import reportsBarChartData from "pages/Dashboard/data/reportsBarChartData";
+import reportsLineChartData from "pages/Dashboard/data/reportsLineChartData";
 import { AuthContext } from "context/Auth/AuthContext";
 import { i18n } from "translate/i18n";
 import { useContext, useEffect, useState } from "react";
@@ -47,10 +47,10 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import { useTranslation } from "react-i18next";
 import toastError from "errors/toastError";
-import useTickets from "Hooks/useTickets";
+import useTickets from "hooks/useTickets";
 import api from "services/api";
 
-const Dashboard1 = () => {
+const Dashboard = () => {
   const { i18n } = useTranslation();
   const { user } = useContext(AuthContext);
   var userQueueIds = [];
@@ -100,8 +100,8 @@ const Dashboard1 = () => {
       setLoading(true);
       try {
         setLoading(true);
-        const { data } = await api.get('/registers/list', {
-          params: { fileId, date }
+        const { data } = await api.get("/registers/list", {
+          params: { fileId, date },
         });
 
         setRegisterCount(data.reports.total);
@@ -545,4 +545,4 @@ const Dashboard1 = () => {
   );
 };
 
-export default Dashboard1;
+export default Dashboard;

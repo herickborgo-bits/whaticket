@@ -25,14 +25,14 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
 // Authentication layout components
-import BasicLayout from "layouts/authentication/components/BasicLayout";
+import BasicLoginLayout from "layouts/BasicLoginLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 // import bgImage from "../../../assets/images/bg-sign-in-basic.jpeg";
 
 import { useTranslation } from "react-i18next";
-import { AuthContext } from "../../../context/Auth/AuthContext";
+import { AuthContext } from "context/Auth/AuthContext";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -68,7 +68,7 @@ const Basic = () => {
   };
 
   return (
-    <BasicLayout image={bgImage}>
+    <BasicLoginLayout image={bgImage}>
       <Card>
         <MDBox
           variant="gradient"
@@ -169,7 +169,7 @@ const Basic = () => {
             </MDBox>
           </div>
       </Card>
-    </BasicLayout>
+    </BasicLoginLayout>
   );
 }
 

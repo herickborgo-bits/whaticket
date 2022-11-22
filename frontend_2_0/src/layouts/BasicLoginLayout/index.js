@@ -29,7 +29,7 @@ import PageLayout from "examples/LayoutContainers/PageLayout";
 // Authentication pages components
 import Footer from "layouts/authentication/components/Footer";
 
-function BasicLayout({ image, children }) {
+function BasicLoginLayout({ image, children }) {
   return (
     <PageLayout>
       <DefaultNavbar
@@ -68,10 +68,10 @@ function BasicLayout({ image, children }) {
   );
 }
 
-// Typechecking props for the BasicLayout
-BasicLayout.propTypes = {
+// Typechecking props for the BasicLoginLayout
+BasicLoginLayout.propTypes = {
   image: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default BasicLayout;
+export default BasicLoginLayout;

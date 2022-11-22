@@ -116,7 +116,7 @@ const useAuth = () => {
       setUser({});
       localStorage.removeItem("token");
       api.defaults.headers.Authorization = undefined;
-      navigate("authentication/sign-in");
+      navigate("/login");
       setLoading(false);
     } catch (err) {
       toastError(err);

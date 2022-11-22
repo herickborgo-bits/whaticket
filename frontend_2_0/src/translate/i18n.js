@@ -7,7 +7,7 @@ import { messages } from "./languages";
 const i18nConfig = {
 	debug: false,
 	defaultNS: ["translations"],
-	fallbackLng: "en",
+	fallbackLng: "pt",
 	ns: ["translations"],
 	resources: messages,
 }

@@ -48,16 +48,16 @@ import createCache from "@emotion/cache";
 import brandWhite from "assets/images/brainwhite.png";
 import brandDark from "assets/images/brain.png";
 
-// Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context/index";
-
 // Material Dashboard 2 React routes
 // import Route from "./routes/Route";
+import Login from "pages/Login";
+import Dashboard from "pages/Dashboard";
 import renderRoutes from "./routes/RenderRoutes";
-import SignIn from "./layouts/authentication/sign-in";
-import Dashboard from "./layouts/dashboard";
 
+// Material Dashboard 2 React contexts
+import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context/index";
 import { AuthContext } from "./context/Auth/AuthContext";
+
 // import api from "../src/services/api";
 
 function App() {
@@ -142,7 +142,7 @@ function App() {
           <Route
             exact
             path={route.route}
-            element={isAuth ? route.component : <SignIn />}
+            element={isAuth ? route.component : <Login />}
             key={route.key}
           />
         );
@@ -206,7 +206,7 @@ function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={isAuth ? <Dashboard /> : <SignIn />} />
+          <Route path="*" element={isAuth ? <Dashboard /> : <Login />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -230,7 +230,7 @@ function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={isAuth ? <Dashboard /> : <SignIn />} />
+        <Route path="*" element={isAuth ? <Dashboard /> : <Login />} />
       </Routes>
     </ThemeProvider>
   );
