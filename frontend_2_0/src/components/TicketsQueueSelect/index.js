@@ -1,6 +1,6 @@
 import React from "react";
 
-import MenuItem, { FormControl, Grid, Select } from "@mui/material";
+import { FormControl, MenuItem, Grid, Select } from "@mui/material";
 import { Checkbox, ListItemText } from "@mui/material";
 import { useTranslation } from "react-i18next";
 

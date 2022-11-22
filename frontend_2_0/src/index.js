@@ -16,12 +16,15 @@ Coded by www.creative-tim.com
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import { ToastContainer } from "react-toastify";
 
 // Material Dashboard 2 React Context Provider
-import { MaterialUIControllerProvider } from "../src/context/index";
-import { AuthProvider } from "../src/context/Auth/AuthContext";
-import { ToastContainer } from "react-toastify";
+import { MaterialUIControllerProvider } from "context/index";
+import { AuthProvider } from "context/Auth/AuthContext";
+
+import App from "./App";
+
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -29,7 +32,18 @@ ReactDOM.render(
       <MaterialUIControllerProvider>
         <App />
       </MaterialUIControllerProvider>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </AuthProvider>
   </BrowserRouter>,
   document.getElementById("root")

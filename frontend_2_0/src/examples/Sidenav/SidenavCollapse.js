@@ -37,10 +37,8 @@ import {
 import { useMaterialUIController } from "context";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...rest }) {
+function SidenavCollapse({ icon, name, active, collapse, path, activeChildren, ...rest }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
 
@@ -50,7 +48,7 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
     setOpen((prevOpen) => !prevOpen);
   };
 
-  if (childrenMenus) {
+  if (collapse) {
     return (
       <>
         <ListItem component="li" onClick={handleClick}>
@@ -58,6 +56,7 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
             {...rest}
             sx={(theme) =>
               collapseItem(theme, {
+                activeChildren,
                 active,
                 transparentSidenav,
                 whiteSidenav,
@@ -91,22 +90,24 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
             />
 
             {open ? (
-              <KeyboardArrowDownIcon fontSize="large" />
+              <Icon fontSize="small">expand_less</Icon>
             ) : (
-              <ArrowForwardIosIcon fontSize="small" />
+              <Icon fontSize="small">expand_more</Icon>
             )}
           </MDBox>
         </ListItem>
         {open &&
-          childrenMenus.map((child) => {
-            if (child.childrenMenus) {
+          collapse.map((child) => {
+            if (child.collapse) {
               return (
                 <SidenavCollapse
+                  key={child.key}
                   name={child.name}
                   icon={child.icon}
-                  active={child.key === collapseName}
-                  childrenMenus={child.childrenMenus}
-                  collapseName={collapseName}
+                  active={child.key === path[path.length - 1]}
+                  activeChildren={child.key !== path[path.length - 1] && path.includes(child.key)}
+                  collapse={child.collapse}
+                  path={path}
                 />
               );
             }
@@ -116,7 +117,7 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
                 <SidenavCollapse
                   name={child.name}
                   icon={child.icon}
-                  active={child.key === collapseName}
+                  active={child.key === path[path.length - 1]}
                 />
               </NavLink>
             );
@@ -211,7 +212,9 @@ function SidenavCollapse({ icon, name, active, childrenMenus, collapseName, ...r
 // Setting default values for the props of SidenavCollapse
 SidenavCollapse.defaultProps = {
   active: false,
-  childrenMenus: null,
+  collapse: null,
+  path: [],
+  activeChildren: false,
 };
 
 // Typechecking props for the SidenavCollapse
@@ -219,8 +222,9 @@ SidenavCollapse.propTypes = {
   icon: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
-  childrenMenus: PropTypes.arrayOf(PropTypes.object),
-  collapseName: PropTypes.string,
+  collapse: PropTypes.arrayOf(PropTypes.object),
+  path: PropTypes.arrayOf(PropTypes.string),
+  activeChildren: PropTypes.bool,
 };
 
 export default SidenavCollapse;

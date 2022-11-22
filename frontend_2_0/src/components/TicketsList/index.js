@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import TicketListItem from "../TicketListItem/index";
 import TicketsListSkeleton from "../TicketsListSkeleton";
 
-import useTickets from "../../Hooks/useTickets";
+import useTickets from "hooks/useTickets";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import { useTranslation } from "react-i18next";
 

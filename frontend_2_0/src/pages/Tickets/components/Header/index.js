@@ -36,7 +36,7 @@ import profilesListData from "layouts/profile/data/profilesListData";
 
 // Material Dashboard 2 React base styles
 import breakpoints from "assets/theme/base/breakpoints";
-import { i18n } from "translate/i18n";
+import i18n from "translate/i18n";
 import { Can } from "components/Can";
 import { Badge, Divider, FormControlLabel, Switch } from "@mui/material";
 import ProfilesList from "examples/Lists/ProfilesList";

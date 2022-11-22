@@ -1,7 +1,6 @@
 const messages = {
   es: {
     translations: {
-
       login: {
         title: "Inicio de Sesión",
         form: {
@@ -27,45 +26,44 @@ const messages = {
         charts: {
           perDay: {
             title: "Tickets hoy: ",
-            calls: "Iiamadas"
+            calls: "Iiamadas",
           },
         },
         messages: {
           inAttendance: {
-            title: "En Servicio"
+            title: "En Servicio",
           },
           waiting: {
-            title: "Esperando"
+            title: "Esperando",
           },
           closed: {
-            title: "Finalizado"
+            title: "Finalizado",
           },
           imported: {
-            title: "Importado"
+            title: "Importado",
           },
           sent: {
-            title: "Enviado"
+            title: "Enviado",
           },
           handedOut: {
-            title: "Entregado"
+            title: "Entregado",
           },
           read: {
-            title: "Leer"
+            title: "Leer",
           },
           mistake: {
-            title: "Errors"
+            title: "Errors",
           },
           category: {
-            title: "Servicio por Categoría"
+            title: "Servicio por Categoría",
           },
-        }
+        },
       },
 
       connections: {
         title: "Conexiones",
         toasts: {
-          deleted:
-            "¡La conexión de WhatsApp ha sido borrada satisfactoriamente!",
+          deleted: "¡La conexión de WhatsApp ha sido borrada satisfactoriamente!",
         },
         confirmationModal: {
           deleteTitle: "Borrar",
@@ -111,7 +109,7 @@ const messages = {
           actions: "Acciones",
           session: "Sesión",
           quality: "Calidad",
-          limit: "Límite"
+          limit: "Límite",
         },
       },
 
@@ -122,15 +120,15 @@ const messages = {
       },
 
       officialWhatsappModal: {
-        title:{
-        add:"Agregar Whatsapp Oficial",
-        edit: "Para Editar WhatsApp Oficial",
-        labelNumber: "Número de teléfono",
-        labelToken: "Ficha de autenticación de Facebook",
-        labelId: "Identificación de teléfono de Facebook",
-        labelBusiness: "Identificación Comercial de Facebook",
-        greetingMessage: "Mensaje de Saludo",
-        farewellMessage: "Mensaje de Despedida",
+        title: {
+          add: "Agregar Whatsapp Oficial",
+          edit: "Para Editar WhatsApp Oficial",
+          labelNumber: "Número de teléfono",
+          labelToken: "Ficha de autenticación de Facebook",
+          labelId: "Identificación de teléfono de Facebook",
+          labelBusiness: "Identificación Comercial de Facebook",
+          greetingMessage: "Mensaje de Saludo",
+          farewellMessage: "Mensaje de Despedida",
         },
         buttons: {
           cancel: "Cancelar",
@@ -171,7 +169,7 @@ const messages = {
           required: "¡Campo obligatorio!",
           short: "¡Demasiado corto!",
           long: "¡Se excedió el número de caracteres!",
-          email: "¡Email inválido!"
+          email: "¡Email inválido!",
         },
         searchPlaceholder: "Buscar...",
         confirmationModal: {
@@ -179,8 +177,7 @@ const messages = {
           importTitlte: "Importar contactos",
           deleteMessage:
             "¿Estás seguro que deseas borrar este contacto? Todos los tickets relacionados se perderán.",
-          importMessage:
-            "¿Quieres importar todos los contactos desde tu teléfono?",
+          importMessage: "¿Quieres importar todos los contactos desde tu teléfono?",
         },
         buttons: {
           import: "Importar Contactos",
@@ -300,8 +297,7 @@ const messages = {
         pendingHeader: "Cola",
         assignedHeader: "Trabajando en",
         noTicketsTitle: "¡Nada acá!",
-        noTicketsMessage:
-          "No se encontraron tickets con este estado o término de búsqueda",
+        noTicketsMessage: "No se encontraron tickets con este estado o término de búsqueda",
         buttons: {
           accept: "Acceptar",
         },
@@ -319,35 +315,44 @@ const messages = {
 
       mainDrawer: {
         listItems: {
-          dashboard: "Dashboard",
-          template: "Plantilla",
-          tickets: "Tickets",
-          contacts: "Contactos",
-          quickAnswers: "Respuestas rápidas",
-          importation: "Importar",
-          queues: "Linhas",
-          administration: "Administración",
-          users: "Usuarios",
-          settings: "Configuración",
-          reportsTalk: "Informe de Conversación",
-          reportsTicket: "Informe de entradas",
-          logReports: "Informes de Registro",
-          reports: "Informes",
-          whatsOff: "WhatsApp",
-          whatsNoOff: "WhatsApp 2",
-          company: "Compañías",
-          menus: "Menus",
-          fileImport: "Importación de Archivos",
-          integratedImport:"Importación Integrada",
-          category: "Categoría",
-          adminBits: "Admin BITS",
-          menuLink: "Enlace del Menú",
-          registration: "Registro del Menú",
-          finance: "Finanzas",
-          products: "Producto",
-          pricing: "Fijación de Precios",
-          payments: "Pago",
-          flows: "Fluye",
+          "Admin BITS": "Admin BITS",
+          Administration: "Administración",
+          Category: "Categoría",
+          "Chips Reports": "Informes de Números",
+          Connections: "Conexiones",
+          "Connection Files": "Categorías",
+          Contacts: "Contactos",
+          "Contact Transfer": "Transferencia de Contacto",
+          Company: "Compañías",
+          Dashboard: "Dashboard",
+          "Exposed Imports": "Importación Expuesta",
+          "File Import": "Importación de Archivos",
+          Flows: "Fluye",
+          Importation: "Importar",
+          "Integrated Import": "Importación Integrada",
+          Menus: "Menus",
+          "Menu Link": "Enlace del Menú",
+          "Node Reports": "Informe de Nodes",
+          "Official Connections": "Conexiones",
+          Queues: "Linhas",
+          "Quick Answers": "Respuestas rápidas",
+          Registration: "Registro del Menú",
+          "Registers Reports": "Informes de Registro",
+          Reports: "Informes",
+          "Reports Talk": "Informe de Conversación",
+          "Reports Ticket": "Informe de entradas",
+          Settings: "Configuración",
+          Templates: "Plantilla",
+          "Template Data": "Plantilla",
+          Tickets: "Tickets",
+          Users: "Usuarios",
+          WhatsApp: "Whatsapp",
+          "WhatsApp 2": "Whatsapp 2",
+          "Whats Config": "Configuración",
+          // finance: "Finanzas",
+          // products: "Producto",
+          // pricing: "Fijación de Precios",
+          // payments: "Pago",
         },
         whatsApp: {
           connections: "Conexiones",
@@ -382,11 +387,11 @@ const messages = {
           deleteTitle: "Eliminar",
           deleteMessage:
             "¿Estás seguro? ¡Esta acción no se puede revertir! Los tickets en esa cola seguirán existiendo, pero ya no tendrán ninguna cola asignada.",
-          delete: "¡Cola eliminada con éxito!"
+          delete: "¡Cola eliminada con éxito!",
         },
       },
 
-       queueModal: {
+      queueModal: {
         title: {
           add: "Agregar cola",
           edit: "Editar cola",
@@ -398,7 +403,7 @@ const messages = {
           success: "¡Cola añadida con éxito!",
           edited: "¡Cola actualizada con éxito!",
           required: "¡Campo obligatorio!",
-          short:"¡Muy corto!",
+          short: "¡Muy corto!",
           long: "¡Muy largo!",
         },
         buttons: {
@@ -427,8 +432,7 @@ const messages = {
         },
         searchPlaceholder: "Buscar ...",
         confirmationModal: {
-          deleteTitle:
-            "¿Está seguro de que desea eliminar esta respuesta rápida?",
+          deleteTitle: "¿Está seguro de que desea eliminar esta respuesta rápida?",
           deleteMessage: "Esta acción no se puede deshacer.",
         },
         yup: {
@@ -485,7 +489,7 @@ const messages = {
           official: "Oficial",
           actions: "Comportamiento",
         },
-        registryModal:{
+        registryModal: {
           title: "Registros",
           id: "Id",
           name: "Nombre",
@@ -513,7 +517,7 @@ const messages = {
           noFile: "Sin Archivos Importados",
           uploadedFile: "Archivo Importado",
           supportedTriggerModel: "Modelo de Disparo Compatible",
-          connection:"Conexiónes",
+          connection: "Conexiónes",
           selectAConnection: "Seleccione una Conexión",
           show: "Mostrar",
           toHide: "Esconder",
@@ -524,9 +528,9 @@ const messages = {
         confirmation: {
           errors: "Seleccione una o más conexiones y un archivo desencadenante.",
           errorConnection: "Seleccione una o más conexiones.",
-          errorShots:"Seleccione un archivo desencadenante.",
+          errorShots: "Seleccione un archivo desencadenante.",
         },
-        model:{
+        model: {
           line1: "NOMBRE;CPF/CNPJ;TELÉFONO;TEMPLATE_WHATS;PARAMETROS_TEMPLATE;TEXT_MESSAGE",
           line2: "- CAMPOS OPCIONALES (SI MENSAJE_TEXTO COMPLETO)",
           line3: "PLANTILLA_WHATS",
@@ -592,8 +596,8 @@ const messages = {
           ticketId: "Identificación de Entradas",
           date: "Fecha",
         },
-        errors:{
-          toastErr: "¡Complete todos los campos!"
+        errors: {
+          toastErr: "¡Complete todos los campos!",
         },
       },
 
@@ -611,7 +615,7 @@ const messages = {
           ticketId: "Id de llamadas",
         },
         errors: {
-          toastErr: "¡Seleccione una llamada!"
+          toastErr: "¡Seleccione una llamada!",
         },
       },
 
@@ -627,9 +631,9 @@ const messages = {
         },
       },
       messagesInput: {
-        placeholderOpen: "Escriba un mensaje o presione '' / '' para usar las respuestas rápidas registradas",
-        placeholderClosed:
-          "Vuelva a abrir o acepte este ticket para enviar un mensaje.",
+        placeholderOpen:
+          "Escriba un mensaje o presione '' / '' para usar las respuestas rápidas registradas",
+        placeholderClosed: "Vuelva a abrir o acepte este ticket para enviar un mensaje.",
         signMessage: "Firmar",
       },
       contactDrawer: {
@@ -668,73 +672,73 @@ const messages = {
         },
       },
       templates: {
-          title: "Plantilla",
-          table:{
-            name: "Nombre",
-            preview: "Avance",
-            category: "Categoría",
-            classification: "Clasificación",
-            language: "Idioma",
-            status: "Estado",
-            action: "Comportamiento"
-          },
-          buttons:{
-            newTemplate: "Nueva Plantilla",
-            cancel: "Cancelar",
-            add: "Agregar",
-            connection: "Conexiones"
-          },
-          templateModal:{
-            title: "Nueva Plantilla",
-            name: "Nombre",
-            category: "Categoría",
-            body: "Cuerpo",
-            footer: "Zócalo",
-            connection: "Conexiones",
-            transactional: "Transaccional",
-            marketing: "Marketing",
-            edit: "Para Editar",
-            cancel: "Cancelar",
-            success: "¡Plantilla creada con éxito!",
-            connectionFailed: "¡Seleccione una conexión!",
-            delete: "¡Plantilla eliminada con éxito!",
-            toastErr: "¡Límite de parámetro excedido!",
-            selectVar: "Seleccione una variable",
-            document: "Documento",
-            phoneNumber: "Número de Teléfono",
-            ok: "OK",
-          },
+        title: "Plantilla",
+        table: {
+          name: "Nombre",
+          preview: "Avance",
+          category: "Categoría",
+          classification: "Clasificación",
+          language: "Idioma",
+          status: "Estado",
+          action: "Comportamiento",
         },
-        logReport:{
-          title: "Informes de Registro",
-          select:{
-            file: "Archivo",
-            status: "Estado",
-            all: "Todos",
-            sent: "Enviado",
-            delivered: "Repartido",
-            read: "Leer",
-            errors: "Errores",
-          },
-          buttons:{
-            createPdf: "Crea Pdf",
-            exportPdf:  "Exportar Pdf",
-            previous: "Anterior",
-            exportCsv: "Exportar Csv",
-            previousPage: "Página Anterior",
-            nextPage: "Siguinte Página",
-          },
-          grid:{
-            name: "Nombre",
-            sent: "Enviado",
-            delivered: "Repartido",
-            read: "Leer",
-            errors: "Errores",
-            status: "Status",
-          },
+        buttons: {
+          newTemplate: "Nueva Plantilla",
+          cancel: "Cancelar",
+          add: "Agregar",
+          connection: "Conexiones",
         },
+        templateModal: {
+          title: "Nueva Plantilla",
+          name: "Nombre",
+          category: "Categoría",
+          body: "Cuerpo",
+          footer: "Zócalo",
+          connection: "Conexiones",
+          transactional: "Transaccional",
+          marketing: "Marketing",
+          edit: "Para Editar",
+          cancel: "Cancelar",
+          success: "¡Plantilla creada con éxito!",
+          connectionFailed: "¡Seleccione una conexión!",
+          delete: "¡Plantilla eliminada con éxito!",
+          toastErr: "¡Límite de parámetro excedido!",
+          selectVar: "Seleccione una variable",
+          document: "Documento",
+          phoneNumber: "Número de Teléfono",
+          ok: "OK",
+        },
+      },
+      logReport: {
+        title: "Informes de Registro",
+        select: {
+          file: "Archivo",
+          status: "Estado",
+          all: "Todos",
+          sent: "Enviado",
+          delivered: "Repartido",
+          read: "Leer",
+          errors: "Errores",
+        },
+        buttons: {
+          createPdf: "Crea Pdf",
+          exportPdf: "Exportar Pdf",
+          previous: "Anterior",
+          exportCsv: "Exportar Csv",
+          previousPage: "Página Anterior",
+          nextPage: "Siguinte Página",
+        },
+        grid: {
+          name: "Nombre",
+          sent: "Enviado",
+          delivered: "Repartido",
+          read: "Leer",
+          errors: "Errores",
+          status: "Status",
+        },
+      },
 
-      settingsWhats:{
+      settingsWhats: {
         title: "Ajustes",
         triggerTime: "Tiempo de activación entre instancias",
         connections: "Conexiones",
@@ -764,59 +768,60 @@ const messages = {
         },
       },
 
-      historicTicket:{
+      historicTicket: {
         button: "Histórico",
-      historicModal:{
-        title: "Histórico",
-        name: "Nombre",
-        message: "Mensaje",
-        status: "Estado",
-        createAt: "Fecha de Creación",
-        actions: "Comportamiento",
-        closed: "Cerca",
-        back: "Regresar"
+        historicModal: {
+          title: "Histórico",
+          name: "Nombre",
+          message: "Mensaje",
+          status: "Estado",
+          createAt: "Fecha de Creación",
+          actions: "Comportamiento",
+          closed: "Cerca",
+          back: "Regresar",
         },
       },
 
-      company:{
+      company: {
         title: "Compañías",
         search: "Búsqueda",
-          grid:{
+        grid: {
           companyId: "ID de la Compañía",
           alias: "Seudónimo",
           name: "Nombres",
           cnpj: "CNPJ",
           phone: "Teléfono",
           email: "Email",
-          address:  "Endereço",
-          actions: "Acción"
-          },
-          buttons: {
-            addCompany: "Registrar Compañía"
-          },
-          companyModal: {
-            titleAdd: "Añadir Compañía",
-            titleEdit: "Editar Registro de Compañía",
-            alias: "Seudónimo",
-            name: "Nombre da Compañía",
-            cnpj: "CNPJ",
-            phone: "Teléfono",
-            email: "Email",
-            address: "Endereço",
-            required: "¡Campo obligatorio!",
-            invalidEmail: "¡Email inválido!",
-            image: "El tamaño excede el valor máximo de 1 Megabyte.",
-            upload: "Cargar logotipo",
-            logo: "Sin logotipo",
-          },
-          success: "Compañía registrada con éxito!",
-          deleteTitle: "Eliminar empresa, ",
-          deleteCompany: "Todos los datos de la compañía registrada se perderán, ¿realmente desea eliminarlos? ",
-          toast: "¡Compañía eliminada con éxito!",
-          update: "¡Empresa actualizada con éxito!",
-          createdAt: "¡Empresa creada con éxito!",
-          edited: "¡Servicio editado con éxito!",
-          create: "¡Servicio creado con éxito!",
+          address: "Endereço",
+          actions: "Acción",
+        },
+        buttons: {
+          addCompany: "Registrar Compañía",
+        },
+        companyModal: {
+          titleAdd: "Añadir Compañía",
+          titleEdit: "Editar Registro de Compañía",
+          alias: "Seudónimo",
+          name: "Nombre da Compañía",
+          cnpj: "CNPJ",
+          phone: "Teléfono",
+          email: "Email",
+          address: "Endereço",
+          required: "¡Campo obligatorio!",
+          invalidEmail: "¡Email inválido!",
+          image: "El tamaño excede el valor máximo de 1 Megabyte.",
+          upload: "Cargar logotipo",
+          logo: "Sin logotipo",
+        },
+        success: "Compañía registrada con éxito!",
+        deleteTitle: "Eliminar empresa, ",
+        deleteCompany:
+          "Todos los datos de la compañía registrada se perderán, ¿realmente desea eliminarlos? ",
+        toast: "¡Compañía eliminada con éxito!",
+        update: "¡Empresa actualizada con éxito!",
+        createdAt: "¡Empresa creada con éxito!",
+        edited: "¡Servicio editado con éxito!",
+        create: "¡Servicio creado con éxito!",
         firebase: {
           yes: "Sí",
           no: "No",
@@ -829,25 +834,25 @@ const messages = {
           isFull: "Cheio",
           service: "Servicio",
           edit: "Editar",
-          add: "Agregar Servicio"
+          add: "Agregar Servicio",
         },
       },
 
-          menu:{
-            title: "Menú",
-            success: "¡Menú guardado con éxito!!",
-          buttons:{
-            save: "Guardar",
-            menus: "Menú",
-            company: "Compañías"
-          },
+      menu: {
+        title: "Menú",
+        success: "¡Menú guardado con éxito!!",
+        buttons: {
+          save: "Guardar",
+          menus: "Menú",
+          company: "Compañías",
         },
-      templatesData:{
+      },
+      templatesData: {
         title: "Plantillas",
         buttons: {
           connection: "Conexión",
           search: "Búsqueda",
-          newTemplate: "Nueva Plantilla"
+          newTemplate: "Nueva Plantilla",
         },
         grid: {
           name: "Nombre",
@@ -937,18 +942,18 @@ const messages = {
 
       flows: {
         title: "Fluye",
-        buttons:{
+        buttons: {
           create: "Crear",
-          search: "Búsqueda"
+          search: "Búsqueda",
         },
-        grid:{
+        grid: {
           name: "Nombre",
           status: "Status",
           createdAt: "Creado en",
           updatedAt: "Actualizado en",
           actions: "Comportamiento",
         },
-        flowsModal:{
+        flowsModal: {
           add: "Crear Flujo",
           edit: "Editar Flujo",
           name: "Nombre",
@@ -956,7 +961,7 @@ const messages = {
           create: "Crear",
           save: "Ahorrar",
         },
-        confirmation:{
+        confirmation: {
           title: "Eliminar Flujo",
           create: "¡Flujo creado con éxito!",
           edit: "¡Flujo editado con éxito!",
@@ -968,18 +973,18 @@ const messages = {
 
       integratedImport: {
         title: "Importación Integrada",
-        buttons:{
-          createdImport: "Crear Importación"
+        buttons: {
+          createdImport: "Crear Importación",
         },
-        grid:{
+        grid: {
           createdAt: "Fecha de Creación",
           name: "Nombre",
           method: "Método",
           registers: "Número de Registros",
           status: "Status",
-          actions: "Comportamiento"
+          actions: "Comportamiento",
         },
-        integratedModal:{
+        integratedModal: {
           add: "Crear Importación",
           edited: "Editar Importación",
           name: "Nombre",
@@ -999,7 +1004,8 @@ const messages = {
           createAt: "¡Importación agregada con éxito!",
           updatedAt: "¡Importación editada con éxito!",
           delete: "¡Importación eliminada con éxito!",
-          confirmDelete: "Se perderán todos los datos de la importación, ¿realmente desea eliminarlos?",
+          confirmDelete:
+            "Se perderán todos los datos de la importación, ¿realmente desea eliminarlos?",
           title: "Eliminar importación",
         },
         status: {
@@ -1023,9 +1029,9 @@ const messages = {
           monthValue: "Cuota Mensual",
           amounth: "Valor Total",
           amounthPaind: "Valor Pago",
-          actions: "Comportamiento"
+          actions: "Comportamiento",
         },
-        modal:{
+        modal: {
           title: "Historial de precios",
           date: "Fecha",
           value: "Valor",
@@ -1071,7 +1077,7 @@ const messages = {
           update: "Actualizado: ",
           current: "Actual: ",
         },
-        confirmation:{
+        confirmation: {
           title: "Eliminar precios",
           delete: "¡Precio eliminado con éxito!",
           confirmDelete: "¿Realmente desea eliminar este precio?",
@@ -1082,9 +1088,9 @@ const messages = {
         },
       },
 
-      product:{
+      product: {
         title: "Productos",
-        buttons:{
+        buttons: {
           created: "Crear",
         },
         grid: {
@@ -1155,7 +1161,7 @@ const messages = {
       locationPreview: {
         toView: "Visualizar",
         download: "Bajar",
-        hello: "¡Saluda a tu nuevo contacto!"
+        hello: "¡Saluda a tu nuevo contacto!",
       },
 
       vcardPreview: {
@@ -1163,8 +1169,7 @@ const messages = {
       },
 
       backendErrors: {
-        ERR_NO_OTHER_WHATSAPP:
-          "Debe haber al menos una conexión de WhatsApp predeterminada.",
+        ERR_NO_OTHER_WHATSAPP: "Debe haber al menos una conexión de WhatsApp predeterminada.",
         ERR_NO_DEF_WAPP_FOUND:
           "No se encontró WhatsApp predeterminado. Verifique la página de conexiones.",
         ERR_WAPP_NOT_INITIALIZED:
@@ -1184,8 +1189,7 @@ const messages = {
           "La creación de usuarios fue deshabilitada por el administrador.",
         ERR_NO_PERMISSION: "No tienes permiso para acceder a este recurso.",
         ERR_DUPLICATED_CONTACT: "Ya existe un contacto con este número.",
-        ERR_NO_SETTING_FOUND:
-          "No se encontró ninguna configuración con este ID.",
+        ERR_NO_SETTING_FOUND: "No se encontró ninguna configuración con este ID.",
         ERR_NO_CONTACT_FOUND: "No se encontró ningún contacto con este ID.",
         ERR_NO_TICKET_FOUND: "No se encontró ningún ticket con este ID.",
         ERR_NO_USER_FOUND: "No se encontró ningún usuario con este ID.",
@@ -1194,16 +1198,15 @@ const messages = {
         ERR_CREATING_TICKET: "Error al crear el ticket en la base de datos.",
         ERR_FETCH_WAPP_MSG:
           "Error al obtener el mensaje en WhtasApp, tal vez sea demasiado antiguo.",
-        ERR_QUEUE_COLOR_ALREADY_EXISTS:
-          "Este color ya está en uso, elija otro.",
+        ERR_QUEUE_COLOR_ALREADY_EXISTS: "Este color ya está en uso, elija otro.",
         ERR_WAPP_GREETING_REQUIRED:
           "El mensaje de saludo es obligatorio cuando hay más de una cola.",
         ERR_NO_COMPANY_FOUND: "Error al eliminar empresa.",
         ERR__SHORTCUT_DUPLICATED_COMPANY: "Ya hay una empresa con este CNPJ.",
-        ERR_NO_CATEGORY_FOUND : "¡Categoría de error no encontrada!",
+        ERR_NO_CATEGORY_FOUND: "¡Categoría de error no encontrada!",
       },
     },
   },
 };
 
-export { messages };
+export default messages;

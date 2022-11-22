@@ -1,7 +1,6 @@
 const messages = {
   en: {
     translations: {
-
       login: {
         title: "Login",
         form: {
@@ -21,9 +20,9 @@ const messages = {
       },
 
       dashboard: {
-      title: "Dashboard",
-      file: "File",
-      date: "Date",
+        title: "Dashboard",
+        file: "File",
+        date: "Date",
         charts: {
           perDay: {
             title: "Tickets today: ",
@@ -32,28 +31,28 @@ const messages = {
         },
         messages: {
           inAttendance: {
-            title: "In Service"
+            title: "In Service",
           },
           waiting: {
-            title: "Waiting"
+            title: "Waiting",
           },
           closed: {
-            title: "Closed"
+            title: "Closed",
           },
           imported: {
-            title: "Imported"
+            title: "Imported",
           },
           sent: {
-            title: "Sent"
+            title: "Sent",
           },
           handedOut: {
-            title: "Hande Out"
+            title: "Hande Out",
           },
           read: {
-            title: "Read"
+            title: "Read",
           },
           mistake: {
-            title: "Mistakes"
+            title: "Mistakes",
           },
           category: {
             title: "Service by Category",
@@ -110,7 +109,7 @@ const messages = {
           actions: "Actions",
           session: "Session",
           quality: "Quality",
-          limit: "Limit"
+          limit: "Limit",
         },
       },
 
@@ -121,15 +120,15 @@ const messages = {
       },
 
       officialWhatsappModal: {
-        title:{
-        add:"Add Official WhatsApp",
-        edit: "Edit WhatsApp Official",
-        labelNumber: "Phone Number",
-        labelToken: "Facebook Authentication Token",
-        labelId: "Facebook Phone Id",
-        labelBusiness: "Facebook Business Id",
-        greetingMessage: "Greeting Message",
-        farewellMessage: "Farewell Message",
+        title: {
+          add: "Add Official WhatsApp",
+          edit: "Edit WhatsApp Official",
+          labelNumber: "Phone Number",
+          labelToken: "Facebook Authentication Token",
+          labelId: "Facebook Phone Id",
+          labelBusiness: "Facebook Business Id",
+          greetingMessage: "Greeting Message",
+          farewellMessage: "Farewell Message",
         },
         buttons: {
           cancel: "Cancel",
@@ -170,7 +169,7 @@ const messages = {
           required: "Required!",
           short: "Too Short!",
           long: "Too Long!",
-          email: "Invalid Email!"
+          email: "Invalid Email!",
         },
         searchPlaceholder: "Search ...",
         confirmationModal: {
@@ -264,7 +263,7 @@ const messages = {
       tickets: {
         toasts: {
           deleted: "The ticket you were on has been deleted.",
-          confirmDelete: "Ticket deleted successfully!"
+          confirmDelete: "Ticket deleted successfully!",
         },
         notification: {
           message: "Message from",
@@ -316,35 +315,44 @@ const messages = {
 
       mainDrawer: {
         listItems: {
-          dashboard: "Dashboard",
-          template: "Templates",
-          tickets: "Tickets",
-          contacts: "Contacts",
-          quickAnswers: "Quick Answers",
-          importation: "Import",
-          queues: "Queues",
-          administration: "Administration",
-          users: "Users",
-          settings: "Settings",
-          reportsTalk: "Talk Reports",
-          reportsTicket: "Ticket Report",
-          logReports: "Log Reports",
-          reports: "Reports",
-          whatsOff: "WhatsApp",
-          whatsNoOff: "WhatsApp 2",
-          company: "Companies",
-          menus: "Menus",
-          fileImport: "File Import",
-          integratedImport:"Integrated Import",
-          category: "Category",
-          adminBits: "Admin BITS",
-          menuLink: "Menu Link",
-          registration: "Registration",
-          finance: "Finance",
-          products: "Products",
-          pricing: "Pricing",
-          payments: "Payments",
-          flows: "Flows",
+          "Admin BITS": "BITS Admin",
+          Administration: "Administration",
+          Category: "Category",
+          "Chips Reports": "Chips Reports",
+          Connections: "Connections",
+          "Connection Files": "Categories",
+          Contacts: "Contacts",
+          "Contact Transfer": "Contact Transfer",
+          Company: "Companies",
+          Dashboard: "Dashboard",
+          "Exposed Imports": "Exposed Import",
+          "File Import": "File Import",
+          Flows: "Flows",
+          Importation: "Import",
+          "Integrated Import": "Integrated Import",
+          Menus: "Menus",
+          "Menu Link": "Menu Link",
+          "Node Reports": "Nodes Reports",
+          "Official Connections": "Connections",
+          Queues: "Queues",
+          "Quick Answers": "Quick Answers",
+          Registration: "Registration",
+          "Registers Reports": "Log Reports",
+          Reports: "Reports",
+          "Reports Talk": "Talk Reports",
+          "Reports Ticket": "Ticket Report",
+          Settings: "Settings",
+          Templates: "Templates",
+          "Template Data": "Templates",
+          Tickets: "Tickets",
+          Users: "Users",
+          WhatsApp: "Whatsapp",
+          "WhatsApp 2": "Whatsapp 2",
+          "Whats Config": "Settings",
+          // finance: "Finance",
+          // products: "Products",
+          // pricing: "Pricing",
+          // payments: "Payments",
         },
         whatsApp: {
           connections: "Connections",
@@ -482,7 +490,7 @@ const messages = {
           official: "Official",
           actions: "Actions",
         },
-        registryModal:{
+        registryModal: {
           title: "Registry",
           id: "Id",
           name: "Name",
@@ -510,7 +518,7 @@ const messages = {
           official: "Official",
           notOfficial: "Not Official",
           supportedTriggerModel: "Supported Trigger Model",
-          connection:"Connections",
+          connection: "Connections",
           selectAConnection: "Select A Connetion",
           show: "Show",
           toHide: "To Hide",
@@ -523,7 +531,7 @@ const messages = {
           errorConnection: "Please select one or more connections.",
           errorShots: "Please select a trigger file.",
         },
-        model:{
+        model: {
           line1: "NAME;CPF/CNPJ;PHONE;TEMPLATE_WHATS;PARAMETROS_TEMPLATE;TEXT_MESSAGE",
           line2: "- OPTIONAL FIELDS (IF MESSAGE_TEXT FILLED IN)",
           line3: "TEMPLATE_WHATS",
@@ -551,8 +559,7 @@ const messages = {
         },
         confirmationModal: {
           deleteTitle: "Delete",
-          deleteMessage:
-            "All user data will be lost. Users' open tickets will be moved to queue.",
+          deleteMessage: "All user data will be lost. Users' open tickets will be moved to queue.",
         },
       },
 
@@ -589,8 +596,8 @@ const messages = {
           ticketId: "Ticket Id",
           date: "Date",
         },
-        errors:{
-          toastErr: "Fill in all Fields!"
+        errors: {
+          toastErr: "Fill in all Fields!",
         },
       },
 
@@ -608,7 +615,7 @@ const messages = {
           ticketId: "Ticket Id",
         },
         errors: {
-          toastErr: "Select a Call!"
+          toastErr: "Select a Call!",
         },
       },
 
@@ -663,9 +670,9 @@ const messages = {
         },
       },
 
-    templates: {
+      templates: {
         title: "Templates",
-        table:{
+        table: {
           name: "Name",
           preview: "Preview",
           category: "Category",
@@ -674,13 +681,13 @@ const messages = {
           status: "Status",
           action: "Actions",
         },
-        buttons:{
+        buttons: {
           newTemplate: "New Template",
           cancel: "Cancel",
           add: "Add",
-          connection: "Connections"
+          connection: "Connections",
         },
-        templateModal:{
+        templateModal: {
           title: "New Template",
           name: "Name",
           category: "Category",
@@ -702,9 +709,9 @@ const messages = {
         },
       },
 
-      logReport:{
+      logReport: {
         title: "Log Reports",
-        select:{
+        select: {
           file: "Files",
           status: "Status",
           all: "All",
@@ -713,15 +720,15 @@ const messages = {
           read: "Read",
           errors: "Errors",
         },
-        buttons:{
+        buttons: {
           createPdf: "Create Pdf",
-          exportPdf:  "Export Pdf",
+          exportPdf: "Export Pdf",
           previous: "Previous",
           exportCsv: "Export Csv",
           previousPage: "Previous Page",
           nextPage: "Next Page",
         },
-        grid:{
+        grid: {
           name: "Name",
           sent: "Sent",
           delivered: "Delivered",
@@ -731,7 +738,7 @@ const messages = {
         },
       },
 
-      settingsWhats:{
+      settingsWhats: {
         title: "Settings",
         triggerTime: "Trigger Time Between Instances",
         connections: "Connections",
@@ -761,59 +768,59 @@ const messages = {
         },
       },
 
-      historicTicket:{
+      historicTicket: {
         button: "Historic",
-      historicModal:{
-        title: "Historic",
-        name: "Name",
-        message: "Message",
-        status: "Status",
-        createAt: "Create At",
-        actions: "Actions",
-        closed: "Close",
-        back: "Back",
+        historicModal: {
+          title: "Historic",
+          name: "Name",
+          message: "Message",
+          status: "Status",
+          createAt: "Create At",
+          actions: "Actions",
+          closed: "Close",
+          back: "Back",
         },
       },
 
-      company:{
+      company: {
         title: "Companies",
         search: "Search",
-          grid:{
+        grid: {
           companyId: "Company Id",
           alias: "Alias",
           name: "Name",
           cnpj: "CNPJ",
           phone: "Phone",
           email: "Email",
-          address:  "Address",
-          actions: "Actions"
-          },
-          buttons: {
-            addCompany: "Register Company"
-          },
-          companyModal: {
-            titleAdd: "Add Company",
-            titleEdit: "Edit Company Registration",
-            alias: "Alias",
-            name: "Company Name",
-            cnpj: "CNPJ",
-            phone: "Phone",
-            email: "Email",
-            address: "Address",
-            required: "Required!",
-            invalidEmail: "Invalid email!",
-            image: "Size exceeds the maximum value of 1 Megabyte.",
-            upload: "Upload Logo",
-            logo: "No Logo"
-          },
-          success: "Company registered successfully!",
-          deleteTitle: "Delete Company, ",
-          deleteCompany: "All registered company data will be lost, do you really want to delete, ",
-          toast: "Company successfully deleted!",
-          update: "Company successfully updated!",
-          createdAt: "Company successfully created!",
-          edited: "Service edited successfully!",
-          create: "Service created successfully!",
+          address: "Address",
+          actions: "Actions",
+        },
+        buttons: {
+          addCompany: "Register Company",
+        },
+        companyModal: {
+          titleAdd: "Add Company",
+          titleEdit: "Edit Company Registration",
+          alias: "Alias",
+          name: "Company Name",
+          cnpj: "CNPJ",
+          phone: "Phone",
+          email: "Email",
+          address: "Address",
+          required: "Required!",
+          invalidEmail: "Invalid email!",
+          image: "Size exceeds the maximum value of 1 Megabyte.",
+          upload: "Upload Logo",
+          logo: "No Logo",
+        },
+        success: "Company registered successfully!",
+        deleteTitle: "Delete Company, ",
+        deleteCompany: "All registered company data will be lost, do you really want to delete, ",
+        toast: "Company successfully deleted!",
+        update: "Company successfully updated!",
+        createdAt: "Company successfully created!",
+        edited: "Service edited successfully!",
+        create: "Service created successfully!",
         firebase: {
           yes: "Yes",
           no: "No",
@@ -826,25 +833,25 @@ const messages = {
           isFull: "Is Full",
           service: "Service",
           edit: "Edit",
-          add: "Add Service"
+          add: "Add Service",
         },
       },
 
-        menu:{
-            title: "Menus",
-            success: "Menu saved successfully!",
-          buttons:{
-            save: "Save",
-            menus: "Menus",
-            company: "Companies"
-          },
+      menu: {
+        title: "Menus",
+        success: "Menu saved successfully!",
+        buttons: {
+          save: "Save",
+          menus: "Menus",
+          company: "Companies",
         },
-      templatesData:{
+      },
+      templatesData: {
         title: "Data Templates",
         buttons: {
           connection: "Connections",
           search: "Search",
-          newTemplate: "Template New"
+          newTemplate: "Template New",
         },
         grid: {
           name: "Name",
@@ -934,18 +941,18 @@ const messages = {
 
       flows: {
         title: "Flows",
-        buttons:{
+        buttons: {
           create: "Create",
-          search: "Search"
+          search: "Search",
         },
-        grid:{
+        grid: {
           name: "Name",
           status: "Status",
           createdAt: "Created At",
           updatedAt: "Updated At",
           actions: "Actions",
         },
-        flowsModal:{
+        flowsModal: {
           add: "Create Flow",
           edit: "Edit Flow",
           name: "Name",
@@ -953,7 +960,7 @@ const messages = {
           create: "Create",
           save: "Save",
         },
-        confirmation:{
+        confirmation: {
           title: "Delete Flow",
           create: "Flow Created Successfully!",
           edit: "Flow Edited Successfully!",
@@ -965,18 +972,18 @@ const messages = {
 
       integratedImport: {
         title: "Integrated Import",
-        buttons:{
-          createdImport: "Create Import"
+        buttons: {
+          createdImport: "Create Import",
         },
-        grid:{
+        grid: {
           createdAt: "Create At",
           name: "Name",
           method: "Method",
           registers: "Registration Amount",
           status: "Status",
-          actions: "Actions"
+          actions: "Actions",
         },
-        integratedModal:{
+        integratedModal: {
           add: "Create Import",
           edited: "Edit Import",
           name: "Name",
@@ -1020,9 +1027,9 @@ const messages = {
           monthValue: "Month Value",
           amounth: "Amounth",
           amounthPaind: "Amounth Paind",
-          actions: "Actions"
+          actions: "Actions",
         },
-        modal:{
+        modal: {
           title: "Price history",
           date: "Date",
           value: "Value",
@@ -1068,7 +1075,7 @@ const messages = {
           update: "Updated: ",
           current: "Current: ",
         },
-        confirmation:{
+        confirmation: {
           title: "Delete Pricing",
           delete: "Pricing Deleted Successfully!",
           confirmDelete: "Do you really want to delete this pricing?",
@@ -1079,9 +1086,9 @@ const messages = {
         },
       },
 
-      product:{
+      product: {
         title: "Products",
-        buttons:{
+        buttons: {
           created: "Created",
         },
         grid: {
@@ -1152,7 +1159,7 @@ const messages = {
       locationPreview: {
         toView: "To View",
         download: "Download",
-        hello: "Say hello to your new contact!!"
+        hello: "Say hello to your new contact!!",
       },
 
       vcardPreview: {
@@ -1160,26 +1167,19 @@ const messages = {
       },
 
       backendErrors: {
-        ERR_NO_OTHER_WHATSAPP:
-          "There must be at lest one default WhatsApp connection.",
-        ERR_NO_DEF_WAPP_FOUND:
-          "No default WhatsApp found. Check connections page.",
+        ERR_NO_OTHER_WHATSAPP: "There must be at lest one default WhatsApp connection.",
+        ERR_NO_DEF_WAPP_FOUND: "No default WhatsApp found. Check connections page.",
         ERR_WAPP_NOT_INITIALIZED:
           "This WhatsApp session is not initialized. Check connections page.",
-        ERR_WAPP_CHECK_CONTACT:
-          "Could not check WhatsApp contact. Check connections page.",
+        ERR_WAPP_CHECK_CONTACT: "Could not check WhatsApp contact. Check connections page.",
         ERR_WAPP_INVALID_CONTACT: "This is not a valid whatsapp number.",
-        ERR_WAPP_DOWNLOAD_MEDIA:
-          "Could not download media from WhatsApp. Check connections page.",
+        ERR_WAPP_DOWNLOAD_MEDIA: "Could not download media from WhatsApp. Check connections page.",
         ERR_INVALID_CREDENTIALS: "Authentication error. Please try again.",
-        ERR_SENDING_WAPP_MSG:
-          "Error sending WhatsApp message. Check connections page.",
+        ERR_SENDING_WAPP_MSG: "Error sending WhatsApp message. Check connections page.",
         ERR_DELETE_WAPP_MSG: "Couldn't delete message from WhatsApp.",
-        ERR_OTHER_OPEN_TICKET:
-          "There's already an open ticket for this contact.",
+        ERR_OTHER_OPEN_TICKET: "There's already an open ticket for this contact.",
         ERR_SESSION_EXPIRED: "Session expired. Please login.",
-        ERR_USER_CREATION_DISABLED:
-          "User creation was disabled by administrator.",
+        ERR_USER_CREATION_DISABLED: "User creation was disabled by administrator.",
         ERR_NO_PERMISSION: "You don't have permission to access this resource.",
         ERR_DUPLICATED_CONTACT: "A contact with this number already exists.",
         ERR_NO_SETTING_FOUND: "No setting found with this ID.",
@@ -1189,18 +1189,15 @@ const messages = {
         ERR_NO_WAPP_FOUND: "No WhatsApp found with this ID.",
         ERR_CREATING_MESSAGE: "Error while creating message on database.",
         ERR_CREATING_TICKET: "Error while creating ticket on database.",
-        ERR_FETCH_WAPP_MSG:
-          "Error fetching the message in WhtasApp, maybe it is too old.",
-        ERR_QUEUE_COLOR_ALREADY_EXISTS:
-          "This color is already in use, pick another one.",
-        ERR_WAPP_GREETING_REQUIRED:
-          "Greeting message is required if there is more than one queue.",
+        ERR_FETCH_WAPP_MSG: "Error fetching the message in WhtasApp, maybe it is too old.",
+        ERR_QUEUE_COLOR_ALREADY_EXISTS: "This color is already in use, pick another one.",
+        ERR_WAPP_GREETING_REQUIRED: "Greeting message is required if there is more than one queue.",
         ERR_NO_COMPANY_FOUND: "Error deleting the Company.",
         ERR__SHORTCUT_DUPLICATED_COMPANY: "There is already a company with this CNPJ.",
-        ERR_NO_CATEGORY_FOUND : "Error category not found!",
+        ERR_NO_CATEGORY_FOUND: "Error category not found!",
       },
     },
   },
 };
 
-export { messages };
+export default messages;

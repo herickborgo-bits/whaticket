@@ -38,15 +38,16 @@ function Footer({ light }) {
           justifyContent="space-between"
           alignItems="center"
           px={1.5}
-        ><MDBox
+        >
+          <MDBox
             display="flex"
             justifyContent="center"
             alignItems="center"
             flexWrap="wrap"
             color={light ? "white" : "text"}
             fontSize={size.sm}
-          ></MDBox>
-          </MDBox>
+          />
+        </MDBox>
       </Container>
     </MDBox>
   );

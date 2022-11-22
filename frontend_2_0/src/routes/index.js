@@ -10,7 +10,7 @@ import routes from "./RenderRoutes";
 
 import { AuthProvider } from "../context/Auth/AuthContext";
 import { WhatsAppsProvider } from "../context/WhatsApp/WhatsAppsContext";
-import LoggedInLayout from "../../src/layouts/authentication/components/BasicLayout/index";
+import BasicLoginLayout from "/layouts/BasicLoginLayout";
 
 const Routes = () => {
   const getRoutes = (allRoutes) => allRoutes.map((route) => {
@@ -28,7 +28,7 @@ const Routes = () => {
   return (
     <>
       <Switch>
-        <Route exact path="/authentication/sign-in" component={Basic} />
+        <Route exact path="/login" component={BasicLoginLayout} />
           <WhatsAppsProvider>
             { getRoutes(routes) }
           </WhatsAppsProvider>

@@ -13,21 +13,26 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useTranslation } from "react-i18next";
 
 // react-github-btn
-import GitHubButton from "react-github-btn";
+// import GitHubButton from "react-github-btn";
 
 // @mui material components
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // @mui icons
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
+// import TwitterIcon from "@mui/icons-material/Twitter";
+// import FacebookIcon from "@mui/icons-material/Facebook";
+
+// flags
+// import { BR, US, ES } from 'country-flag-icons/react/3x2'
+import Flag from "react-flagkit";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -47,6 +52,9 @@ import {
   setSidenavColor,
   setDarkMode,
 } from "context";
+import { AuthContext } from "context/Auth/AuthContext";
+import toastError from "errors/toastError";
+import api from "services/api";
 
 function Configurator() {
   const [controller, dispatch] = useMaterialUIController();
@@ -60,6 +68,8 @@ function Configurator() {
   } = controller;
   const [disabled, setDisabled] = useState(false);
   const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
+  const { i18n } = useTranslation();
+  const { user } = useContext(AuthContext);
 
   // Use the useEffect hook to change the button state for the sidenav type based on window size.
   useEffect(() => {
@@ -77,6 +87,27 @@ function Configurator() {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleDisabled);
   }, []);
+
+  useEffect(() => {
+    // Set language
+    if (user && user.lang) {
+      i18n.changeLanguage(user.lang);
+    }
+  }, [user]);
+
+  const handleChangeLanguage = async (lang) => {
+    i18n.changeLanguage(lang);
+
+    if (user.id) {
+      const body = { language: i18n.language };
+
+      try {
+        await api.put(`/users/language/${user.id}`, body);
+      } catch (err) {
+        toastError(err);
+      }
+    }
+  };
 
   const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
   const handleTransparentSidenav = () => {
@@ -139,9 +170,9 @@ function Configurator() {
       >
         <MDBox>
           <MDTypography variant="h5">Painel de Configurações</MDTypography>
-          <MDTypography variant="body2" color="text">
+          {/* <MDTypography variant="body2" color="text">
             Preferência de cores.
-          </MDTypography>
+          </MDTypography> */}
         </MDBox>
 
         <Icon
@@ -267,6 +298,64 @@ function Configurator() {
             </MDButton>
           </MDBox>
         </MDBox>
+
+        <Divider />
+
+        <MDBox mt={3} lineHeight={1}>
+          <MDTypography variant="h6">Languages</MDTypography>
+          <MDBox
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              mt: 2,
+              mr: 1,
+            }}
+          >
+            <MDBox
+              sx={{
+                mr: 1,
+              }}
+            >
+              <MDButton
+                fullWidth
+                variant="gradient"
+                onClick={() => handleChangeLanguage("pt")}
+                sx={
+                  i18n.language === "pt" ? sidenavTypeActiveButtonStyles : sidenavTypeButtonsStyles
+                }
+              >
+                <Flag country="BR" size={40} />
+              </MDButton>
+            </MDBox>
+            <MDButton
+              fullWidth
+              variant="gradient"
+              onClick={() => handleChangeLanguage("en")}
+              sx={i18n.language === "en" ? sidenavTypeActiveButtonStyles : sidenavTypeButtonsStyles}
+            >
+              <Flag country="US" size={40} />
+            </MDButton>
+            <MDBox
+              sx={{
+                ml: 1,
+              }}
+            >
+              <MDButton
+                fullWidth
+                variant="gradient"
+                onClick={() => handleChangeLanguage("es")}
+                sx={
+                  i18n.language === "es" ? sidenavTypeActiveButtonStyles : sidenavTypeButtonsStyles
+                }
+              >
+                <Flag country="ES" size={40} />
+              </MDButton>
+            </MDBox>
+          </MDBox>
+        </MDBox>
+
+        <Divider />
+
         <MDBox
           display="flex"
           justifyContent="space-between"
@@ -284,7 +373,7 @@ function Configurator() {
 
           <Switch checked={darkMode} onChange={handleDarkMode} />
         </MDBox>
-        <Divider />
+        {/* <Divider />
         <MDBox mt={3} mb={2}>
           <MDButton
             component={Link}
@@ -338,7 +427,7 @@ function Configurator() {
               &nbsp; Share
             </MDButton>
           </MDBox>
-        </MDBox>
+        </MDBox> */}
       </MDBox>
     </ConfiguratorRoot>
   );

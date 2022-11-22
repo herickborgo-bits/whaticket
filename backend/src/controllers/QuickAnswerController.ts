@@ -11,7 +11,8 @@ import DeleteQuickAnswerService from "../services/QuickAnswerService/DeleteQuick
 import AppError from "../errors/AppError";
 
 type IndexQuery = {
-  searchParam: string;
+  search: string;
+  limit: string;
   pageNumber: string;
 };
 
@@ -21,11 +22,12 @@ interface QuickAnswerData {
 }
 
 export const index = async (req: Request, res: Response): Promise<Response> => {
-  const { searchParam, pageNumber } = req.query as IndexQuery;
+  const { search, limit, pageNumber } = req.query as IndexQuery;
   const { companyId } = req.user;
 
   const { quickAnswers, count, hasMore } = await ListQuickAnswerService({
-    searchParam,
+    search,
+    limit,
     pageNumber,
     companyId
   });

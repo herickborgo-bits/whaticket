@@ -36,8 +36,6 @@ import MDInput from "components/MDInput";
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
 
-import { AuthContext } from "context/Auth/AuthContext";
-
 // Custom styles for DashboardNavbar
 import {
   navbar,
@@ -55,6 +53,7 @@ import {
   setOpenConfigurator,
 } from "context";
 
+import { AuthContext } from "context/Auth/AuthContext";
 import { MenuItem } from "@mui/material";
 
 function DashboardNavbar({ absolute, light, isMini }) {

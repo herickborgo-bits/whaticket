@@ -14,7 +14,6 @@ Coded by www.creative-tim.com
 */
 
 import { useContext, useState, useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -26,44 +25,50 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
 // Authentication layout components
-import BasicLayout from "layouts/authentication/components/BasicLayout";
+import BasicLoginLayout from "layouts/BasicLoginLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 // import bgImage from "../../../assets/images/bg-sign-in-basic.jpeg";
 
 import { useTranslation } from "react-i18next";
-import { AuthContext } from "../../../context/Auth/AuthContext";
+import { AuthContext } from "context/Auth/AuthContext";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { toast } from "react-toastify";
 
 const Basic = () => {
-  const [rememberMe, setRememberMe] = useState(false);
   const { i18n } = useTranslation();
-  const [user, setUser] = useState({ email: "", password: "", company: "" });
-  const [showPassword, setShowPassword] = useState(false);
   const { handleLogin } = useContext(AuthContext);
+
+  const [user, setUser] = useState({ email: "", password: "", company: "" });
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const handleChangeInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    setUser({...user, company: localStorage.getItem("company"), email: localStorage.getItem("email")});
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isAuth = await handleLogin(user);
 
-    if (isAuth) {
-      window.location.href = "http://localhost:3000/dashboard";
-      toast.success("Funcionou!!!");
+    if (rememberMe) {
+      localStorage.setItem("company", user.company);
+      localStorage.setItem("email", user.email);
     } else {
-      toast.error("Não Funcionou -_-'");
+      localStorage.removeItem("company");
+      localStorage.removeItem("email");
     }
+
+    await handleLogin(user);
   };
 
   return (
-    <BasicLayout image={bgImage}>
+    <BasicLoginLayout image={bgImage}>
       <Card>
         <MDBox
           variant="gradient"
@@ -164,7 +169,7 @@ const Basic = () => {
             </MDBox>
           </div>
       </Card>
-    </BasicLayout>
+    </BasicLoginLayout>
   );
 }
 

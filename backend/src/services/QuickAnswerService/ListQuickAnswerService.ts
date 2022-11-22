@@ -2,7 +2,8 @@ import { Sequelize } from "sequelize";
 import QuickAnswer from "../../database/models/QuickAnswer";
 
 interface Request {
-  searchParam?: string;
+  search?: string;
+  limit?: string;
   pageNumber?: string;
   companyId: number;
 }
@@ -14,7 +15,8 @@ interface Response {
 }
 
 const ListQuickAnswerService = async ({
-  searchParam = "",
+  search = "",
+  limit = "10",
   pageNumber = "1",
   companyId
 }: Request): Promise<Response> => {
@@ -22,16 +24,16 @@ const ListQuickAnswerService = async ({
     message: Sequelize.where(
       Sequelize.fn("LOWER", Sequelize.col("message")),
       "LIKE",
-      `%${searchParam.toLowerCase().trim()}%`
+      `%${search.toLowerCase().trim()}%`
     ),
     companyId
   };
-  const limit = 20;
-  const offset = limit * (+pageNumber - 1);
+
+  const offset = +limit * (+pageNumber - 1);
 
   const { count, rows: quickAnswers } = await QuickAnswer.findAndCountAll({
     where: whereCondition,
-    limit,
+    limit: +limit,
     offset,
     order: [["message", "ASC"]]
   });
