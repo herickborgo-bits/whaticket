@@ -48,6 +48,7 @@ import Menu2 from "layouts/menu2";
 import Menu3 from "layouts/menu3";
 import QuickAnswer from "layouts/QuickAnswer";
 import Dashboard1 from "../layouts/Dashboard1";
+import Calls from "layouts/Calls";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -60,6 +61,14 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard1",
     component: <Dashboard1 />,
+  },
+  {
+    type: "collapse",
+    name: "Calls",
+    key: "calls",
+    icon: <Icon fontSize="small">chat</Icon>,
+    route: "calls",
+    component: <Calls />,
   },
   {
     type: "collapse",

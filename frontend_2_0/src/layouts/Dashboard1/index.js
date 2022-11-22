@@ -27,11 +27,11 @@ import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/Dashboard1/data/reportsBarChartData";
+//import reportsBarChartData from "layouts/Dashboard1/data/reportsBarChartData";
 import reportsLineChartData from "layouts/Dashboard1/data/reportsLineChartData";
 import { AuthContext } from "context/Auth/AuthContext";
 import { i18n } from "translate/i18n";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // Dashboard components
 import {
@@ -50,6 +50,7 @@ import toastError from "errors/toastError";
 import useTickets from "Hooks/useTickets";
 import api from "services/api";
 import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import { parseISO } from "date-fns";
 
 const Dashboard1 = () => {
   const { i18n } = useTranslation();
@@ -74,6 +75,14 @@ const Dashboard1 = () => {
   const [interactionCount, setInteractionCount] = useState(0);
   const [noWhatsCount, setNoWhatsCount] = useState(0);
 
+  const dates = useRef(new Date().toISOString());
+	const { ticket } = useTickets({ date: dates.current })
+
+  const [reportsBarChartData, setReportsBarChartData] = useState({
+    labels: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
+    datasets: { label: "Tickets", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+  });
+
   if (user.queues && user.queues.length > 0) {
     userQueueIds = user.queues.map((q) => q.id);
   }
@@ -87,6 +96,29 @@ const Dashboard1 = () => {
     });
     return count;
   };
+
+  useEffect(() => {
+console.log(ticket)
+    if(ticket) {
+        setReportsBarChartData(prevState => {
+        let aux = [...prevState.labels];
+        aux.forEach(a => {
+          ticket.forEach(ticket => {
+            format(startOfHour(parseISO(ticket.createdAt)), "HH:mm") === a.time &&
+              a.amount++;
+          });
+        });
+        const response = {
+          labels:prevState.labels,
+          datasets:{
+            label:prevState.datasets.label,
+            data:aux
+          }
+        }
+        return response;
+      });
+    }
+  }, [ticket]);
 
   useEffect(() => {
     setDate("");
