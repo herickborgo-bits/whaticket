@@ -112,7 +112,7 @@ function renderRoutes() {
   //   const fetchMenus = async () => {
   //     try {
   //       const { data } = await api.get('/menus/company');
-        
+
   //       const menus = [];
   //       const allMenus = [];
   //       const parentMenus = [];
