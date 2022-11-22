@@ -26,8 +26,8 @@ import MDTypography from "components/MDTypography";
 import DataTable from "components/DataTable";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import DashboardLayout from "layouts/DashboardLayout";
+import DashboardNavbar from "components/DashboardNavbar";
 
 // API
 import api from "services/api";

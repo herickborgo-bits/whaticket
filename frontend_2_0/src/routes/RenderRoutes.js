@@ -53,6 +53,7 @@ import Menu3 from "layouts/menu3";
 import Login from "pages/Login";
 import Dashboard from "pages/Dashboard";
 import QuickAnswer from "pages/QuickAnswer";
+import OfficialConnections from "pages/OfficialConnections";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -70,10 +71,11 @@ function renderRoutes() {
   const components = {
     "Dashboard": <Dashboard />,
     "Quick Answers": <QuickAnswer />,
+    "Official Connections": <OfficialConnections />
   }
 
   useEffect(() => {
-    const createRoutes = (menus) => {
+    const createRoutes = (menus, path = "") => {
       const routes = [];
 
       for (const menu of menus) {
@@ -86,9 +88,9 @@ function renderRoutes() {
         let component = null;
 
         if (menu.collapse) {
-          collapse = createRoutes(menu.collapse);
+          collapse = createRoutes(menu.collapse, `${path}/${menu.name.replaceAll(" ", "")}`);
         } else {
-          route = `/${menu.name.replaceAll(" ", "")}`;
+          route = `${path}/${menu.name.replaceAll(" ", "")}`;
           component = components[menu.name] ? components[menu.name] : <Dashboard />;
         }
 
