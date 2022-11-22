@@ -12,8 +12,10 @@
 // import { startOfHour, parseISO, format } from "date-fns";
 
 // import Title from "./Title";
-// import useTickets from "../../hooks/useTickets";
+
 // import { useTranslation } from "react-i18next";
+// import useTickets from "Hooks/useTickets";
+// import PropTypes from "prop-types";
 
 // const Chart = () => {
 // 	const theme = useTheme();
@@ -90,6 +92,20 @@
 // 			</ResponsiveContainer>
 // 		</React.Fragment>
 // 	);
+// };
+
+// Chart.defaultProps = {
+//   color: "info",
+//   description: "",
+// };
+
+// // Typechecking props for the ReportsBarChart
+// Chart.propTypes = {
+//   color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+//   title: PropTypes.string.isRequired,
+//   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+//   date: PropTypes.string.isRequired,
+//   chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
 // };
 
 // export default Chart;

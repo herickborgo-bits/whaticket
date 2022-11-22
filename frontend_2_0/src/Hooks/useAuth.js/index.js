@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 const useAuth = () => {
 	const { i18n } = useTranslation();
-	// const history  = useNavigate();
+	const navigate  = useNavigate();
 	const [isAuth, setIsAuth] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [user, setUser] = useState({});
@@ -98,7 +98,7 @@ const useAuth = () => {
 			i18n.changeLanguage(data.user.lang);
 			setIsAuth(true);
 			toast.success(i18n.t("auth.toasts.success"));
-			// history.push("/tickets");
+			navigate.push("/tickets");
 			setLoading(false);
 			return true;
 		} catch (err) {
@@ -118,7 +118,7 @@ const useAuth = () => {
 			localStorage.removeItem("token");
 			api.defaults.headers.Authorization = undefined;
 			setLoading(false);
-			// history.push("/login");
+			navigate.push("/login");
 		} catch (err) {
 			toastError(err);
 			setLoading(false);
