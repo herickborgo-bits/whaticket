@@ -30,23 +30,22 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import ProfilesList from "examples/Lists/ProfilesList";
 
 // Overview page components
-import Header from "layouts/Calls/components/Header/index";
+import Header from "pages/Tickets/components/Header/index";
 
 // Data
 import profilesListData from "layouts/profile/data/profilesListData";
 import { FormControlLabel, Switch } from "@mui/material";
 import { Can } from "components/Can";
-import { i18n } from "translate/i18n";
+import i18n from "translate/i18n";
 import { AuthContext } from "context/Auth/AuthContext";
 import TicketsQueueSelect from "../../components/TicketsQueueSelect";
 
-function Calls() {
+function Tickets() {
 
   const [showAllTickets, setShowAllTickets] = useState(false);
   const { user } = useContext(AuthContext);
   // const userQueueIds = user.queues.map((q) => q.id);
   // const [selectedQueueIds, setSelectedQueueIds] = useState(userQueueIds || []);
-
 
   return (
     <DashboardLayout>
@@ -61,4 +60,4 @@ function Calls() {
   );
 }
 
-export default Calls;
+export default Tickets;

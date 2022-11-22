@@ -54,6 +54,7 @@ import Login from "pages/Login";
 import Dashboard from "pages/Dashboard";
 import QuickAnswer from "pages/QuickAnswer";
 import OfficialConnections from "pages/OfficialConnections";
+import Tickets from "pages/Tickets";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -63,7 +64,7 @@ import { AuthContext } from "context/Auth/AuthContext";
 import toastError from "errors/toastError";
 
 function renderRoutes() {
-  const { i18n } = useTranslation();
+  const i18n = useTranslation();
   const { isAuth, user } = useContext(AuthContext);
 
   const [routes, setRoutes] = useState([]);
@@ -71,6 +72,7 @@ function renderRoutes() {
   const components = {
     Dashboard: <Dashboard />,
     "Quick Answers": <QuickAnswer />,
+    Tickets: <Tickets />,
     "Official Connections": <OfficialConnections />,
   };
 

@@ -90,24 +90,6 @@ const useAuth = () => {
 
   const handleLogin = async (userData) => {
     setLoading(true);
-		try {
-			const { data } = await api.post("/auth/login", userData);
-			localStorage.setItem("token", JSON.stringify(data.token));
-			api.defaults.headers.Authorization = `Bearer ${data.token}`;
-			setUser(data.user);
-			i18n.changeLanguage(data.user.lang);
-			setIsAuth(true);
-			toast.success(i18n.t("auth.toasts.success"));
-			navigate.push("/tickets");
-			setLoading(false);
-			return true;
-		} catch (err) {
-			toastError(err);
-			setLoading(false);
-			return false;
-		}
-	};
-
     try {
       const { data } = await api.post("/auth/login", userData);
       localStorage.setItem("token", JSON.stringify(data.token));
@@ -126,20 +108,6 @@ const useAuth = () => {
 
   const handleLogout = async () => {
     setLoading(true);
-		try {
-			await api.delete("/auth/logout");
-			setIsAuth(false);
-			setUser({});
-			localStorage.removeItem("token");
-			api.defaults.headers.Authorization = undefined;
-			setLoading(false);
-			navigate.push("/login");
-		} catch (err) {
-			toastError(err);
-			setLoading(false);
-		}
-	};
-
     try {
       await api.delete("/auth/logout");
       setIsAuth(false);
