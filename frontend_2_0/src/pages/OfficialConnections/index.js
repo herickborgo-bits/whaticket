@@ -11,6 +11,9 @@ import DataTable from "components/DataTable";
 import MDButton from "components/MDButton";
 import OfficialConnectionsTableData from "./data/OfficialConnectionsTableData";
 import { Icon } from "@mui/material";
+import OfficialConnectionsModal from "components/OfficialConnectionsModal";
+import ConfirmationModal from "components/ConfirmationModal";
+import i18n from "translate/i18n";
 
 function OfficialConnections() {
     const [officialConnectionModalOpen, setOfficialConnectionModalOpen] = useState(false);
@@ -77,6 +80,20 @@ function OfficialConnections() {
 
     return (
         <DashboardLayout>
+            <ConfirmationModal
+                title={deletingOfficialConnection && `${i18n.t("Excluir ")} ${deletingOfficialConnection.shortcut}?`}
+                open={confirmModalOpen}
+                onClose={setConfirmModalOpen}
+                onConfirm={() => handleDeleteOfficialConnection(deletingOfficialConnection.id)}
+            >
+                {i18n.t("Deseja realmente excluir a resposta rápida?")}
+            </ConfirmationModal>
+            <OfficialConnectionsModal
+                open={officialConnectionModalOpen}
+                onClose={handleCloseOfficialConnectionModal}
+                aria-labelledby="form-dialog-title"
+                whatsAppId={selectedOfficialConnection?.id}
+            />
             <DashboardNavbar />
             <MDBox pt={6} pb={3}>
                 <Grid container spacing={6}>
