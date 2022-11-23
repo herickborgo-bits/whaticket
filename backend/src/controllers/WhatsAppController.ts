@@ -30,6 +30,14 @@ import TransferWhatsAppService from "../services/WhatsappService/TransferWhatsAp
 import ListReportWhatsAppsService from "../services/WhatsappService/ListReportWhatsAppsService";
 import ShowCompanyService from "../services/CompanyService/ShowCompanyService";
 
+type IndexQuery = {
+  limit?: string;
+  pageNumber?: string;
+  official?: string;
+  search?: string;
+  deleted?: string;
+};
+
 interface WhatsappData {
   name: string;
   queueIds: number[];
@@ -47,14 +55,22 @@ interface WhatsappData {
   connectionFileId?: string | number;
   business?: boolean;
   service?: string;
-};
+}
 
 export const index = async (req: Request, res: Response): Promise<Response> => {
   const { companyId } = req.user;
+  const { limit, pageNumber, official, search, deleted } = req.query as IndexQuery;
 
-  const whatsapps = await ListWhatsAppsService(companyId);
+  const { count, whatsapps } = await ListWhatsAppsService({
+    companyId,
+    limit,
+    pageNumber,
+    official,
+    search,
+    deleted
+  });
 
-  return res.status(200).json(whatsapps);
+  return res.status(200).json({ count, whatsapps });
 };
 
 export const store = async (req: Request, res: Response): Promise<Response> => {
@@ -86,7 +102,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
     service
   };
 
-  if(!official) {
+  if (!official) {
     try {
       await axios.post(apiUrl, payload, {
         headers: {
@@ -95,9 +111,11 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
         }
       });
     } catch (err: any) {
-        if(!err.response.data["message"]){
-          throw new AppError("Ocorreu um erro ao tentar se comunicar com Firebase!");
-        }
+      if (!err.response.data["message"]) {
+        throw new AppError(
+          "Ocorreu um erro ao tentar se comunicar com Firebase!"
+        );
+      }
       throw new AppError(err.response.data.message);
     }
   }
@@ -117,7 +135,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
     companyId,
     flowId,
     connectionFileId,
-    business,
+    business
   });
 
   StartWhatsAppSession(whatsapp, null);
@@ -189,7 +207,7 @@ export const transfer = async (
   }
 
   await TransferWhatsAppService({
-    transferData,
+    transferData
   });
 
   return res.status(200).json("OK");
@@ -213,7 +231,7 @@ export const config = async (
   }
 
   const profileNameApiUrl = `${process.env.WPPNOF_URL}/setProfileName`;
-  const profileImageApiUrl= `${process.env.WPPNOF_URL}/setProfilePicture`;
+  const profileImageApiUrl = `${process.env.WPPNOF_URL}/setProfilePicture`;
 
   const session = whatsapp.name;
 
@@ -244,13 +262,15 @@ export const config = async (
           });
         } catch (err: any) {
           if (!err.response.data["message"]) {
-            throw new AppError("Ocorreu um erro ao tentar se comunicar com Firebase!");
+            throw new AppError(
+              "Ocorreu um erro ao tentar se comunicar com Firebase!"
+            );
           }
           throw new AppError(err.response.data.message);
         }
 
         await whatsapp.update({
-          whatsName,
+          whatsName
         });
       }
 
@@ -269,13 +289,15 @@ export const config = async (
           });
         } catch (err: any) {
           if (!err.response.data["message"]) {
-            throw new AppError("Ocorreu um erro ao tentar se comunicar com Firebase!");
+            throw new AppError(
+              "Ocorreu um erro ao tentar se comunicar com Firebase!"
+            );
           }
           throw new AppError(err.response.data.message);
         }
 
         await whatsapp.update({
-          whatsImage: fileLink,
+          whatsImage: fileLink
         });
       }
     } else {
@@ -294,13 +316,15 @@ export const config = async (
           });
         } catch (err: any) {
           if (!err.response.data["message"]) {
-            throw new AppError("Ocorreu um erro ao tentar se comunicar com Firebase!");
+            throw new AppError(
+              "Ocorreu um erro ao tentar se comunicar com Firebase!"
+            );
           }
           throw new AppError(err.response.data.message);
         }
 
         await whatsapp.update({
-          whatsName,
+          whatsName
         });
       }
     }
@@ -318,7 +342,7 @@ export const multipleConfig = async (
   const { companyId } = req.user;
 
   const profileNameApiUrl = `${process.env.WPPNOF_URL}/setProfileName`;
-  const profileImageApiUrl= `${process.env.WPPNOF_URL}/setProfilePicture`;
+  const profileImageApiUrl = `${process.env.WPPNOF_URL}/setProfilePicture`;
 
   return form.parse(req, async (err, fields, files) => {
     if (err) return res.status(500).json("occured an error");
@@ -338,7 +362,7 @@ export const multipleConfig = async (
         const whatsapp = await Whatsapp.findOne({
           where: { id: whatsId, companyId }
         });
-      
+
         if (!whatsapp) {
           console.log("ERR_NO_WHATSAPP_FOUND");
           continue;
@@ -351,7 +375,7 @@ export const multipleConfig = async (
             session,
             name: whatsName
           };
-  
+
           try {
             const result = await axios.post(profileNameApiUrl, payload, {
               headers: {
@@ -362,14 +386,16 @@ export const multipleConfig = async (
 
             if (result.status == 200) {
               await whatsapp.update({
-                whatsName,
+                whatsName
               });
             } else {
               console.log(`${whatsapp.name} - Erro ao trocar nome`);
             }
           } catch (err: any) {
             if (!err.response.data["message"]) {
-              console.log("Ocorreu um erro ao tentar se comunicar com Firebase!");
+              console.log(
+                "Ocorreu um erro ao tentar se comunicar com Firebase!"
+              );
             }
             console.log(err.response.data.message);
           }
@@ -380,7 +406,7 @@ export const multipleConfig = async (
             session,
             path: fileLink
           };
-  
+
           try {
             const result = await axios.post(profileImageApiUrl, payload, {
               headers: {
@@ -391,14 +417,16 @@ export const multipleConfig = async (
 
             if (result.status == 200) {
               await whatsapp.update({
-                whatsImage: fileLink,
+                whatsImage: fileLink
               });
             } else {
               console.log(`${whatsapp.name} - Erro ao trocar imagem`);
             }
           } catch (err: any) {
             if (!err.response.data["message"]) {
-              console.log("Ocorreu um erro ao tentar se comunicar com Firebase!");
+              console.log(
+                "Ocorreu um erro ao tentar se comunicar com Firebase!"
+              );
             }
             console.log(err.response.data.message);
           }
@@ -409,7 +437,7 @@ export const multipleConfig = async (
         const whatsapp = await Whatsapp.findOne({
           where: { id: whatsId, companyId }
         });
-      
+
         if (!whatsapp) {
           console.log("ERR_NO_WHATSAPP_FOUND");
           continue;
@@ -433,14 +461,16 @@ export const multipleConfig = async (
 
             if (result.status == 200) {
               await whatsapp.update({
-                whatsName,
+                whatsName
               });
             } else {
               console.log(`${whatsapp.name} - Erro ao trocar nome`);
             }
           } catch (err: any) {
             if (!err.response.data["message"]) {
-              console.log("Ocorreu um erro ao tentar se comunicar com Firebase!");
+              console.log(
+                "Ocorreu um erro ao tentar se comunicar com Firebase!"
+              );
             }
             console.log(err.response.data.message);
           }
@@ -479,17 +509,19 @@ type ListQuery = {
 };
 
 export const list = async (req: Request, res: Response): Promise<Response> => {
-  const { official, pageNumber, connectionFileName, searchParam, status } = req.query as ListQuery;
+  const { official, pageNumber, connectionFileName, searchParam, status } =
+    req.query as ListQuery;
   const { companyId } = req.user;
 
-  const { whatsapps, count, hasMore, connectionFileId } = await ListOfficialWhatsAppsService({
-    companyId,
-    official,
-    connectionFileName,
-    pageNumber,
-    searchParam,
-    status
-  });
+  const { whatsapps, count, hasMore, connectionFileId } =
+    await ListOfficialWhatsAppsService({
+      companyId,
+      official,
+      connectionFileName,
+      pageNumber,
+      searchParam,
+      status
+    });
 
   return res.status(200).json({
     whatsapps,
@@ -505,21 +537,31 @@ type ListAllQuery = {
   pageNumber: string;
   isBusiness: string;
   all: string;
-}
+};
 
-export const listAll = async (req: Request, res: Response): Promise<Response> => {
-  const { searchParam, company, pageNumber, isBusiness, all } = req.query as ListAllQuery;
+export const listAll = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { searchParam, company, pageNumber, isBusiness, all } =
+    req.query as ListAllQuery;
   const { companyId } = req.user;
 
   if (companyId !== 1) {
     throw new AppError("NO PERMISSION!");
   }
 
-  const { whatsapps, count, hasMore } = await ListAllWhatsAppsService({ searchParam, company, pageNumber, isBusiness, all });
+  const { whatsapps, count, hasMore } = await ListAllWhatsAppsService({
+    searchParam,
+    company,
+    pageNumber,
+    isBusiness,
+    all
+  });
 
   return res.status(200).json({
-    whatsapps, 
-    count, 
+    whatsapps,
+    count,
     hasMore
   });
 };
@@ -528,17 +570,25 @@ type ListReportQuery = {
   searchParam: string;
   status: string;
   pageNumber: string;
-}
+};
 
-export const listReport = async (req: Request, res: Response): Promise<Response> => {
+export const listReport = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { searchParam, status, pageNumber } = req.query as ListReportQuery;
   const { companyId } = req.user;
 
-  const { reports, count, hasMore } = await ListReportWhatsAppsService({ searchParam, companyId, status, pageNumber });
+  const { reports, count, hasMore } = await ListReportWhatsAppsService({
+    searchParam,
+    companyId,
+    status,
+    pageNumber
+  });
 
   return res.status(200).json({
-    reports, 
-    count, 
+    reports,
+    count,
     hasMore
   });
 };
@@ -691,7 +741,6 @@ export const nofSessionStatus = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-
   const { session, status } = req.body;
   const message = await NOFWhatsappSessionStatusService({
     session,

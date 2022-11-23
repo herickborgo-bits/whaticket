@@ -350,8 +350,8 @@ DataTable.defaultProps = {
   pagination: { variant: "gradient", color: "info" },
   isSorted: true,
   noEndBorder: false,
-  useButton: false,
-  useFilters: false,
+  useButton: null,
+  useFilters: null,
   getSearchValue: (value) => value,
   getPageSizeValue: (value) => value,
   getPageNumberValue: (value) => value,
@@ -385,11 +385,11 @@ DataTable.propTypes = {
   isSorted: PropTypes.bool,
   noEndBorder: PropTypes.bool,
   totalItems: PropTypes.number.isRequired,
-  useButton: PropTypes.oneOf([PropTypes.node, PropTypes.bool]),
+  useButton: PropTypes.node,
+  useFilters: PropTypes.node,
   getSearchValue: PropTypes.func,
   getPageSizeValue: PropTypes.func,
   getPageNumberValue: PropTypes.func,
-  useFilters: PropTypes.oneOf([PropTypes.node, PropTypes.bool]),
 };
 
 export default DataTable;

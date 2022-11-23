@@ -81,12 +81,12 @@ function OfficialConnections() {
     return (
         <DashboardLayout>
             <ConfirmationModal
-                title={deletingOfficialConnection && `${i18n.t("Excluir ")} ${deletingOfficialConnection.shortcut}?`}
+                title={deletingOfficialConnection && `${i18n.t("Excluir")} ${deletingOfficialConnection.name}?`}
                 open={confirmModalOpen}
                 onClose={setConfirmModalOpen}
                 onConfirm={() => handleDeleteOfficialConnection(deletingOfficialConnection.id)}
             >
-                {i18n.t("Deseja realmente excluir a resposta rápida?")}
+                Você realmente deseja deletar esta conexão?
             </ConfirmationModal>
             <OfficialConnectionsModal
                 open={officialConnectionModalOpen}
@@ -120,7 +120,7 @@ function OfficialConnections() {
                                     entriesPerPage
                                     showTotalEntries
                                     noEndBorder
-                                    canSearch
+                                    // canSearch
                                     useButton={
                                         <MDButton variant="gradient" color="dark" onClick={handleOpenOfficialConnectionModal}>
                                             <Icon sx={{ fontWeight: "bold" }}>add</Icon>

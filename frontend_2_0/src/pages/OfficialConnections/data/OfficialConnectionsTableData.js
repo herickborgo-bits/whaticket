@@ -35,6 +35,7 @@ import { AuthContext } from "context/Auth/AuthContext";
 import api from "../../../services/api";
 import openSocket from "../../../services/socket-io";
 import toastError from "../../../errors/toastError";
+import { format, parseISO } from "date-fns";
 
 // import { i18n } from "../../../translate/i18n";
 
@@ -108,7 +109,7 @@ export default function OfficialConnectionsTableData({
   useEffect(() => {
     const fetchWhatsapp = async () => {
       try {
-        const { data } = await api.get("/whatsapp/list/", {
+        const { data } = await api.get("/whatsapp", {
           params: {
             official: true,
             search,
@@ -116,7 +117,6 @@ export default function OfficialConnectionsTableData({
             pageNumber,
           },
         });
-        console.log(data);
         dispatch({ type: "LOAD_WHATSAPPS", payload: data.whatsapps });
         setCount(+data.count);
       } catch (err) {
@@ -172,22 +172,22 @@ export default function OfficialConnectionsTableData({
       ),
       quality: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {whatsapp.quality}
+          {"" + whatsapp.quality}
         </MDTypography>
       ),
       tierLimit: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {whatsapp.tierLimit}
+          {"" + whatsapp.tierLimit}
         </MDTypography>
       ),
       updatedAt: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {whatsapp.updatedAt}
+          {format(parseISO(whatsapp.updatedAt), "dd/MM/yy HH:mm")}
         </MDTypography>
       ),
       isDefault: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {whatsapp.isDefault}
+          {"" + whatsapp.isDefault}
         </MDTypography>
       ),
       actions: (

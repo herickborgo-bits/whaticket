@@ -152,32 +152,16 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
     setWhatsApp(initialState);
   };
 
-  // const handleSaveQuickAnswer = async (values) => {
-  //   try {
-  //     if (quickAnswerId) {
-  //       await api.put(`/quickAnswers/${quickAnswerId}`, values);
-  //       toast.success(i18n.t("quickAnswersModal.edited"));
-  //     } else {
-  //       await api.post("/quickAnswers", values);
-  //       toast.success(i18n.t("quickAnswersModal.success"));
-  //     }
-  //     handleClose();
-  //   } catch (err) {
-  //     toastError(err);
-  //   }
-  // };
-
   const handleConnectionTest = async ({
     facebookToken,
     facebookPhoneNumberId,
     facebookBusinessId,
   }) => {
     try {
-      // const response = await api.get('/whatsappsession/testConnection/', {
-      //     params: { facebookToken, facebookPhoneNumberId, facebookBusinessId },
-      // });
-      console.log({ facebookToken, facebookPhoneNumberId, facebookBusinessId });
-      const response = true;
+      const response = await api.get('/whatsappsession/testConnection/', {
+          params: { facebookToken, facebookPhoneNumberId, facebookBusinessId },
+      });
+
       setIsConnectionTested(response);
     } catch (err) {
       toastError(err);
@@ -185,8 +169,19 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
     }
   };
 
-  const handleSubmit = () => {
-    console.log("Submiting...");
+  const handleSubmit = async (values) => {
+    try {
+			if (whatsAppId) {
+				await api.put(`/whatsapp/${whatsAppId}`, values);
+        toast.success("Criado com sucesso!");
+			} else {
+				await api.post("/whatsapp", values);
+        toast.success("Editado com sucesso!");
+			}
+			handleClose();
+		} catch (err) {
+			toastError(err);
+		}
   };
 
   return (
@@ -202,13 +197,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
           enableReinitialize={true}
           validationSchema={SessionSchema}
           onSubmit={(values, actions) => {
-            if (submitType === "testConnection") {
-              testConnection(values);
-            }
-
-            if (submitType === "submit") {
-              handleSaveWhatsApp(values);
-            }
+            handleSubmit(values);
 
             setTimeout(() => {
               actions.setSubmitting(false);
