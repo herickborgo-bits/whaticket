@@ -17,6 +17,7 @@ Coded by www.creative-tim.com
 
 // React
 import { useReducer, useEffect, useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -94,6 +95,7 @@ export default function QuickAnswerTableData({
   handleEditQuickAnswer,
   handleOpenDeleteQuickAnswerModal,
 }) {
+  const { i18n } = useTranslation();
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -148,9 +150,9 @@ export default function QuickAnswerTableData({
 
   return {
     columns: [
-      { Header: "Shortcut", accessor: "shortcut", align: "left" },
-      { Header: "Quick Reply", accessor: "quickReply", align: "center" },
-      { Header: "Actions", accessor: "actions", align: "center" },
+      { Header: i18n.t("quickAnswers.table.shortcut"), accessor: "shortcut", align: "left" },
+      { Header: i18n.t("quickAnswers.table.message"), accessor: "quickReply", align: "center" },
+      { Header: i18n.t("quickAnswers.table.actions"), accessor: "actions", align: "center" },
     ],
 
     rows: quickAnswers.map((quickAnswer) => ({

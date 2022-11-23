@@ -17,6 +17,7 @@ Coded by www.creative-tim.com
 
 // React
 import { useReducer, useEffect, useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -32,12 +33,10 @@ import MDButton from "components/MDButton";
 import { useMaterialUIController } from "context";
 import { AuthContext } from "context/Auth/AuthContext";
 
-import api from "../../../services/api";
-import openSocket from "../../../services/socket-io";
-import toastError from "../../../errors/toastError";
+import api from "services/api";
+import openSocket from "services/socket-io";
+import toastError from "errors/toastError";
 import { format, parseISO } from "date-fns";
-
-// import { i18n } from "../../../translate/i18n";
 
 // Reducer
 const reducer = (state, action) => {
@@ -95,6 +94,7 @@ export default function OfficialConnectionsTableData({
   handleEditOfficialConnection,
   handleOpenDeleteOfficialConnectionModal,
 }) {
+  const { i18n } = useTranslation();
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -155,13 +155,13 @@ export default function OfficialConnectionsTableData({
 
   return {
     columns: [
-      { Header: "Nome", accessor: "name", align: "left" },
-      { Header: "Qualidade", accessor: "quality", align: "center" },
-      { Header: "Limite", accessor: "tierLimit", align: "center" },
-      { Header: "Sessão", accessor: "", align: "center" },
-      { Header: "Ultima Atualização", accessor: "updatedAt", align: "center" },
-      { Header: "Padrão", accessor: "isDefault", align: "center" },
-      { Header: "Ações", accessor: "actions", align: "center" },
+      { Header: i18n.t("officialConnections.table.name"), accessor: "name", align: "left" },
+      { Header: i18n.t("officialConnections.table.quality"), accessor: "quality", align: "center" },
+      { Header: i18n.t("officialConnections.table.limit"), accessor: "tierLimit", align: "center" },
+      { Header: i18n.t("officialConnections.table.session"), accessor: "", align: "center" },
+      { Header: i18n.t("officialConnections.table.updatedAt"), accessor: "updatedAt", align: "center" },
+      { Header: i18n.t("officialConnections.table.default"), accessor: "isDefault", align: "center" },
+      { Header: i18n.t("officialConnections.table.actions"), accessor: "actions", align: "center" },
     ],
 
     rows: whatsapp.map((whatsapp) => ({

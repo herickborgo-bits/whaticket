@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -13,9 +14,10 @@ import OfficialConnectionsTableData from "./data/OfficialConnectionsTableData";
 import { Icon } from "@mui/material";
 import OfficialConnectionsModal from "components/OfficialConnectionsModal";
 import ConfirmationModal from "components/ConfirmationModal";
-import i18n from "translate/i18n";
 
 function OfficialConnections() {
+    const { i18n } = useTranslation();
+
     const [officialConnectionModalOpen, setOfficialConnectionModalOpen] = useState(false);
 
     const [selectedOfficialConnection, setSelectedOfficialConnection] = useState(null);
@@ -81,12 +83,12 @@ function OfficialConnections() {
     return (
         <DashboardLayout>
             <ConfirmationModal
-                title={deletingOfficialConnection && `${i18n.t("Excluir")} ${deletingOfficialConnection.name}?`}
+                title={deletingOfficialConnection && `${i18n.t("officialConnections.confirmationModal.deleteTitle")} ${deletingOfficialConnection.name}?`}
                 open={confirmModalOpen}
                 onClose={setConfirmModalOpen}
                 onConfirm={() => handleDeleteOfficialConnection(deletingOfficialConnection.id)}
             >
-                Você realmente deseja deletar esta conexão?
+                {i18n.t("officialConnections.confirmationModal.deleteMessage")}
             </ConfirmationModal>
             <OfficialConnectionsModal
                 open={officialConnectionModalOpen}
@@ -110,7 +112,7 @@ function OfficialConnections() {
                                 coloredShadow="info"
                             >
                                 <MDTypography variant="h6" color="white">
-                                    Connections
+                                    {i18n.t("officialConnections.title")}
                                 </MDTypography>
                             </MDBox>
                             <MDBox pt={3}>
@@ -124,7 +126,7 @@ function OfficialConnections() {
                                     useButton={
                                         <MDButton variant="gradient" color="dark" onClick={handleOpenOfficialConnectionModal}>
                                             <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                                            &nbsp;add new Answer
+                                            &nbsp;{i18n.t("officialConnections.buttons.add")}
                                         </MDButton>
                                     }
                                     // useFilters

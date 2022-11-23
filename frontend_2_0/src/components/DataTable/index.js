@@ -210,10 +210,10 @@ function DataTable({
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
       {entriesPerPage || canSearch || useButton ? (
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" p={2}>
+        <MDBox display="flex" justifyContent="space-between" alignItems="center" sx={{ flexWrap: "wrap" }} p={2}>
           {entriesPerPage && (
             <Grid item xs={6} md={6} lg={6}>
-              <MDBox display="flex" alignItems="center">
+              <MDBox display="flex" alignItems="center" sx={{ flexWrap: "wrap" }}>
                 <Autocomplete
                   disableClearable
                   value={pageSize.toString()}
@@ -225,8 +225,8 @@ function DataTable({
                   sx={{ width: "5rem" }}
                   renderInput={(params) => <MDInput {...params} />}
                 />
-                <MDTypography variant="caption" color="secondary">
-                  &nbsp;&nbsp;Number of items per page
+                <MDTypography variant="caption" color="secondary" sx={{ marginTop: "5px" }}>
+                  &nbsp;Number of items per page
                 </MDTypography>
               </MDBox>
             </Grid>

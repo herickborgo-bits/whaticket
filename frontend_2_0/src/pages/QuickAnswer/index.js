@@ -117,12 +117,12 @@ function QuickAnswer() {
     <DashboardLayout>
       <DashboardNavbar />
       <ConfirmationModal
-        title={deletingQuickAnswer && `${i18n.t("Excluir ")} ${deletingQuickAnswer.shortcut}?`}
+        title={deletingQuickAnswer && `${i18n.t("quickAnswers.confirmationModal.deleteTitle")} ${deletingQuickAnswer.shortcut}?`}
         open={confirmModalOpen}
         onClose={setConfirmModalOpen}
         onConfirm={() => handleDeleteQuickAnswer(deletingQuickAnswer.id)}
       >
-        {i18n.t("Deseja realmente excluir a resposta rápida?")}
+        {i18n.t("quickAnswers.confirmationModal.deleteMessage")}
       </ConfirmationModal>
       <QuickAnswerModal
         open={quickAnswerModalOpen}
@@ -145,7 +145,7 @@ function QuickAnswer() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Quick Answer
+                  {i18n.t("quickAnswers.title")}
                 </MDTypography>
               </MDBox>
               {/* <Grid item xs={6} md={2} lg={12}>
@@ -182,7 +182,7 @@ function QuickAnswer() {
                   useButton={
                     <MDButton variant="gradient" color="dark" onClick={handleOpenQuickAnswerModal}>
                       <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                      &nbsp;add new Answer
+                      &nbsp;{i18n.t("quickAnswers.buttons.add")}
                     </MDButton>
                   }
                   // useFilters

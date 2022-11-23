@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
   const classes = useStyles();
   const { i18n } = useTranslation();
-  const isMounted = useRef(true);
 
   const initialState = {
     name: "",
@@ -89,26 +88,19 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
 
   const [isConnectionTested, setIsConnectionTested] = useState(false);
 
-  const SessionSchema = Yup.object().shape({
-    shortcut: Yup.string()
-      .min(2, `${i18n.t("quickAnswers.yup.short")}`)
-      .max(15, `${i18n.t("quickAnswers.yup.long")}`)
-      .required(`${i18n.t("quickAnswers.yup.required")}`),
-    message: Yup.string()
-      .min(8, `${i18n.t("quickAnswers.yup.short")}`)
-      .max(30000, `${i18n.t("quickAnswers.yup.long")}`)
-      .required(`${i18n.t("quickAnswers.yup.required")}`),
-  });
+  // const SessionSchema = Yup.object().shape({
+  //   shortcut: Yup.string()
+  //     .min(2, `${i18n.t("quickAnswers.yup.short")}`)
+  //     .max(15, `${i18n.t("quickAnswers.yup.long")}`)
+  //     .required(`${i18n.t("quickAnswers.yup.required")}`),
+  //   message: Yup.string()
+  //     .min(8, `${i18n.t("quickAnswers.yup.short")}`)
+  //     .max(30000, `${i18n.t("quickAnswers.yup.long")}`)
+  //     .required(`${i18n.t("quickAnswers.yup.required")}`),
+  // });
 
   const [whatsApp, setWhatsApp] = useState(initialState);
   const [flows, setFlows] = useState([]);
-
-  useEffect(
-    () => () => {
-      isMounted.current = false;
-    },
-    []
-  );
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -136,7 +128,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
 
     const fetchFlows = async () => {
       try {
-        const { data } = await api.get("flows");
+        const { data } = await api.get("/flows");
         setFlows(data);
       } catch (err) {
         toastError(err);
@@ -173,10 +165,10 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
     try {
 			if (whatsAppId) {
 				await api.put(`/whatsapp/${whatsAppId}`, values);
-        toast.success("Criado com sucesso!");
+        toast.success(i18n.t("officialConnections.edited"));
 			} else {
 				await api.post("/whatsapp", values);
-        toast.success("Editado com sucesso!");
+        toast.success(i18n.t("officialConnections.success"));
 			}
 			handleClose();
 		} catch (err) {
@@ -189,13 +181,13 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth scroll="paper">
         <DialogTitle>
           {whatsAppId
-            ? i18n.t("officialWhatsappModal.title.edit")
-            : i18n.t("officialWhatsappModal.title.add")}
+            ? i18n.t("officialConnectionsModal.title.edit")
+            : i18n.t("officialConnectionsModal.title.add")}
         </DialogTitle>
         <Formik
           initialValues={whatsApp}
           enableReinitialize={true}
-          validationSchema={SessionSchema}
+          // validationSchema={SessionSchema}
           onSubmit={(values, actions) => {
             handleSubmit(values);
 
@@ -210,7 +202,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                 <div className={classes.multFieldLine}>
                   <Field
                     as={TextField}
-                    label={i18n.t("whatsappModal.form.name")}
+                    label={i18n.t("officialConnectionsModal.form.name")}
                     autoFocus
                     name="name"
                     error={touched.name && Boolean(errors.name)}
@@ -229,13 +221,13 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                         checked={values.isDefault}
                       />
                     }
-                    label={i18n.t("whatsappModal.form.default")}
+                    label={i18n.t("officialConnectionsModal.form.default")}
                   />
                 </div>
                 <div className={classes.textQuickAnswerContainer}>
                   <Field
                     as={TextField}
-                    label={i18n.t("officialWhatsappModal.title.labelNumber")}
+                    label={i18n.t("officialConnectionsModal.form.phoneNumber")}
                     name="phoneNumber"
                     error={touched.phoneNumber && Boolean(errors.phoneNumber)}
                     helperText={touched.phoneNumber && errors.phoneNumber}
@@ -249,7 +241,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                 <div className={classes.textQuickAnswerContainer}>
                   <Field
                     as={TextField}
-                    label={i18n.t("officialWhatsappModal.title.labelToken")}
+                    label={i18n.t("officialConnectionsModal.form.facebookToken")}
                     name="facebookToken"
                     error={touched.facebookToken && Boolean(errors.facebookToken)}
                     helperText={touched.facebookToken && errors.facebookToken}
@@ -267,7 +259,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                 <div className={classes.textQuickAnswerContainer}>
                   <Field
                     as={TextField}
-                    label={i18n.t("officialWhatsappModal.title.labelId")}
+                    label={i18n.t("officialConnectionsModal.form.facebookPhoneNumberId")}
                     name="facebookPhoneNumberId"
                     error={touched.facebookPhoneNumberId && Boolean(errors.facebookPhoneNumberId)}
                     helperText={touched.facebookPhoneNumberId && errors.facebookPhoneNumberId}
@@ -285,7 +277,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                 <div className={classes.textQuickAnswerContainer}>
                   <Field
                     as={TextField}
-                    label={i18n.t("officialWhatsappModal.title.labelBusiness")}
+                    label={i18n.t("officialConnectionsModal.form.facebookBusinessId")}
                     name="facebookBusinessId"
                     error={touched.facebookBusinessId && Boolean(errors.facebookBusinessId)}
                     helperText={touched.facebookBusinessId && errors.facebookBusinessId}
@@ -303,7 +295,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                 <div>
                   <Field
                     as={TextField}
-                    label={i18n.t("officialWhatsappModal.title.greetingMessage")}
+                    label={i18n.t("officialConnectionsModal.form.greetingMessage")}
                     type="greetingMessage"
                     multiline
                     minRows={3}
@@ -318,7 +310,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                 <div>
                   <Field
                     as={TextField}
-                    label={i18n.t("officialWhatsappModal.title.farewellMessage")}
+                    label={i18n.t("officialConnectionsModal.form.farewellMessage")}
                     type="farewellMessage"
                     multiline
                     minRows={3}
@@ -337,11 +329,11 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                     margin="dense"
                     fullWidth
                   >
-                    <InputLabel>Fluxo</InputLabel>
+                    <InputLabel>{i18n.t("officialConnectionsModal.form.flow")}</InputLabel>
                     <Select
                       sx={{ padding: "12px" }}
                       name="flowId"
-                      label="Fluxo"
+                      label={i18n.t("officialConnectionsModal.form.flow")}
                       defaultValue=""
                       IconComponent={(_props) => {
                         const open = _props.className.toString().includes("iconOpen");
@@ -351,7 +343,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                         return <Icon>keyboard_arrow_down</Icon>;
                       }}
                     >
-                      <MenuItem value={""}>Nenhum</MenuItem>
+                      <MenuItem value={""}>{i18n.t("officialConnectionsModal.form.none")}</MenuItem>
                       {flows &&
                         flows.map((flow) => {
                           return (
@@ -379,7 +371,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                   disabled={isSubmitting}
                   variant="outlined"
                 >
-                  {i18n.t("officialWhatsappModal.buttons.cancel")}
+                  {i18n.t("officialConnectionsModal.buttons.cancel")}
                 </MDButton>
                 <MDButton
                   variant="gradient"
@@ -388,7 +380,7 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                   className={classes.btnWrapper}
                   onClick={() => handleConnectionTest(values)}
                 >
-                  {i18n.t("officialWhatsappModal.buttons.testConnection")}
+                  {i18n.t("officialConnectionsModal.buttons.testConnection")}
                 </MDButton>
                 <MDButton
                   variant="gradient"
@@ -398,7 +390,10 @@ function OfficialConnectionsModal({ open, onClose, whatsAppId }) {
                   className={classes.btnWrapper}
                   onClick={handleSubmit}
                 >
-                  {i18n.t("officialWhatsappModal.buttons.add")}
+                  { whatsAppId
+                    ? i18n.t("officialConnectionsModal.buttons.okEdit")
+                    : i18n.t("officialConnectionsModal.buttons.okAdd")
+                  }
                 </MDButton>
               </DialogActions>
             </Form>
