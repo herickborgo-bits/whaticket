@@ -255,7 +255,14 @@ function DataTable({
               </MDButton>
             </MDBox>
           )}
-          {useButton && <MDBox p={1}>{useButton}</MDBox>}
+          {useButton &&
+            <MDBox p={1}>
+              <MDButton variant="gradient" color="dark" onClick={useButton.onClick}>
+                {useButton.icon ? <Icon sx={{ fontWeight: "bold" }}>{useButton.icon}</Icon> : null}
+                {useButton.text ? useButton.text : ""}     
+              </MDButton>
+            </MDBox>
+          }
         </MDBox>
       ) : null}
       <Table {...getTableProps()}>
@@ -385,7 +392,11 @@ DataTable.propTypes = {
   isSorted: PropTypes.bool,
   noEndBorder: PropTypes.bool,
   totalItems: PropTypes.number.isRequired,
-  useButton: PropTypes.node,
+  useButton: PropTypes.shape({
+    icon: PropTypes.string,
+    text: PropTypes.string,
+    onClick: PropTypes.func,
+  }),
   useFilters: PropTypes.node,
   getSearchValue: PropTypes.func,
   getPageSizeValue: PropTypes.func,

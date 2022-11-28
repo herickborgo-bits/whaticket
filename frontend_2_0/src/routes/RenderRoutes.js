@@ -55,6 +55,7 @@ import Dashboard from "pages/Dashboard";
 import QuickAnswer from "pages/QuickAnswer";
 import OfficialConnections from "pages/OfficialConnections";
 import Tickets from "pages/Tickets";
+import Users from "pages/Users";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -74,6 +75,7 @@ function renderRoutes() {
     "Quick Answers": <QuickAnswer />,
     Tickets: <Tickets />,
     "Official Connections": <OfficialConnections />,
+    Users: <Users />
   };
 
   useEffect(() => {
