@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
   formControl: {
     // margin: theme.spacing(1),
-	margin: 0,
+    margin: 0,
     minWidth: 120,
   },
 }));
@@ -260,24 +260,22 @@ const UserModal = ({ open, onClose, userId }) => {
                       role={loggedInUser.profile}
                       perform="user-modal:editProfile"
                       yes={() => (
-						<CustomSelect
-							name="profile"
-							label={i18n.t("userModal.form.profile")}
-							options={
-								[
-									{
-										value: "admin",
-										key: "admin",
-										name: i18n.t("userModal.form.admin")
-									},
-									{
-										value: "user",
-										key: "user",
-										name: i18n.t("userModal.form.user")
-									}
-								]
-							}
-						/>
+                        <CustomSelect
+                          name="profile"
+                          label={i18n.t("userModal.form.profile")}
+                          options={[
+                            {
+                              value: "admin",
+                              key: "admin",
+                              name: i18n.t("userModal.form.admin"),
+                            },
+                            {
+                              value: "user",
+                              key: "user",
+                              name: i18n.t("userModal.form.user"),
+                            },
+                          ]}
+                        />
                         // <>
                         //   <InputLabel id="profile-selection-input-label">
                         //     {i18n.t("userModal.form.profile")}
