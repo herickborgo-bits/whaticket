@@ -179,12 +179,11 @@ function QuickAnswer() {
                   showTotalEntries
                   noEndBorder
                   canSearch
-                  useButton={
-                    <MDButton variant="gradient" color="dark" onClick={handleOpenQuickAnswerModal}>
-                      <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                      &nbsp;{i18n.t("quickAnswers.buttons.add")}
-                    </MDButton>
-                  }
+                  useButton={{
+                    icon: "add",
+                    text: i18n.t("quickAnswers.buttons.add"),
+                    onClick: handleOpenQuickAnswerModal
+                  }}
                   // useFilters
                   totalItems={count}
                   getSearchValue={getSearchValue}

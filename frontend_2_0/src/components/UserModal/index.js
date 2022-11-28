@@ -32,6 +32,8 @@ import { AuthContext } from "../../context/Auth/AuthContext";
 import { Can } from "../Can";
 import { useTranslation } from "react-i18next";
 import CustomSelect from "components/CustomSelect";
+import { useMaterialUIController } from "context";
+import { useTheme } from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserModal = ({ open, onClose, userId }) => {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+
   const classes = useStyles();
   const { i18n } = useTranslation();
 

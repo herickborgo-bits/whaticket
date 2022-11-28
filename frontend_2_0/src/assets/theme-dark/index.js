@@ -154,5 +154,6 @@ export default createTheme({
     MuiDialogContent: { ...dialogContent },
     MuiDialogContentText: { ...dialogContentText },
     MuiDialogActions: { ...dialogActions },
+    CustomSelect: { ...select },
   },
 });

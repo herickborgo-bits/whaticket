@@ -1,6 +1,26 @@
 import { FormControl, Icon, InputLabel, MenuItem, Select } from "@mui/material";
+import { useMaterialUIController } from "context";
 
 const CustomSelect = ({ name, label, options, canNone }) => {
+    const [controller] = useMaterialUIController();
+    const { darkMode } = controller;
+
+    const customSelectTheme = (theme) => {
+        const { palette } = theme;
+        const { light, transparent } = palette;
+
+        let style = {};
+
+        style = {
+            ...style,
+            padding: "12px",
+            overflow: "hidden",
+            backgroundColor: transparent.main
+        };
+
+        return style;
+    }
+
     return (
         <FormControl
             variant="outlined"
@@ -9,7 +29,7 @@ const CustomSelect = ({ name, label, options, canNone }) => {
         >
             <InputLabel>{label}</InputLabel>
             <Select
-                sx={{ padding: "12px" }}
+                sx={(theme) => customSelectTheme(theme)}
                 name={name}
                 label={label}
                 defaultValue=""
