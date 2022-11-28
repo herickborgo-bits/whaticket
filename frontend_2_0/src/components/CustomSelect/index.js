@@ -14,7 +14,6 @@ const CustomSelect = ({ name, label, options, canNone }) => {
         style = {
             ...style,
             padding: "12px",
-            overflow: "hidden",
             backgroundColor: transparent.main
         };
 

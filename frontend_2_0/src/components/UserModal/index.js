@@ -34,6 +34,9 @@ import { useTranslation } from "react-i18next";
 import CustomSelect from "components/CustomSelect";
 import { useMaterialUIController } from "context";
 import { useTheme } from "styled-components";
+import MDDialogTitle from "components/MDDialogTitle";
+import MDDialogContent from "components/MDDialogContent";
+import MDDialogActions from "components/MDDialogActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,9 +72,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserModal = ({ open, onClose, userId }) => {
-  const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
-
   const classes = useStyles();
   const { i18n } = useTranslation();
 
@@ -80,6 +80,7 @@ const UserModal = ({ open, onClose, userId }) => {
     email: "",
     password: "",
     profile: "user",
+    language: "pt",
   };
 
   const UserSchema = Yup.object().shape({
@@ -103,17 +104,6 @@ const UserModal = ({ open, onClose, userId }) => {
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState();
 
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
-
-  useEffect(() => {
-    if (user.id === loggedInUser.id) {
-      i18n.changeLanguage(language);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
-
   useEffect(() => {
     const fetchUser = async () => {
       if (!userId) return;
@@ -128,6 +118,7 @@ const UserModal = ({ open, onClose, userId }) => {
         if (loggedInUser.companyId === 1) {
           setSelectedCompany(data.companyId);
         }
+        setLanguage(data.lang ?? "pt");
       } catch (err) {
         toastError(err);
       }
@@ -150,6 +141,10 @@ const UserModal = ({ open, onClose, userId }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleLanguageChange = (language) => {
+    i18n.changeLanguage(language);
+  };
 
   const handleClose = () => {
     onClose();
@@ -185,17 +180,18 @@ const UserModal = ({ open, onClose, userId }) => {
   return (
     <div className={classes.root}>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth scroll="paper">
-        <DialogTitle id="form-dialog-title">
+        <MDDialogTitle id="form-dialog-title">
           {userId ? `${i18n.t("userModal.title.edit")}` : `${i18n.t("userModal.title.add")}`}
-        </DialogTitle>
+        </MDDialogTitle>
         <Formik
           initialValues={user}
           enableReinitialize={true}
           validationSchema={UserSchema}
           onSubmit={(values, actions) => {
+            console.log(values);
             setTimeout(() => {
               if (user.id === loggedInUser.id) {
-                setLanguage(language);
+                handleLanguageChange(values.language);
               }
               handleSaveUser(values);
               actions.setSubmitting(false);
@@ -204,7 +200,7 @@ const UserModal = ({ open, onClose, userId }) => {
         >
           {({ touched, errors, isSubmitting }) => (
             <Form>
-              <DialogContent dividers>
+              <MDDialogContent dividers>
                 <div className={classes.multFieldLine}>
                   <Field
                     as={TextField}
@@ -298,6 +294,29 @@ const UserModal = ({ open, onClose, userId }) => {
                   </FormControl>
                 </div>
                 <div>
+                  <CustomSelect
+                    name="language"
+                    label={i18n.t("userModal.form.language")}
+                    options={[
+                      {
+                        value: "pt",
+                        key: "pt",
+                        name: i18n.t("userModal.form.languages.pt"),
+                      },
+                      {
+                        value: "en",
+                        key: "en",
+                        name: i18n.t("userModal.form.languages.en"),
+                      },
+                      {
+                        value: "es",
+                        key: "es",
+                        name: i18n.t("userModal.form.languages.es"),
+                      },
+                    ]}
+                  />
+                </div>
+                {/* <div>
                   <FormControl variant="outlined" margin="dense" fullWidth>
                     <InputLabel id="language-selection-label">
                       {i18n.t("userModal.form.language")}
@@ -313,7 +332,7 @@ const UserModal = ({ open, onClose, userId }) => {
                       <MenuItem value="es">{i18n.t("userModal.form.languages.es")}</MenuItem>
                     </Select>
                   </FormControl>
-                </div>
+                </div> */}
                 <Can
                   role={`${loggedInUser.profile}${loggedInUser.companyId}`}
                   perform="user-modal:editCompany"
@@ -356,8 +375,8 @@ const UserModal = ({ open, onClose, userId }) => {
                     />
                   )}
                 />
-              </DialogContent>
-              <DialogActions>
+              </MDDialogContent>
+              <MDDialogActions>
                 <Button
                   onClick={handleClose}
                   color="secondary"
@@ -380,7 +399,7 @@ const UserModal = ({ open, onClose, userId }) => {
                     <CircularProgress size={24} className={classes.buttonProgress} />
                   )}
                 </Button>
-              </DialogActions>
+              </MDDialogActions>
             </Form>
           )}
         </Formik>
