@@ -10,12 +10,12 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DataTable from "components/DataTable";
 import MDButton from "components/MDButton";
-import OfficialConnectionsTableData from "./data/OfficialConnectionsTableData";
+import UsersTableData from "./data/UsersTableData";
 import { Icon } from "@mui/material";
-import OfficialConnectionsModal from "components/OfficialConnectionsModal";
+import UserModal from "components/UserModal";
 import ConfirmationModal from "components/ConfirmationModal";
 
-function OfficialConnections() {
+function Users() {
     const { i18n } = useTranslation();
 
     const [officialConnectionModalOpen, setOfficialConnectionModalOpen] = useState(false);
@@ -72,7 +72,7 @@ function OfficialConnections() {
         setPageNumber(value);
     };
 
-    const { columns, rows, count } = OfficialConnectionsTableData({
+    const { columns, rows, count } = UsersTableData({
         search,
         limit,
         pageNumber,
@@ -90,7 +90,7 @@ function OfficialConnections() {
             >
                 {i18n.t("officialConnections.confirmationModal.deleteMessage")}
             </ConfirmationModal>
-            <OfficialConnectionsModal
+            <UserModal
                 open={officialConnectionModalOpen}
                 onClose={handleCloseOfficialConnectionModal}
                 aria-labelledby="form-dialog-title"
@@ -112,7 +112,7 @@ function OfficialConnections() {
                                 coloredShadow="info"
                             >
                                 <MDTypography variant="h6" color="white">
-                                    {i18n.t("officialConnections.title")}
+                                    Users
                                 </MDTypography>
                             </MDBox>
                             <MDBox pt={3}>
@@ -122,13 +122,12 @@ function OfficialConnections() {
                                     entriesPerPage
                                     showTotalEntries
                                     noEndBorder
-                                    // canSearch
-                                    useButton={
-                                        <MDButton variant="gradient" color="dark" onClick={handleOpenOfficialConnectionModal}>
-                                            <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-                                            &nbsp;{i18n.t("officialConnections.buttons.add")}
-                                        </MDButton>
-                                    }
+                                    canSearch
+                                    useButton={{
+                                        icon: "add",
+                                        text: "Criar Usuário",
+                                        onClick: handleOpenOfficialConnectionModal
+                                    }}
                                     // useFilters
                                     totalItems={count}
                                     getSearchValue={getSearchValue}
@@ -144,4 +143,4 @@ function OfficialConnections() {
     )
 }
 
-export default OfficialConnections;
+export default Users;

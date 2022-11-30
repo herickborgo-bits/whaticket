@@ -12,16 +12,18 @@ import DeleteUserService from "../services/UserServices/DeleteUserService";
 import UpdateUserLanguageService from "../services/UserServices/UpdateUserLanguageService";
 
 type IndexQuery = {
-  searchParam: string;
+  search: string;
+  limit: string;
   pageNumber: string;
 };
 
 export const index = async (req: Request, res: Response): Promise<Response> => {
-  const { searchParam, pageNumber } = req.query as IndexQuery;
+  const { search, limit, pageNumber } = req.query as IndexQuery;
   const { companyId } = req.user;
 
   const { users, count, hasMore } = await ListUsersService({
-    searchParam,
+    search,
+    limit,
     pageNumber,
     companyId
   });

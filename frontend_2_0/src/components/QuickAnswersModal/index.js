@@ -30,6 +30,9 @@ import api from "../../services/api";
 
 // Components
 import MDButton from "../MDButton";
+import MDDialogTitle from "components/MDDialogTitle";
+import MDDialogContent from "components/MDDialogContent";
+import MDDialogActions from "components/MDDialogActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,11 +132,11 @@ function QuickAnswersModal({ open, onClose, quickAnswerId }) {
   return (
     <div className={classes.root}>
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth scroll="paper">
-        <DialogTitle id="form-dialog-title">
+        <MDDialogTitle id="form-dialog-title">
           {quickAnswerId
             ? `${i18n.t("quickAnswersModal.title.edit")}`
             : `${i18n.t("quickAnswersModal.title.add")}`}
-        </DialogTitle>
+        </MDDialogTitle>
         <Formik
           initialValues={quickAnswer}
           enableReinitialize
@@ -147,7 +150,7 @@ function QuickAnswersModal({ open, onClose, quickAnswerId }) {
         >
           {({ errors, touched, isSubmitting }) => (
             <Form>
-              <DialogContent dividers>
+              <MDDialogContent dividers>
                 <div className={classes.textQuickAnswerContainer}>
                   <Field
                     as={TextField}
@@ -177,8 +180,8 @@ function QuickAnswersModal({ open, onClose, quickAnswerId }) {
                     fullWidth
                   />
                 </div>
-              </DialogContent>
-              <DialogActions>
+              </MDDialogContent>
+              <MDDialogActions>
                 <MDButton
                   onClick={handleClose}
                   color="error"
@@ -201,7 +204,7 @@ function QuickAnswersModal({ open, onClose, quickAnswerId }) {
                     <CircularProgress size={24} className={classes.buttonProgress} />
                   )}
                 </MDButton>
-              </DialogActions>
+              </MDDialogActions>
             </Form>
           )}
         </Formik>

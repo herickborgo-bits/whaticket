@@ -17,6 +17,7 @@ Coded by www.creative-tim.com
 
 // React
 import { useReducer, useEffect, useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -32,50 +33,49 @@ import MDButton from "components/MDButton";
 import { useMaterialUIController } from "context";
 import { AuthContext } from "context/Auth/AuthContext";
 
-import api from "../../../services/api";
-import openSocket from "../../../services/socket-io";
-import toastError from "../../../errors/toastError";
-
-// import { i18n } from "../../../translate/i18n";
+import api from "services/api";
+import openSocket from "services/socket-io";
+import toastError from "errors/toastError";
+import { format, parseISO } from "date-fns";
 
 // Reducer
 const reducer = (state, action) => {
   const newState = [...state];
 
   if (action.type === "LOAD_WHATSAPPS") {
-    const officialConnection = action.payload;
-    const newOfficialConnections = [];
+    const whatsapp = action.payload;
+    const newWhatsapp = [];
 
-    officialConnection.forEach((officialConnection) => {
-      const officialConnectionIndex = newState.findIndex((o) => o.id === officialConnection.id);
-      if (officialConnectionIndex !== -1) {
-        newState[officialConnectionIndex] = officialConnection;
+    whatsapp.forEach((whatsapp) => {
+      const whatsappIndex = newState.findIndex((w) => w.id === whatsapp.id);
+      if (whatsappIndex !== -1) {
+        newState[whatsappIndex] = whatsapp;
       } else {
-        newOfficialConnections.push(officialConnection);
+        newWhatsapp.push(whatsapp);
       }
     });
 
-    return [...newState, ...newOfficialConnections];
+    return [...newState, ...newWhatsapp];
   }
 
   if (action.type === "UPDATE_WHATSAPPS") {
-    const officialConnection = action.payload;
-    const officialConnectionIndex = newState.findIndex((o) => o.id === officialConnection.id);
+    const whatsapp = action.payload;
+    const whatsappIndex = newState.findIndex((w) => w.id === whatsapp.id);
 
-    if (officialConnectionIndex !== -1) {
-      newState[officialConnectionIndex] = officialConnection;
+    if (whatsappIndex !== -1) {
+      newState[whatsappIndex] = whatsapp;
       return [...newState];
     }
 
-    return [officialConnection, ...newState];
+    return [whatsapp, ...newState];
   }
 
   if (action.type === "DELETE_WHATSAPPS") {
-    const officialConnectionId = action.payload;
+    const whatsappId = action.payload;
 
-    const officialConnectionIndex = newState.findIndex((o) => o.id === officialConnectionId);
-    if (officialConnectionIndex !== -1) {
-      newState.splice(officialConnectionIndex, 1);
+    const whatsappIndex = newState.findIndex((w) => w.id === whatsappId);
+    if (whatsappIndex !== -1) {
+      newState.splice(whatsappIndex, 1);
     }
     return [...newState];
   }
@@ -94,11 +94,12 @@ export default function OfficialConnectionsTableData({
   handleEditOfficialConnection,
   handleOpenDeleteOfficialConnectionModal,
 }) {
+  const { i18n } = useTranslation();
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
   const { user } = useContext(AuthContext);
-  const [officialConnection, dispatch] = useReducer(reducer, []);
+  const [whatsapp, dispatch] = useReducer(reducer, []);
   const [count, setCount] = useState(1);
 
   useEffect(() => {
@@ -106,9 +107,9 @@ export default function OfficialConnectionsTableData({
   }, [pageNumber, search, limit]);
 
   useEffect(() => {
-    const fetchOfficialConnections = async () => {
+    const fetchWhatsapp = async () => {
       try {
-        const { data } = await api.get("/whatsapp/list/", {
+        const { data } = await api.get("/whatsapp", {
           params: {
             official: true,
             search,
@@ -116,7 +117,6 @@ export default function OfficialConnectionsTableData({
             pageNumber,
           },
         });
-        console.log(data);
         dispatch({ type: "LOAD_WHATSAPPS", payload: data.whatsapps });
         setCount(+data.count);
       } catch (err) {
@@ -124,7 +124,7 @@ export default function OfficialConnectionsTableData({
       }
     };
 
-    fetchOfficialConnections();
+    fetchWhatsapp();
   }, [pageNumber, search, limit]);
 
   useEffect(() => {
@@ -155,24 +155,39 @@ export default function OfficialConnectionsTableData({
 
   return {
     columns: [
-      { Header: "Nome", accessor: "name", align: "left" },
-      { Header: "Qualidade", accessor: "", align: "center" },
-      { Header: "Limite", accessor: "", align: "center" },
-      { Header: "Sessão", accessor: "", align: "center" },
-      { Header: "Ultima Atualização", accessor: "", align: "center" },
-      { Header: "Padrão", accessor: "", align: "center" },
-      { Header: "Ações", accessor: "actions", align: "center" },
+      { Header: i18n.t("officialConnections.table.name"), accessor: "name", align: "left" },
+      { Header: i18n.t("officialConnections.table.quality"), accessor: "quality", align: "center" },
+      { Header: i18n.t("officialConnections.table.limit"), accessor: "tierLimit", align: "center" },
+      { Header: i18n.t("officialConnections.table.session"), accessor: "", align: "center" },
+      { Header: i18n.t("officialConnections.table.updatedAt"), accessor: "updatedAt", align: "center" },
+      { Header: i18n.t("officialConnections.table.default"), accessor: "isDefault", align: "center" },
+      { Header: i18n.t("officialConnections.table.actions"), accessor: "actions", align: "center" },
     ],
 
-    rows: officialConnection.map((officialConnection) => ({
+    rows: whatsapp.map((whatsapp) => ({
       name: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {officialConnection.name}
+          {whatsapp.name}
         </MDTypography>
       ),
-      quickReply: (
+      quality: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {officialConnection.message}
+          {"" + whatsapp.quality}
+        </MDTypography>
+      ),
+      tierLimit: (
+        <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
+          {"" + whatsapp.tierLimit}
+        </MDTypography>
+      ),
+      updatedAt: (
+        <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
+          {format(parseISO(whatsapp.updatedAt), "dd/MM/yy HH:mm")}
+        </MDTypography>
+      ),
+      isDefault: (
+        <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
+          {"" + whatsapp.isDefault}
         </MDTypography>
       ),
       actions: (
@@ -180,14 +195,14 @@ export default function OfficialConnectionsTableData({
           <MDButton
             variant="text"
             color={darkMode ? "white" : "dark"}
-            onClick={() => handleEditOfficialConnection(officialConnection)}
+            onClick={() => handleEditOfficialConnection(whatsapp)}
           >
             <Icon>edit</Icon>&nbsp;edit
           </MDButton>
           <MDButton
             variant="text"
             color="error"
-            onClick={() => handleOpenDeleteOfficialConnectionModal(officialConnection)}
+            onClick={() => handleOpenDeleteOfficialConnectionModal(whatsapp)}
           >
             <Icon>delete</Icon>&nbsp;delete
           </MDButton>

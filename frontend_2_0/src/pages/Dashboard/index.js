@@ -112,7 +112,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    console.log(ticket);
     if (ticket) {
       setReportsBarChartData((prevState) => {
         let aux = [...prevState.labels];

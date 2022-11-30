@@ -4,7 +4,8 @@ import Queue from "../../database/models/Queue";
 import User from "../../database/models/User";
 
 interface Request {
-  searchParam?: string;
+  search?: string;
+  limit?: string;
   pageNumber?: string | number;
   companyId: number;
 }
@@ -16,7 +17,8 @@ interface Response {
 }
 
 const ListUsersService = async ({
-  searchParam = "",
+  search = "",
+  limit = "10",
   pageNumber = "1",
   companyId
 }: Request): Promise<Response> => {
@@ -28,10 +30,10 @@ const ListUsersService = async ({
         "$User.name$": Sequelize.where(
           Sequelize.fn("LOWER", Sequelize.col("User.name")),
           "LIKE",
-          `%${searchParam.toLowerCase()}%`
+          `%${search.toLowerCase()}%`
         )
       },
-      { email: { [Op.like]: `%${searchParam.toLowerCase()}%` } }
+      { email: { [Op.like]: `%${search.toLowerCase()}%` } }
     ]
   };
 
@@ -42,14 +44,13 @@ const ListUsersService = async ({
     };
   }
 
-  const limit = 20;
-  const offset = limit * (+pageNumber - 1);
+  const offset = +limit * (+pageNumber - 1);
 
   const { count, rows: users } = await User.findAndCountAll({
     where: whereCondition,
     attributes: ["name", "id", "email", "profile", "createdAt"],
-    limit,
-    offset,
+    limit: +limit > 0 ? +limit : null,
+    offset: +limit > 0 ? offset : null,
     order: [["createdAt", "DESC"]],
     include: [
       { model: Company, as: "company", attributes: ["name"], required: true }

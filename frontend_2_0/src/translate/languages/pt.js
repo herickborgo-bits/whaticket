@@ -114,27 +114,53 @@ const messages = {
       },
 
       officialConnections: {
-        title: "Conexões Oficiais",
-        previousPage: "Página Anterior",
-        nextPage: "Próxima Página",
-      },
-
-      officialWhatsappModal: {
-        title: {
-          add: "Adicionar WhatsApp Oficial",
-          edit: "Editar WhatsApp Oficial",
-          labelNumber: "Número de Telefone",
-          labelToken: "Token de Autenticação do Facebook",
-          labelId: "Id do Telefone do Facebook",
-          labelBusiness: "Facebook Business Id",
-          greetingMessage: "Mensagem de saudação",
-          farewellMessage: "Mensagem de despedida",
+        title: "Conexões",
+        table: {
+          name: "Nome",
+          quality: "Qualidade",
+          limit: "Limite",
+          session: "Sessão",
+          updatedAt: "Ultima Atualização",
+          default: "Padrão",
+          actions: "Ações",
         },
         buttons: {
-          cancel: "Cancelar",
-          testConnection: "Testar Conexão",
-          add: "Adicionar",
+          add: "Criar Conexão",
         },
+        toasts: {
+          deleted: "Conexão deletada com sucesso.",
+        },
+        confirmationModal: {
+          deleteTitle: "Você tem certeza que deseja deletar esta Conexão: ",
+          deleteMessage: "Esta ação não pode ser desfeita.",
+        },
+      },
+
+      officialConnectionsModal: {
+        title: {
+          add: "Criar Conexão",
+          edit: "Editar Conexão",
+        },
+        form: {
+          name: "Nome",
+          default: "Padrão",
+          phoneNumber: "Número de Telefone",
+          facebookToken: "Token do Facebook",
+          facebookPhoneNumberId: "ID do Número de Telefone do Facebook",
+          facebookBusinessId: "ID do Facebook Comercial",
+          greetingMessage: "Mensagem de Saudação",
+          farewellMessage: "Mensagem de Despedida",
+          flow: "Fluxo",
+          none: "Nenhum"
+        },
+        buttons: {
+          okAdd: "Criar",
+          okEdit: "Salvar",
+          testConnection: "Testar Conexão",
+          cancel: "Cancelar",
+        },
+        success: "Conexão salva com sucesso.",
+        edited: "Conexão atualizada com sucesso!",
       },
 
       whatsappModal: {
@@ -429,7 +455,6 @@ const messages = {
         toasts: {
           deleted: "Resposta Rápida excluída com sucesso.",
         },
-        searchPlaceholder: "Pesquisar...",
         confirmationModal: {
           deleteTitle: "Você tem certeza que quer excluir esta Resposta Rápida: ",
           deleteMessage: "Esta ação não pode ser revertida.",

@@ -37,8 +37,12 @@ function ConfirmationModal({ title, children, open, onClose, onConfirm }) {
   );
 }
 
+ConfirmationModal.defaultProps = {
+  title: "",
+}
+
 ConfirmationModal.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,

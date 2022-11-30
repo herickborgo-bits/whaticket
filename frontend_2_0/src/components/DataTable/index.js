@@ -210,10 +210,10 @@ function DataTable({
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
       {entriesPerPage || canSearch || useButton ? (
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" p={2}>
+        <MDBox display="flex" justifyContent="space-between" alignItems="center" sx={{ flexWrap: "wrap" }} p={2}>
           {entriesPerPage && (
             <Grid item xs={6} md={6} lg={6}>
-              <MDBox display="flex" alignItems="center">
+              <MDBox display="flex" alignItems="center" sx={{ flexWrap: "wrap" }}>
                 <Autocomplete
                   disableClearable
                   value={pageSize.toString()}
@@ -225,8 +225,8 @@ function DataTable({
                   sx={{ width: "5rem" }}
                   renderInput={(params) => <MDInput {...params} />}
                 />
-                <MDTypography variant="caption" color="secondary">
-                  &nbsp;&nbsp;Number of items per page
+                <MDTypography variant="caption" color="secondary" sx={{ marginTop: "5px" }}>
+                  &nbsp;Number of items per page
                 </MDTypography>
               </MDBox>
             </Grid>
@@ -255,7 +255,14 @@ function DataTable({
               </MDButton>
             </MDBox>
           )}
-          {useButton && <MDBox p={1}>{useButton}</MDBox>}
+          {useButton &&
+            <MDBox p={1}>
+              <MDButton variant="gradient" color="dark" onClick={useButton.onClick}>
+                {useButton.icon ? <Icon sx={{ fontWeight: "bold" }}>{useButton.icon}</Icon> : null}
+                {useButton.text ? useButton.text : ""}     
+              </MDButton>
+            </MDBox>
+          }
         </MDBox>
       ) : null}
       <Table {...getTableProps()}>
@@ -350,8 +357,8 @@ DataTable.defaultProps = {
   pagination: { variant: "gradient", color: "info" },
   isSorted: true,
   noEndBorder: false,
-  useButton: false,
-  useFilters: false,
+  useButton: null,
+  useFilters: null,
   getSearchValue: (value) => value,
   getPageSizeValue: (value) => value,
   getPageNumberValue: (value) => value,
@@ -385,11 +392,15 @@ DataTable.propTypes = {
   isSorted: PropTypes.bool,
   noEndBorder: PropTypes.bool,
   totalItems: PropTypes.number.isRequired,
-  useButton: PropTypes.oneOf([PropTypes.node, PropTypes.bool]),
+  useButton: PropTypes.shape({
+    icon: PropTypes.string,
+    text: PropTypes.string,
+    onClick: PropTypes.func,
+  }),
+  useFilters: PropTypes.node,
   getSearchValue: PropTypes.func,
   getPageSizeValue: PropTypes.func,
   getPageNumberValue: PropTypes.func,
-  useFilters: PropTypes.oneOf([PropTypes.node, PropTypes.bool]),
 };
 
 export default DataTable;

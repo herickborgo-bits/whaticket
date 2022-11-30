@@ -115,26 +115,52 @@ const messages = {
 
       officialConnections: {
         title: "Official Connections",
-        previousPage: "Previous Page",
-        nextPage: "Next Page",
-      },
-
-      officialWhatsappModal: {
-        title: {
-          add: "Add Official WhatsApp",
-          edit: "Edit WhatsApp Official",
-          labelNumber: "Phone Number",
-          labelToken: "Facebook Authentication Token",
-          labelId: "Facebook Phone Id",
-          labelBusiness: "Facebook Business Id",
-          greetingMessage: "Greeting Message",
-          farewellMessage: "Farewell Message",
+        table: {
+          name: "Name",
+          quality: "Quality",
+          limit: "Limit",
+          session: "Session",
+          updatedAt: "Last Update",
+          default: "Default",
+          actions: "Actions",
         },
         buttons: {
-          cancel: "Cancel",
-          testConnection: "Test Connection",
-          add: "Add",
+          add: "Add Connection",
         },
+        toasts: {
+          deleted: "Connection deleted successfully.",
+        },
+        confirmationModal: {
+          deleteTitle: "Are you sure you want to delete this Connection: ",
+          deleteMessage: "This action cannot be undone.",
+        },
+      },
+
+      officialConnectionsModal: {
+        title: {
+          add: "Add Connection",
+          edit: "Edit Connection",
+        },
+        form: {
+          name: "Name",
+          default: "Default",
+          phoneNumber: "Phone Number",
+          facebookToken: "Facebook Token",
+          facebookPhoneNumberId: "Facebook Phone Number Id",
+          facebookBusinessId: "Facebook Business Id",
+          greetingMessage: "Greeting Message",
+          farewellMessage: "Farewell Message",
+          flow: "Flow",
+          none: "None"
+        },
+        buttons: {
+          okAdd: "Add",
+          okEdit: "Save",
+          testConnection: "Test Connection",
+          cancel: "Cancel",
+        },
+        success: "Connection saved successfully.",
+        edited: "Connection successfully updated!",
       },
 
       whatsappModal: {
@@ -431,7 +457,6 @@ const messages = {
         toasts: {
           deleted: "Quick Reply deleted successfully.",
         },
-        searchPlaceholder: "Search...",
         confirmationModal: {
           deleteTitle: "Are you sure you want to delete this Quick Reply: ",
           deleteMessage: "This action cannot be undone.",

@@ -115,26 +115,52 @@ const messages = {
 
       officialConnections: {
         title: "Conexiones Oficiales",
-        previousPage: "Página Anterior",
-        nextPage: "Seguiente Página",
-      },
-
-      officialWhatsappModal: {
-        title: {
-          add: "Agregar Whatsapp Oficial",
-          edit: "Para Editar WhatsApp Oficial",
-          labelNumber: "Número de teléfono",
-          labelToken: "Ficha de autenticación de Facebook",
-          labelId: "Identificación de teléfono de Facebook",
-          labelBusiness: "Identificación Comercial de Facebook",
-          greetingMessage: "Mensaje de Saludo",
-          farewellMessage: "Mensaje de Despedida",
+        table: {
+          name: "Nome",
+          quality: "Qualidade",
+          limit: "Limite",
+          session: "Sessão",
+          updatedAt: "Last Update",
+          default: "Default",
+          actions: "Acciones",
         },
         buttons: {
-          cancel: "Cancelar",
-          testConnection: "Testar Conexion",
-          add: "Agregar",
+          add: "Agregar Conexión",
         },
+        toasts: {
+          deleted: "Conexión eliminada correctamente.",
+        },
+        confirmationModal: {
+          deleteTitle: "¿Está seguro de que desea eliminar esta Conexión: ",
+          deleteMessage: "Esta acción no se puede deshacer.",
+        },
+      },
+
+      officialConnectionsModal: {
+        title: {
+          add: "Agregar Conexión",
+          edit: "Editar Conexión",
+        },
+        form: {
+          name: "Nome",
+          default: "Padrão",
+          phoneNumber: "Número de teléfono",
+          facebookToken: "Ficha de autenticación de Facebook",
+          facebookPhoneNumberId: "Identificación de teléfono de Facebook",
+          facebookBusinessId: "Identificación Comercial de Facebook",
+          greetingMessage: "Mensaje de Saludo",
+          farewellMessage: "Mensaje de Despedida",
+          flow: "Fluxo",
+          none: "Nenhum"
+        },
+        buttons: {
+          okAdd: "Agregar",
+          okEdit: "Guardar",
+          testConnection: "Testar Conexión",
+          cancel: "Cancelar",
+        },
+        success: "Conexión guardada correctamente.",
+        edited: "Conexión actualizada con éxito!",
       },
 
       whatsappModal: {
