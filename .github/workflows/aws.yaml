@@ -1,7 +1,9 @@
 name: Deploy to Amazon ECS
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - "WHAT-79"
 
 env:
   AWS_REGION: us-east-1
