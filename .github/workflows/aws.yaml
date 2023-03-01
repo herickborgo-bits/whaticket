@@ -50,7 +50,7 @@ jobs:
     - name: Make environment variable
       id: make-env
       run: |
-        printenv
+        print ${{ env }}
 
     # - name: Fill in the new image ID in the Amazon ECS task definition
     #   id: task-def
