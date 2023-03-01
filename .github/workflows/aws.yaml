@@ -20,7 +20,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: self-hosted
-    environment: production
+    environment: test
 
     steps:
     - name: Checkout
