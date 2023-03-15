@@ -25,10 +25,10 @@ jobs:
       matrix:
         include:
           - context: ./backend
-            dockerfile: ./Dockerfile
+            dockerfile: ./backend/Dockerfile
             repository: test-whatsapp-portal-api
           - context: ./frontend
-            dockerfile: ./Dockerfile
+            dockerfile: ./frontend/Dockerfile
             repository: test-whatsapp-portal-front
     steps:
     - name: Checkout
