@@ -49,11 +49,10 @@ jobs:
       id: build-image
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
-        context: .
+        context: ${{ matrix.context }}
         file: ${{ matrix.dockerfile }}
         push: true
         tags: ${{ steps.login-ecr.outputs.registry }}/${{ matrix.repository }}:${{ github.ref_name }}-${{ github.sha }}
-        labels: ${{ steps.meta.outputs.labels }}
         
         
       # env:
