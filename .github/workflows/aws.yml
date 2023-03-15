@@ -47,12 +47,14 @@ jobs:
 
     - name: Build and push image to Amazon ECR
       id: build-image
-      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-      with:
-        context: ${{ matrix.context }}
-        file: ${{ matrix.dockerfile }}
-        push: true
-        tags: ${{ steps.login-ecr.outputs.registry }}/${{ matrix.repository }}:${{ github.ref_name }}-${{ github.sha }}
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ matrix.repository }}
+        IMAGE_TAG: ${{ github.ref_name }}-${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ${{ matrix.dockerfile}} ${{ matrix.context }}
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
         
         
       # env:
