@@ -7,21 +7,29 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: whatsapp-portal-api
-  ECS_SERVICE: whatsapp-portal-api
-  ECS_CLUSTER: kankei-wpp-cluster-prod
-  ECS_TASK_DEFINITION: .aws/task-definition.json
-  CONTAINER_NAME: whatsapp-portal-api-container
+  # ECS_SERVICE: test-whatsapp-portal-api
+  # ECS_CLUSTER: kankei-wpp-cluster-prod
+  # ECS_TASK_DEFINITION: .aws/task-definition.json
+  # CONTAINER_NAME: test-whatsapp-portal-api-container
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    name: Build
     runs-on: self-hosted
     environment: test
-
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - context: ./backend
+            dockerfile: ./Dockerfile
+            repository: test-whatsapp-portal-api
+          - context: ./frontend
+            dockerfile: ./Dockerfile
+            repository: test-whatsapp-portal-front
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -39,32 +47,74 @@ jobs:
 
     - name: Build and push image to Amazon ECR
       id: build-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      with:
+        context: .
+        file: ${{ matrix.dockerfile }}
+        push: true
+        tags: ${{ steps.login-ecr.outputs.registry }}/${{ matrix.repository }}:${{ github.ref_name }}-${{ github.sha }}
+        labels: ${{ steps.meta.outputs.labels }}
+        
+        
+      # env:
+      #   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #   IMAGE_TAG: ${{ github.sha }}
+      # run: |
+      #   docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+      #   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      #   echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
     
-    - name: Make environment variable
-      id: make-env
-      run: |
-        echo ${{ steps.build-image.outputs.image }}
-
-    # - name: Fill in the new image ID in the Amazon ECS task definition
-    #   id: task-def
-    #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-    #   with:
-    #     task-definition: ${{ env.ECS_TASK_DEFINITION }}
-    #     container-name: ${{ env.CONTAINER_NAME }}
-    #     image: ${{ steps.build-image.outputs.image }}
+  # deploy:
+  #   name: Deploy
+  #   runs-on: self-hosted
+  #   environment: test
 
 
-    # - name: Deploy Amazon ECS task definition
-    #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-    #   with:
-    #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-    #     service: ${{ env.ECS_SERVICE }}
-    #     cluster: ${{ env.ECS_CLUSTER }}
-    #     wait-for-service-stability: true
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v3
+
+  #   - name: Configure AWS credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: ${{ env.AWS_REGION }}
+
+  #   - name: Login to Amazon ECR
+  #     id: login-ecr
+  #     uses: aws-actions/amazon-ecr-login@v1
+
+  #   - name: Build and push image to Amazon ECR
+  #     id: build-image
+  #     env:
+  #       ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #       IMAGE_TAG: ${{ github.sha }}
+  #     run: |
+  #       docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+  #       docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #       echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+    
+  #   - name: Make environment variable
+  #     id: make-env
+  #     run: |
+  #       echo "environments=$(cat )"
+
+  #   - name: Fill in the new image ID in the Amazon ECS task definition
+  #     id: task-def
+  #     uses: aws-actions/amazon-ecs-render-task-definition@v1
+  #     with:
+  #       task-definition: ${{ env.ECS_TASK_DEFINITION }}
+  #       container-name: ${{ env.CONTAINER_NAME }}
+  #       image: ${{ steps.build-image.outputs.image }}
+  #       environment-variables: ${{ steps.make-env.outputs.environments }}
+
+
+  #   - name: Deploy Amazon ECS task definition
+  #     uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+  #     with:
+  #       task-definition: ${{ steps.task-def.outputs.task-definition }}
+  #       service: ${{ env.ECS_SERVICE }}
+  #       cluster: ${{ env.ECS_CLUSTER }}
+  #       wait-for-service-stability: true
