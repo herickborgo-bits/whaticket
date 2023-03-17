@@ -48,10 +48,9 @@ jobs:
     - name: Create Amazon ECR Repository if not existing
       env:
         ECR_REPOSITORY: ${{ matrix.repository }}
-        # HAS_REPOSITORY: $(aws ecr describe-repositories --region $AWS_REGION | grep $ECR_REPOSITORY)
+        HAS_REPOSITORY: $(aws ecr describe-repositories --region $AWS_REGION | grep $ECR_REPOSITORY)
       run: |
-        - aws ecr describe-repositories --region $AWS_REGION | grep $ECR_REPOSITORY
-      #  - [[ -z $HAS_REPOSITORY ]] && aws ecr create-repository --region $AWS_REGION --repository-name $ECR_REPOSITORY
+        [[ -z $HAS_REPOSITORY ]] && aws ecr create-repository --region $AWS_REGION --repository-name $ECR_REPOSITORY
 
     - name: Build and push image to Amazon ECR
       id: build-image
