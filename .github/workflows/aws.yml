@@ -50,7 +50,7 @@ jobs:
         ECR_REPOSITORY: ${{ matrix.repository }}
         HAS_REPOSITORY: $(aws ecr describe-repositories --region $AWS_REGION | grep $ECR_REPOSITORY)
       run: |
-        - if [[ -z $HAS_REPOSITORY ]]; then aws ecr create-repository --region $AWS_REGION --repository-name $ECR_REPOSITORY; fi
+        - [[ -z $HAS_REPOSITORY ]] && aws ecr create-repository --region $AWS_REGION --repository-name $ECR_REPOSITORY
 
     - name: Build and push image to Amazon ECR
       id: build-image
